@@ -1,0 +1,21 @@
+
+form{
+    color: white;
+}label{
+    font-family: 'Montserrat', sans-serif;
+}input{
+    font-family: 'Esteban', serif;
+}
+
+.custom-form-group{
+    margin-top: 5px;
+}
+
+#college-form{
+    display: none;
+}#ATransferSchool{
+    display: none;
+}#BTransferSchool{
+    display: none;
+}
+
