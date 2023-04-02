@@ -23,7 +23,7 @@ class UsersCalendarController extends Controller
      */
     public function create()
     {
-        return view('frontendUser.create');
+        // return view('frontendUser.create');
     }
 
     /**

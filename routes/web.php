@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\UsersCalendarController;
+use App\Http\Controllers\CustomAuthController;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +20,15 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/', function () {
+    return view('app');
+});
 Route::resource('/dashboard',UsersCalendarController::class);
+Route::get('/login',[CustomAuthController::class,'login'])->middleware('alreadyLoggedIn');
+Route::get('/registration',[CustomAuthController::class,'registration'])->middleware('alreadyLoggedIn');
+Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->name('registration-user');  
+Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('login-user');
+Route::get('/dashboard',[CustomAuthController::class,'dashboard'])->middleware('isLoggedIn');
+Route::get('/logout',[CustomAuthController::class,'logout']);
+
+Route::get('/sample',[CustomAuthController::class,'sample'])->name('sample');

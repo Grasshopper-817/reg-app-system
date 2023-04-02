@@ -2,7 +2,7 @@
     display: block;
 }
 .appointment-articles{
-    background-image: url('images/registrar01.jpg');
+    background-image: url('/images/registrar02.jpg');
     background-position: center;
     background-size: cover;
     position: relative;
