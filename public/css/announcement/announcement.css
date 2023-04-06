@@ -1,5 +1,5 @@
 .announcement-cover{
-    background-image: url('/images/registrar01.jpg');
+    background-image: url('http://127.0.0.1:8000/appointment07/images/registrar.png');
     background-position: center;
     background-size: cover;
     position: relative;

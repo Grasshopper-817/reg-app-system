@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Form;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+
 
 class CustomAuthController extends Controller
 {
@@ -22,14 +24,34 @@ class CustomAuthController extends Controller
  }
  public function registerUser(Request $request){
         $request->validate([
-              'name'=>'required',
+              'firstName'=>'required',
+              'lastName'=>'required',
+              'middleName'=>'required',
+              'suffix'=>'required',
+              'address'=>'required',
+              'school_id'=>'required|unique:users',
+              'cell_no'=>'required|unique:users',
+              'civil_status'=>'required',
               'email'=>'required|email|unique:users',
+              'birthdate'=>'required',
+              'gender'=>'required',
+              'course'=>'required',
               'password'=>'required|min:8|max:12',
         ]);
         //Inserting data from the user inputed
         $user = new User();
-        $user -> name =$request->name;
+        $user -> firstName =$request->firstName;
+        $user -> lastName =$request->lastName;
+        $user -> middleName =$request->middleName;
+        $user -> suffix =$request->suffix;
+        $user -> address = $request->address;
+        $user -> school_id = $request ->school_id;
+        $user -> cell_no = $request ->cell_no;
+        $user->civil_status = $request->input('civil_status');
         $user -> email = $request->email;
+        $user->birthdate = $request->input('birthdate');
+        $user->gender = $request->input('gender');
+        $user->course = $request->input('course');
         $user -> password = Hash::make($request->password);
         $res = $user -> save();
 
@@ -61,6 +83,7 @@ class CustomAuthController extends Controller
             return back()-> with('fail','This email is not registered.');
       }
  }
+
   public function dashboard()
   {
       //gettig data pag naka login
@@ -68,18 +91,20 @@ class CustomAuthController extends Controller
       if (Session::has('loginId')){
             $data = User::where('id','=', Session::get('loginId'))->first();
       }
-      return view('dashboard',compact('data'));
+      return view('admin.admin',compact('data'));
   }
   public function logout(){
       if (Session::has('loginId')){
             Session::pull('loginId');
-            return redirect('login');
+            return redirect('/');
       }
   }
+//Admin
+
+//User
 
 
 
-//   public function sample(){
-//       return view('frontendUser.sample');
-//   }
+
+
 }

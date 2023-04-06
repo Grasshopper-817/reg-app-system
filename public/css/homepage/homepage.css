@@ -1,8 +1,9 @@
 .homepage-cover{
-    background-image: url('/images/registrar01.jpg');
+    background-image: url('http://127.0.0.1:8000/images/registrar01.jpg');
     background-position: center;
     background-size: cover;
     position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }.homepage-cover::before{
     content: "";
     background-color: rgba(0, 0, 0, 0.5);
@@ -90,15 +91,14 @@
 .about{
     background-color: white;
     color: black;
-    padding: 100px 10%;
 }.about-subtitle{
     text-align: justify;
     margin-top: 20px;
 }.about-details{
-    padding-right: 5%;
+    padding: 5% 10%;
     height: auto;
 }.about-image{
-    background-image: url('/images/registrar02.jpg');
+    background-image: url('http://127.0.0.1:8000/images/registrar02.jpg');
     background-position: center;
     background-size: cover;
     position: relative;
@@ -114,4 +114,13 @@
 }.staff{
     margin: 50px 0 0 0;
     padding: 0;
+}
+
+.space{
+    height: 100px;
+}
+.footer{
+    height: 50px;
+    background-color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }

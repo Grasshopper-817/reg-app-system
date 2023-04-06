@@ -16,14 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
-    return view('app');
+    return view('index');
 });
-Route::resource('/dashboard',UsersCalendarController::class);
+//Route::resource('/dashboard',UsersCalendarController::class);
 Route::get('/login',[CustomAuthController::class,'login'])->middleware('alreadyLoggedIn');
 Route::get('/registration',[CustomAuthController::class,'registration'])->middleware('alreadyLoggedIn');
 Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->name('registration-user');  
@@ -31,4 +27,4 @@ Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('logi
 Route::get('/dashboard',[CustomAuthController::class,'dashboard'])->middleware('isLoggedIn');
 Route::get('/logout',[CustomAuthController::class,'logout']);
 
-Route::get('/sample',[CustomAuthController::class,'sample'])->name('sample');
+Route::get('/admin', [CustomAuthController::class, 'showAllNames']);

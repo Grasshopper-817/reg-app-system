@@ -2,10 +2,11 @@
     display: block;
 }
 .appointment-articles{
-    background-image: url('/images/registrar02.jpg');
+    background-image: url('http://127.0.0.1:8000/images/registrar02.jpg');
     background-position: center;
     background-size: cover;
     position: relative;
+    padding: 0;
 }.appointment-articles::before{
     content: "";
     background-color: rgba(0, 0, 0, 0.7);
