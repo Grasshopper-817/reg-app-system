@@ -9,7 +9,7 @@ use App\Models\Form;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-
+use PhpParser\Node\Expr\FuncCall;
 
 class CustomAuthController extends Controller
 {
@@ -91,7 +91,7 @@ class CustomAuthController extends Controller
       if (Session::has('loginId')){
             $data = User::where('id','=', Session::get('loginId'))->first();
       }
-      return view('admin.admin',compact('data'));
+      return view('dashboard',compact('data'));
   }
   public function logout(){
       if (Session::has('loginId')){
@@ -99,12 +99,86 @@ class CustomAuthController extends Controller
             return redirect('/');
       }
   }
-//Admin
 
-//User
+ //------------------------------------// Frorm Crud //--------------------------------------------------------// 
+public function create(){
+      return view('appointment.create');
+}
 
+public function createForm(Request $request){
+      $request ->validate([
+            'name' => 'required',
+            'description'=>'required',
+            'days'=>'required',
+            'fee'=>'required|integer',
+      ]);
 
+      $form = new Form();
+      $form -> name = $request -> name;
+      $form -> description = $request -> description;
+      $form -> days = $request -> days;
+      $form -> fee = $request -> fee;
+      $form = $form -> save();
+      if($form){
+            return back()-> with ('success','You have created successfully');
+      }else{
+            return back()-> with('fail','Something wrong');
+      }
 
+}
 
+public function getAllForm(Request $request){
+      $user = session()->get('user');
+      $forms = Form::all();
+      return view('mainpage', compact('user', 'forms'));
+}
+
+public function edit($id){
+      $forms = Form::find($id);
+      return view('appointment.edit',compact('forms'));
+}
+
+public function update (Request $request, $id){
+      $form = Form::find($id);
+
+      $form -> name = $request -> input('name');
+      $form -> description = $request -> input('description');
+      $form -> days = $request -> input('days');
+      $form -> fee = $request -> input('fee');
+      $form -> update();
+      if($form){
+            return redirect('dashboard/admin')-> with ('success','You have update successfully');
+      }else{
+            return back()-> with('fail','Something wrong');
+      }     
+
+}
+
+public function delete($id){
+      $forms = Form::find($id);
+      $forms ->delete();
+      return redirect('dashboard/admin')-> with ('success','You have deleted successfully');
+}
+
+//----------------------------------// End //--------------------------------------------------------------------------//
+
+public function appointment(){
+      $user = session()->get('user');
+      $forms = Form::all();
+      return view('appointment.appointment', compact('user', 'forms'));
+
+ }
+
+// public function appointmentForm(Request $request){
+//       $request -> validate([
+//             'name'=>'required',
+//             'description' => 'required',
+//             'days' => 'required',
+//             'fee' => 'required',
+//       ]);
+//       $form = new Form();
+//       $form -> name = $request -> name;
+//       $form -> description = $request -> description;
+// }
 
 }

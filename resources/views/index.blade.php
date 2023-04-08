@@ -217,8 +217,19 @@
                                 <label for="inputCourse">Course</label>
                                 <select class="form-control" name="course" value="{{ old('course') }}" id="inputCourse">
                                     <option value="">Choose...</option>
-                                    <option value="bscs">Bachelor of Science in Computer Science</option>
-                                    <option value="bsit">Bachelor of Industrial Technology Major in Drafting</option>
+                                    <option value="secondary">Secondary level High School / Senior High School</option>
+                                    <option value="alumni">Alumni/Alumna/Masteral</option>
+                                    <option value="BSCS">Bachelor of Science in Computer Science</option>
+                                    <option value="BTLE ">Bachelor of Technology and Livelihood Education</option>
+                                    <option value="BTTE ">Bachelor of Technical-Vocational Teacher Education</option>
+                                    <option value="BSHM ">Bachelor of Science in Hospitality Management</option>
+                                    <option value="BIT major in drafting">Bachelor of Industrial Technology Major in Drafting</option>
+                                    <option value="BIT major in garments fashion and design">Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                    <option value="BIT major in mechanical technology">Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                    <option value="BIT major in food and service management">Bachelor of Industrial Technology Major in Food and Service Management</option>
+                                    <option value="BIT major in electrical technology">Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                    <option value="BIT major in automotive technology">Bachelor of Industrial Technology Major in Automotive Technology</option>
+                                    <option value="BIT major in electrical technology">Bachelor of Industrial Technology Major in Electrical Technology</option>
                                   </select>
                                   <span class="text-danger">@error('course'){{ $message }} @enderror </span>
                             </div>

@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+        'days',
+        'fee',
+    ];
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
