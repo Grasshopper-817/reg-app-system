@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,7 +54,7 @@
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Meriflor G. 
+                                        {{ $firstName }}   {{ $lastName }}
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="#edit-profile" onclick="profileView()">Edit Profile</a></li>
@@ -165,7 +165,10 @@
                                             <p class="fs-6"><b>Document Fee: </b>{{ $form->fee }}</p>
                                         </div>
                                         <div class="row w-100 d-flex flex-row justify-content-end">
-                                            <button type="button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#appointmentModal" data-form-id="{{ $form->id }}">
+                                            <!-- <button type="button" id="open-button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#appointmentModal" name="{{ $form->id }}" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
+                                                Appoint
+                                            </button> -->
+                                            <button type="button" class="btn btn-appoint open-modal" data-bs-toggle="modal" data-bs-target="#appointmentModal" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
                                                 Appoint
                                             </button>
                                         </div>
@@ -187,85 +190,95 @@
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="">First Name</label>
-                                        <input class="form-control form-control" type="text" value="Meriflor" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="text" value="{{ $firstName }}" aria-label="default input example" required>
                                     </div>    
                                     <div class="col-md-6">
                                         <label for="">Last Name</label>
-                                        <input class="form-control form-control" type="text" value="Gonoy" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="text" value="{{ $lastName }}" aria-label="default input example" required>
                                     </div>  
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="">Middle Name</label>
-                                        <input class="form-control form-control" type="text" value="Nonong" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="text" value="{{ $middleName }}" aria-label="default input example" required>
                                     </div>  
                                     <div class="col-md-6">
                                         <label for="">Suffix</label>
-                                        <input class="form-control form-control" type="text" value="N/A" aria-label="default input example">
+                                        <input class="form-control form-control" type="text" value="{{ $suffix }}" aria-label="default input example">
                                     </div>  
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="">School ID</label>
-                                        <input class="form-control form-control" type="text" value="1009975" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="text" value="{{ $school_id }}" aria-label="default input example" required>
                                     </div> 
                                     <div class="col-md-6">
                                         <label for="">Cellphone No.</label>
-                                        <input class="form-control form-control" type="text" value="09559381788" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="text" value="{{  $cell_no }}" aria-label="default input example" required>
                                     </div>    
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="">Email</label>
-                                        <input class="form-control form-control" type="email" value="mgonoy13@gmail.com" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="email" value="{{ $email }}" aria-label="default input example" required>
                                     </div>  
                                     <div class="col-md-6">
                                         <label for="">Address</label>
-                                        <input class="form-control form-control" type="text" value="P3 Libertad Kolambugan LDN" aria-label="default input example" required>
+                                        <input class="form-control form-control" type="text" value="{{ $address }}" aria-label="default input example" required>
                                     </div>
                                 </div><div class="form-group row mt-3">
                                     <div class="col-lg-6">
                                         <label for="inputCivilStatus">Civil Status</label>
-                                        <select class="form-control" id="inputCivilStatus" required>
-                                          <option value="">Choose...</option>
-                                          <option value="Single">Single</option>
-                                          <option value="Married">Married</option>
-                                          <option value="Single Parent">Single Parent</option>
-                                          <option value="Widow">Widow</option>
-                                          <option value="Divorced">Divorced</option>
-                                          <option value="Annulled">Annulled</option>
-                                          <option value="Separated">Separated</option>
+                                        <select name="civil_status"class="form-control" id="inputCivilStatus" required>
+                                          <option value=""{{ $civil_status == null ? 'selected' : '' }}>Choose...</option>
+                                          <option value="single"{{ $civil_status == 'single' ? 'selected' : '' }}>Single</option>
+                                          <option value="married"{{ $civil_status == 'married' ? 'selected' : '' }}>Married</option>
+                                          <option value="single parent"{{ $civil_status == 'single parent' ? 'selected' : '' }}>Single Parent</option>
+                                          <option value="widow"{{ $civil_status == 'widow' ? 'selected' : '' }}>Widow</option>
+                                          <option value="divorced"{{ $civil_status == 'divorced' ? 'selected' : '' }}>Divorced</option>
+                                          <option value="annulled"{{ $civil_status == 'annulled' ? 'selected' : '' }}>Annulled</option>
+                                          <option value="separated"{{ $civil_status == 'separated' ? 'selected' : '' }}>Separated</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="inputBirthdate">Birthdate</label>
-                                        <input type="date" class="form-control" id="inputBirthdate" required>
+                                        <input type="date" class="form-control" id="inputBirthdate" name="birthdate" value="{{ $birthdate }}" required>
                                     </div>
                                 </div>
                                 <div class="form-group row mt-3">
                                     <div class="col-lg-4">
                                         <label for="inputGender">Gender</label>
-                                        <select class="form-control" id="inputGender" required>
-                                          <option value="">Choose...</option>
-                                          <option value="Female">Female</option>
-                                          <option value="Male">Male</option>
+                                        <select name="gender" class="form-control" id="inputGender" required>
+                                          <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
+                                          <option value="female"{{ $gender == 'female' ? 'selected' : '' }}>Female</option>
+                                          <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
                                         <label for="inputStatus">Status</label>
-                                        <select class="form-control" id="inputStatus" required>
-                                          <option value="">Choose...</option>
-                                          <option value="Undergraduate">Undergraduate</option>
-                                          <option value="High School">High School</option>
-                                          <option value="Alumni">Masteral/Alumni</option>
+                                        <select name="status" class="form-control" id="inputStatus" required>
+                                          <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
+                                          <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate</option>
+                                          <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>High School</option>
+                                          <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
                                         <label for="inputCourse">Course</label>
-                                        <select class="form-control" id="inputCourse" required>
-                                            <option value="">Choose...</option>
-                                            <option value="BSCS">Bachelor of Science in Computer Science</option>
-                                            <option value="BIT">Bachelor of Industrial Technology Major in Drafting</option>
+                                        <select name="course " class="form-control" id="inputCourse" required>
+                                           <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
+                                                <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
+                                                <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
+                                                <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
+                                                <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
+                                                <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
+                                                <option value="BSHM"{{ $course == 'BSHM' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
+                                                <option value="BIT-MD"{{ $course == 'BIT-MD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
+                                                <option value="BIT-MGFD"{{ $course == 'BIT-MGFD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                                <option value="BIT-MMT"{{ $course == 'BIT-MMT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                                <option value="BIT-MFSM"{{ $course == 'BIT-MFSM' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
+                                                <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                                <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
                                           </select>
                                     </div>
                                 </div>
@@ -401,24 +414,39 @@
 
     <!-- modalizationizest -->
                 <!-- appointmentModal -->
+
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif  
+                     
+                
+<form action="{{ route('bookAppointment') }}" method="POST">
+    @csrf
     <div class="modal fade" id="appointmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Transcript of Records</h1>
+              <h1 class="modal-title fs-5" id="form_name"></h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body modal-doc">
-                <form action="" method="post">
+                    <input type="hidden" name="form_id" id="form_id">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="row mb-3">
                                 <label for="inputDocPurpose">Purpose</label>
-                                <textarea class="form-control form-control" name="inputDocPurpose" style="height: 150px;" type="text" placeholder="" aria-label="default input example"></textarea>
+                                <textarea class="form-control form-control" id="app_purpose" name="app_purpose" style="height: 150px;" type="text" placeholder="" aria-label="default input example"></textarea>
                             </div>
                             <div class="row mb-3">
                                 <label for="inputDocAcadYear">Academic Year</label>
-                                <input class="form-control form-control" type="text" name="inputDocAcadYear" placeholder="Academic Year" aria-label="default input example">
+                                <input class="form-control form-control" type="text" name="acad_year" placeholder="Academic Year" aria-label="default input example">
                             </div>
                             <div><hr class="row mb-3"></div>
                             <div class="row d-flex flex-row w-100 mb-3">
@@ -447,11 +475,11 @@
                             <div id="calendar"></div>
                         </div>
                     </div>
-                </form>
+              
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-appoint" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#reviewModal">Proceed</button>
+              <button type="button" id="proceedButton" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#reviewModal">Proceed</button>
             </div>
           </div>
         </div>
@@ -466,78 +494,101 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="post">
+                
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label for="">First Name</label>
-                            <input class="form-control form-control" type="text" placeholder="Meriflor" aria-label="default input example" disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $firstName }}" aria-label="default input example" disabled>
                         </div>    
                         <div class="col-md-3">
                             <label for="">Last Name</label>
-                            <input class="form-control form-control" type="text" placeholder="Gonoy" aria-label="default input example" disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $lastName }}" aria-label="default input example" disabled>
                         </div>  
                         <div class="col-md-3">
                             <label for="">Middle Name</label>
-                            <input class="form-control form-control" type="text" placeholder="Nonong" aria-label="default input example" disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $middleName }}" aria-label="default input example" disabled>
                         </div>  
                         <div class="col-md-3">
                             <label for="">Suffix</label>
-                            <input class="form-control form-control" type="text" placeholder="N/A" aria-label="default input example" disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $suffix }}" aria-label="default input example" disabled>
                         </div>  
                     </div>
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label for="">School ID</label>
-                            <input class="form-control form-control" type="text" placeholder="1009975" aria-label="default input example" disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $school_id }}" aria-label="default input example" disabled>
                         </div> 
                         <div class="col-md-3">
                             <label for="">Cellphone No.</label>
-                            <input class="form-control form-control" type="text" placeholder="09559381788" aria-label="default input example" required>
+                            <input class="form-control form-control" type="text" placeholder="{{ $cell_no }}" aria-label="default input example" required disabled>
                         </div>    
                         <div class="col-md-3">
                             <label for="">Email</label>
-                            <input class="form-control form-control" type="email" placeholder="mgonoy13@gmail.com" aria-label="default input example" required>
+                            <input class="form-control form-control" type="email" placeholder="{{ $email }}" aria-label="default input example" required disabled>
                         </div>  
                         <div class="col-md-3">
                             <label for="">Address</label>
-                            <input class="form-control form-control" type="text" placeholder="P3 Libertad Kolambugan LDN" aria-label="default input example" required>
+                            <input class="form-control form-control" type="text" placeholder="{{ $address }}" aria-label="default input example" required disabled>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-4">
                             <label for="">Civil Status</label>
-                            <input class="form-control form-control" type="text" placeholder="Single" aria-label="default input example" disabled>
+                            <select name="civil_status"class="form-control" id="inputCivilStatus" required disabled>
+                                <option value=""{{ $civil_status == null ? 'selected' : '' }}>Choose...</option>
+                                <option value="single"{{ $civil_status == 'single' ? 'selected' : '' }}>Single</option>
+                                <option value="married"{{ $civil_status == 'married' ? 'selected' : '' }}>Married</option>
+                                <option value="single parent"{{ $civil_status == 'single parent' ? 'selected' : '' }}>Single Parent</option>
+                                <option value="widow"{{ $civil_status == 'widow' ? 'selected' : '' }}>Widow</option>
+                                <option value="divorced"{{ $civil_status == 'divorced' ? 'selected' : '' }}>Divorced</option>
+                                <option value="annulled"{{ $civil_status == 'annulled' ? 'selected' : '' }}>Annulled</option>
+                                <option value="separated"{{ $civil_status == 'separated' ? 'selected' : '' }}>Separated</option>
+                              </select>
                         </div>    
                         <div class="col-md-4">
                             <label for="">Birthdate</label>
-                            <input class="form-control form-control" type="text" placeholder="November 21, 2000" aria-label="default input example" disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $birthdate }}" aria-label="default input example" disabled>
                         </div>    
                         <div class="col-md-4">
                             <label for="">Gender</label>
-                            <input class="form-control form-control" type="text" placeholder="Female" aria-label="default input example" disabled>
+                            <select name="gender" class="form-control" id="inputGender" required disabled>
+                                <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
+                                <option value="female"{{ $gender == 'female' ? 'selected' : '' }}>Female</option>
+                                <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
+                              </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <label for="inputStudentStatus">Status</label>
-                            <select class="form-control" id="inputStudentStatus" required>
-                            <option value="">Choose...</option>
-                            <option value="Undergraduate">Undergraduate</option>
-                            <option value="Graduate">Graduate</option>
-                            <option value="High School">High School</option>
-                            </select>
+                            <select name="status" class="form-control" id="inputStatus" required disabled>
+                                <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
+                                <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate</option>
+                                <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>High School</option>
+                                <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
+                              </select>
                         </div>
                         <div class="col-lg-4">
                             <label for="inputCourse">Course</label>
-                            <select class="form-control" id="inputCourse" required>
-                                <option value="">Choose...</option>
-                                <option value="BSCS">Bachelor of Science in Computer Science</option>
-                                <option value="BIT">Bachelor of Industrial Technology Major in Drafting</option>
-                            </select>
+                            <select name="course " class="form-control" id="inputCourse" required disabled>
+                                <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
+                                     <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
+                                     <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
+                                     <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
+                                     <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
+                                     <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
+                                     <option value="BSHM"{{ $course == 'BSHM' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
+                                     <option value="BIT-MD"{{ $course == 'BIT-MD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
+                                     <option value="BIT-MGFD"{{ $course == 'BIT-MGFD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                     <option value="BIT-MMT"{{ $course == 'BIT-MMT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                     <option value="BIT-MFSM"{{ $course == 'BIT-MFSM' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
+                                     <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                     <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
+                               </select>
                         </div>
                         <div class="col-lg-4 " id="input-acadYear">
                             <label for="inputAcadYear">Academic Year</label>
-                            <input type="text" class="form-control" id="inputAcadYear" placeholder="" required>
+                            <input type="text" name="acad_year" class="form-control" id="inputAcadYear" placeholder="" required>
                         </div>
                         <div class="col-lg-4 " id="input-gradYear">
                             <label for="inputGradYear">Year Graduated</label>
@@ -595,15 +646,16 @@
                             <p class="fs-6 font-mont"><b>Payment Method: </b> Gcash</p>
                         </div>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#appointmentModal">Back</button>
-              <button type="button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#confirmedModal">Submit</button>
-            </div>
+              <button type="submit" id="submitButton" class="btn btn-appoint">Submit</button>
+              <!-- data-bs-toggle="modal" data-bs-target="#confirmedModal" -->
+            </div> 
           </div>
         </div>
     </div>
+</form>
 
     <!-- confirmation modal -->
     <div class="modal fade" id="confirmedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -614,7 +666,7 @@
                 <p class="h5 font-bold-font-mont">Your appointment has been created.<br>Please proceed to the registrar's office on the scheduled day to claim or process your request, and remember to bring any necessary documents with you.</p>
                 <p class="mt-5 font-este">If you have any questions or concerns, please don't hesitate to contact us.</p>
               <a type="button" class="btn btn-confirm mt-5" name="proceed-docPurpose" data-bs-dismiss="modal" id="confirm-btn">Confirm</a>
-            </div>
+            </div>  
             </div>
           </div>
         </div>
@@ -628,6 +680,55 @@
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+    <script>
+        $('.open-modal').on('click', function() {
+            var form_id = $(this).data('form-id');
+            var form_name = $(this).data('form-name');
+            var accordion_item = $(this).closest('.accordion-item');
+            var accordion_id = accordion_item.find('.accordion-collapse').attr('id');
+            var modal = $('#appointmentModal');
+            modal.find('#form_name').text(form_name);
+            modal.find('#form_id').val(form_id);
+            modal.find('#accordion_id').val(accordion_id);
+            console.log(form_id);
+            console.log(form_name);
+            console.log(accordion_id);
+        });
+
+        $('#proceedButton').on('click', function(event) {
+            var form_id = $('#form_id').val();
+            var appointmentPurpose = $('#app_purpose').val();
+            $('#appointmentModal').modal('hide');
+            $('#form_id').val(form_id); // fix typo here
+            $('#app_purpose').val(appointmentPurpose);
+            $('#reviewModal').modal('show');
+            console.log(form_id);
+            console.log(appointmentPurpose);
+        });
+
+        $('#submitButton').on('click', function(event) {
+            var form_id = $('#form_id').val(); // fix typo here
+            var appointmentPurpose = $('#app_purpose').val();
+            console.log(form_id);
+            console.log(appointmentPurpose);
+            $('#reviewModal').modal('hide');
+            $.ajax({
+                url: "{{ route('bookAppointment') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    form_id: form_id,
+                    app_purpose: appointmentPurpose
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
         $('#calendar').fullCalendar({
