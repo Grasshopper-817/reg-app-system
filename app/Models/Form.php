@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Appointment;
 class Form extends Model
 {
     use HasFactory;
@@ -15,8 +15,8 @@ class Form extends Model
         'fee',
     ];
 
-    public function appointments()
-    {
-        return $this->hasMany(Appointment::class);
-    }
+     public function appointments()
+     {
+         return $this->hasMany(Appointment::class);
+     }
 }

@@ -3,7 +3,11 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UsersCalendarController;
 use App\Http\Controllers\CustomAuthController;
+use App\Models\Appointment;
+use App\Models\User;
+use App\Models\Booking;
 use Illuminate\Auth\Events\Logout;
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,11 +25,12 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/login',[CustomAuthController::class,'login'])->middleware('alreadyLoggedIn');
-Route::get('/registration',[CustomAuthController::class,'registration'])->middleware('alreadyLoggedIn');
+// Route::get('/login',[CustomAuthController::class,'login'])->middleware('alreadyLoggedIn');
+// Route::get('/registration',[CustomAuthController::class,'registration'])->middleware('alreadyLoggedIn');
+
 Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->name('registration-user');  
 Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('login-user');
-Route::get('/dashboard',[CustomAuthController::class,'dashboard'])->middleware('isLoggedIn');
+Route::get('/dashboard',[CustomAuthController::class,'dashboard']);
 Route::get('/logout',[CustomAuthController::class,'logout']);
 
 //set up form controlls
@@ -42,5 +47,19 @@ Route::get('dashboard/admin',[CustomAuthController::class,'getAllForm'])->name('
 
 //user
 Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appointment');
+
+//bookings
+Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
+
+
+
+//testing area
+Route::get('/makeAppointment',[CustomAuthController::class,'makeAppointment'])->name('makeAppointment');
+Route::post('/makeAppointment-user',[CustomAuthController::class],'bookAppointment')->name('makeAppointment-user');
+
+Route::get('/users',function(){
+    $appointment = Appointment::with('user')->get('id');
+    return $appointment;
+});
 
 

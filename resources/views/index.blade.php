@@ -223,19 +223,29 @@
                                     <option value="BTLE ">Bachelor of Technology and Livelihood Education</option>
                                     <option value="BTTE ">Bachelor of Technical-Vocational Teacher Education</option>
                                     <option value="BSHM ">Bachelor of Science in Hospitality Management</option>
-                                    <option value="BIT major in drafting">Bachelor of Industrial Technology Major in Drafting</option>
-                                    <option value="BIT major in garments fashion and design">Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
-                                    <option value="BIT major in mechanical technology">Bachelor of Industrial Technology Major in Mechanical Technology</option>
-                                    <option value="BIT major in food and service management">Bachelor of Industrial Technology Major in Food and Service Management</option>
-                                    <option value="BIT major in electrical technology">Bachelor of Industrial Technology Major in Electrical Technology</option>
-                                    <option value="BIT major in automotive technology">Bachelor of Industrial Technology Major in Automotive Technology</option>
-                                    <option value="BIT major in electrical technology">Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                    <option value="BIT-MD">Bachelor of Industrial Technology Major in Drafting</option>
+                                    <option value="BIT-MGFD">Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                    <option value="BIT-MMT">Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                    <option value="BIT-MFSM">Bachelor of Industrial  Technology Major in Food and Service Management</option>
+                                    <option value="BIT-MET">Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                    <option value="BIT-MAT">Bachelor of Industrial Technology Major in Automotive Technology</option>
                                   </select>
                                   <span class="text-danger">@error('course'){{ $message }} @enderror </span>
                             </div>
                         </div>
+
                         <div class="form-group row mt-3">
-                            <div class="col-lg-12">
+                            <div class="col-lg-3">
+                                <label for="inputGender">Status</label>
+                                <select class="form-control" name="status"id="inputStudentStatus" required>
+                                    <option value="">Choose...</option>
+                                    <option value="undergraduate">Undergraduate</option>
+                                    <option value="graduate">Graduate</option>
+                                    <option value="high hchool">High School</option>
+                                    </select>
+                                <span class="text-danger">@error('gender'){{ $message }} @enderror </span>
+                            </div>
+                            <div class="col-lg-9">
                                 <label for="inputPassword">Password</label>
                                 <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
                                 <span class="text-danger">@error('password'){{ $message }} @enderror </span>

@@ -6,22 +6,26 @@ use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Form;
+use App\Models\Appointment;
+use App\Models\Booking;
+use Illuminate\Support\Facades\Auth;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use PhpParser\Node\Expr\FuncCall;
 
+
 class CustomAuthController extends Controller
 {
- public function login()
- {
-        return view ('auth.login');
- }
- public function registration()
- {
-        return view('auth.registration');
+//  public function login()
+//  {
+//         return view ('auth.login');
+//  }
+//  public function registration()
+//  {
+//         return view('auth.registration');
     
- }
+//  }
  public function registerUser(Request $request){
         $request->validate([
               'firstName'=>'required',
@@ -35,6 +39,7 @@ class CustomAuthController extends Controller
               'email'=>'required|email|unique:users',
               'birthdate'=>'required',
               'gender'=>'required',
+              'status'=>'required',
               'course'=>'required',
               'password'=>'required|min:8|max:12',
         ]);
@@ -50,6 +55,7 @@ class CustomAuthController extends Controller
         $user->civil_status = $request->input('civil_status');
         $user -> email = $request->email;
         $user->birthdate = $request->input('birthdate');
+        $user->status = $request->input('status');
         $user->gender = $request->input('gender');
         $user->course = $request->input('course');
         $user -> password = Hash::make($request->password);
@@ -90,6 +96,7 @@ class CustomAuthController extends Controller
       $data = array();
       if (Session::has('loginId')){
             $data = User::where('id','=', Session::get('loginId'))->first();
+            
       }
       return view('dashboard',compact('data'));
   }
@@ -99,6 +106,8 @@ class CustomAuthController extends Controller
             return redirect('/');
       }
   }
+
+
 
  //------------------------------------// Frorm Crud //--------------------------------------------------------// 
 public function create(){
@@ -128,9 +137,20 @@ public function createForm(Request $request){
 }
 
 public function getAllForm(Request $request){
-      $user = session()->get('user');
+          // get logged-in user data
+//     $user = null;
+//     if (session()->has('loginId')) {
+//         $user = User::where('id', session()->get('loginId'))->first();
+//     }
+
+//     // get user's first name
+//     $firstName = null;
+//     if ($user && $user->firstName) {
+//         $firstName = $user->firstName;
+//     }
+
       $forms = Form::all();
-      return view('mainpage', compact('user', 'forms'));
+      return view('mainpage', compact('forms'));
 }
 
 public function edit($id){
@@ -160,25 +180,119 @@ public function delete($id){
       return redirect('dashboard/admin')-> with ('success','You have deleted successfully');
 }
 
-//----------------------------------// End //--------------------------------------------------------------------------//
+//===================---------------// Form End //-------------------------===========================================//
 
+
+//================------------- // Appointment Content // ------------==========================================//
 public function appointment(){
-      $user = session()->get('user');
+      $user = null;
+      if (session()->has('loginId')) {
+          $user = User::where('id', session()->get('loginId'))->first();
+      }
+  
+      // get user's first name
+      $firstName = null;
+      $lastName = null;
+      $middleName = null;
+      $suffix  = null;
+      $address = null;
+      $school_id = null;
+      $cell_no = null;
+      $civil_status = null;
+      $email = null;
+      $birthdate = null;
+      $status = null;
+      $gender = null;
+      $course = null;
+      if ($user) {
+          $firstName = $user->firstName;
+          $lastName = $user->lastName;
+          $middleName = $user -> middleName;
+          $suffix = $user -> suffix ;
+          $address  = $user -> address ;
+          $school_id = $user -> school_id ;
+          $cell_no = $user -> cell_no;
+          $civil_status = $user->civil_status ; //dropdown table
+          $email = $user -> email;
+          $birthdate = $user->birthdate;//birtdate
+          $status = $user->status; //dropdown
+          $gender = $user->gender; //dropdown
+          $course = $user->course; // dropdown
+      }
+  
       $forms = Form::all();
-      return view('appointment.appointment', compact('user', 'forms'));
+      return view('appointment.appointment', compact( 
+            'firstName',
+            'lastName',
+            'middleName',
+            'suffix',
+            'address',
+            'school_id',
+            'cell_no',
+            'civil_status',
+            'email',
+            'birthdate',
+            'gender',
+            'status',
+            'course',
+            'forms'));
 
  }
 
-// public function appointmentForm(Request $request){
-//       $request -> validate([
-//             'name'=>'required',
-//             'description' => 'required',
-//             'days' => 'required',
-//             'fee' => 'required',
+// public function bookAppointment(Request $request){
+//       //dd($request->all());
+//       // $user = null;
+//         if (session()->has('loginId')) {
+//            $user = User::find(session()->get('loginId'));
+//        }
+       
+//       $request ->validate([
+//             'app_purpose' => 'required',
+//             'form_id' => 'required|exists:forms,id',
 //       ]);
-//       $form = new Form();
-//       $form -> name = $request -> name;
-//       $form -> description = $request -> description;
-// }
+//       $appointment = new Appointment();
+//       $appointment -> app_purpose = $request -> app_purpose;
+//       $appointment->user_id = $user->id;
+//       $appointment->form_id = $request->form_id;
+
+//        if($appointment->save()){
+//              return back()-> with ('success','You have created successfully');
+//        }else{
+//              return back()-> with('fail','Something wrong');
+//        }
+
+//  }
+
+public function bookAppointment(Request $request){
+      $user_id = session('loginId');
+      $form = Form::find($request->form_id);
+
+      if (!$form) {
+         abort(404);
+      }
+
+      $appointment = new Appointment();
+      $appointment->app_purpose = $request->app_purpose;
+      $appointment->user_id = $user_id;
+      $appointment->form_id = $form->id;
+      $appointment->save();
+
+      if ($appointment->save()) {
+            return response()->json(['success' => true, 'message' => 'Appointment booked successfully.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Appointment booking failed.']);
+        }
+}
+
+
+
+ public function showAppointments(){
+      // $forms = Form::all();
+      // return view('showAppointments', compact('forms'));
+ }    
+
+ public function makeAppointment(){
+      return view('appointment.makeAppointment');
+ }
 
 }
