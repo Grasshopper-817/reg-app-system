@@ -137,18 +137,6 @@ public function createForm(Request $request){
 }
 
 public function getAllForm(Request $request){
-          // get logged-in user data
-//     $user = null;
-//     if (session()->has('loginId')) {
-//         $user = User::where('id', session()->get('loginId'))->first();
-//     }
-
-//     // get user's first name
-//     $firstName = null;
-//     if ($user && $user->firstName) {
-//         $firstName = $user->firstName;
-//     }
-
       $forms = Form::all();
       return view('mainpage', compact('forms'));
 }
@@ -239,30 +227,6 @@ public function appointment(){
 
  }
 
-// public function bookAppointment(Request $request){
-//       //dd($request->all());
-//       // $user = null;
-//         if (session()->has('loginId')) {
-//            $user = User::find(session()->get('loginId'));
-//        }
-       
-//       $request ->validate([
-//             'app_purpose' => 'required',
-//             'form_id' => 'required|exists:forms,id',
-//       ]);
-//       $appointment = new Appointment();
-//       $appointment -> app_purpose = $request -> app_purpose;
-//       $appointment->user_id = $user->id;
-//       $appointment->form_id = $request->form_id;
-
-//        if($appointment->save()){
-//              return back()-> with ('success','You have created successfully');
-//        }else{
-//              return back()-> with('fail','Something wrong');
-//        }
-
-//  }
-
 public function bookAppointment(Request $request){
       $user_id = session('loginId');
       $form = Form::find($request->form_id);
@@ -275,21 +239,19 @@ public function bookAppointment(Request $request){
       $appointment->app_purpose = $request->app_purpose;
       $appointment->user_id = $user_id;
       $appointment->form_id = $form->id;
-      $appointment->save();
 
       if ($appointment->save()) {
+            $bookingNumber = 'B' . str_pad($appointment->id, 6, '0', STR_PAD_LEFT);
+            $appointment->booking_number = $bookingNumber;
+            $appointment->save();
+            // return view('appointment.showAppointment', ['bookingNumber' => $bookingNumber]); Displaying the history sa ge book
             return response()->json(['success' => true, 'message' => 'Appointment booked successfully.']);
         } else {
             return response()->json(['success' => false, 'message' => 'Appointment booking failed.']);
         }
 }
 
-
-
- public function showAppointments(){
-      // $forms = Form::all();
-      // return view('showAppointments', compact('forms'));
- }    
+      
 
  public function makeAppointment(){
       return view('appointment.makeAppointment');
