@@ -16,7 +16,7 @@ class Booking extends Model
          return $this->belongsTo(User::class);
      }
 
-     public function appointments()
+     public function appointment()
      {
          return $this->belongsTo(Appointment::class);
      }

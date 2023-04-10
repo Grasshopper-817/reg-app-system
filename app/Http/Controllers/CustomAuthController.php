@@ -26,6 +26,7 @@ class CustomAuthController extends Controller
 //         return view('auth.registration');
     
 //  }
+ //------------------------------------// Registration & Log-in //--------------------------------------------------------// 
  public function registerUser(Request $request){
         $request->validate([
               'firstName'=>'required',
@@ -109,7 +110,7 @@ class CustomAuthController extends Controller
 
 
 
- //------------------------------------// Frorm Crud //--------------------------------------------------------// 
+ //------------------------------------// Create Update Delete Form //--------------------------------------------------------// 
 public function create(){
       return view('appointment.create');
 }
@@ -168,10 +169,9 @@ public function delete($id){
       return redirect('dashboard/admin')-> with ('success','You have deleted successfully');
 }
 
-//===================---------------// Form End //-------------------------===========================================//
 
 
-//================------------- // Appointment Content // ------------==========================================//
+//------------------------// Retrieving and passing information to Appointment database and Displaying //-----------------------//
 public function appointment(){
       $user = null;
       if (session()->has('loginId')) {
@@ -227,34 +227,64 @@ public function appointment(){
 
  }
 
+
+
+ //------------------------------------// Setting up Booking Appointment //--------------------------------------------------------// 
 public function bookAppointment(Request $request){
-      $user_id = session('loginId');
-      $form = Form::find($request->form_id);
+            $user_id = session('loginId');
+            $form = Form::find($request->form_id);
 
       if (!$form) {
          abort(404);
       }
 
-      $appointment = new Appointment();
-      $appointment->app_purpose = $request->app_purpose;
-      $appointment->user_id = $user_id;
-      $appointment->form_id = $form->id;
+            $appointment = new Appointment();
+            $appointment->app_purpose = $request->app_purpose;
+            $appointment->user_id = $user_id;
+            $appointment->form_id = $form->id;
 
       if ($appointment->save()) {
             $bookingNumber = 'B' . str_pad($appointment->id, 6, '0', STR_PAD_LEFT);
             $appointment->booking_number = $bookingNumber;
             $appointment->save();
-            // return view('appointment.showAppointment', ['bookingNumber' => $bookingNumber]); Displaying the history sa ge book
+
+            $booking = new Booking();
+            $booking->user_id = $user_id;
+            $booking->appointment_id = $appointment->id;
+            $booking->save();
+    
             return response()->json(['success' => true, 'message' => 'Appointment booked successfully.']);
         } else {
             return response()->json(['success' => false, 'message' => 'Appointment booking failed.']);
         }
 }
 
-      
-
- public function makeAppointment(){
-      return view('appointment.makeAppointment');
+ public function showAppointment()
+ {
+     $user_id = session('loginId');
+     $appointments = Appointment::where('user_id', $user_id)
+         ->orderBy('created_at', 'desc')
+         ->with(['user' => function ($query) {
+             $query->select('id', 'firstName','lastName');
+         }, 'form' => function ($query) {
+             $query->select('id', 'name');
+         }])
+         ->get();
+      return view('appointment.showAppointment', ['appointments' => $appointments]);
  }
+
+
+
+//-------------------------------// Retrive All Bookings and Displaying//-------------------------------//
+
+public function bookings()
+{
+      $bookings = Booking::with('user', 'appointment')->get();
+      $users = User::whereIn('id', $bookings->pluck('user_id'))->select('id')->get();
+      $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))->get();
+        
+            return view('appointment.showBookings', compact('bookings', 'users', 'appointments'));
+}
+
 
 }

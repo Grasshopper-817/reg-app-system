@@ -28,33 +28,36 @@ Route::get('/', function () {
 // Route::get('/login',[CustomAuthController::class,'login'])->middleware('alreadyLoggedIn');
 // Route::get('/registration',[CustomAuthController::class,'registration'])->middleware('alreadyLoggedIn');
 
+//Login and Registraion
 Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->name('registration-user');  
 Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('login-user');
 Route::get('/dashboard',[CustomAuthController::class,'dashboard']);
 Route::get('/logout',[CustomAuthController::class,'logout']);
 
-//set up form controlls
+
+//Set up form controlls
 Route::get('/create',[CustomAuthController::class,'create'])->name('create');
 Route::post('/create-form',[CustomAuthController::class,'createForm'])->name('create-form');    
 Route::get('dashboard/edit/{id}',[CustomAuthController::class,'edit']);
 Route::put('dashboard/update/{id}',[CustomAuthController::class,'update']);
 Route::get('dashboard/delete/{id}',[CustomAuthController::class,'delete']);
-
-
-//displaying and set appointment
-//admin
 Route::get('dashboard/admin',[CustomAuthController::class,'getAllForm'])->name('dashboard');
 
-//user
-Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appointment');
 
-//bookings
+//Appointments and Bookings
+//User Dashboard 
+Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appointment');
+//Set up bookings
 Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
 
 
+//Show Appointment 
+Route::get('/showAppointment',[CustomAuthController::class,'showAppointment']);
 
-//testing area
-// Route::get('/makeAppointment',[CustomAuthController::class,'makeAppointment'])->name('makeAppointment');
+
+//Testing area
 // Route::post('/makeAppointment-user',[CustomAuthController::class,'bookAppointment'])->name('makeAppointment-user');
+Route::get('/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings');
+// Route::get('/booking/{id}', [BookingController::class, 'showBookings'])->name('booking.show');
 
 
