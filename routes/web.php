@@ -54,12 +54,7 @@ Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])-
 
 
 //testing area
-Route::get('/makeAppointment',[CustomAuthController::class,'makeAppointment'])->name('makeAppointment');
-Route::post('/makeAppointment-user',[CustomAuthController::class],'bookAppointment')->name('makeAppointment-user');
-
-Route::get('/users',function(){
-    $appointment = Appointment::with('user')->get('id');
-    return $appointment;
-});
+// Route::get('/makeAppointment',[CustomAuthController::class,'makeAppointment'])->name('makeAppointment');
+// Route::post('/makeAppointment-user',[CustomAuthController::class,'bookAppointment'])->name('makeAppointment-user');
 
 

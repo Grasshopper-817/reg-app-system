@@ -666,7 +666,7 @@
                 <p class="h5 font-bold-font-mont">Your appointment has been created.<br>Please proceed to the registrar's office on the scheduled day to claim or process your request, and remember to bring any necessary documents with you.</p>
                 <p class="mt-5 font-este">If you have any questions or concerns, please don't hesitate to contact us.</p>
               <a type="button" class="btn btn-confirm mt-5" name="proceed-docPurpose" data-bs-dismiss="modal" id="confirm-btn">Confirm</a>
-            </div>  
+            </div>
             </div>
           </div>
         </div>
@@ -697,20 +697,20 @@
 
         $('#proceedButton').on('click', function(event) {
             var form_id = $('#form_id').val();
-            var appointmentPurpose = $('#app_purpose').val();
+            var app_purpose = $('#app_purpose').val();
             $('#appointmentModal').modal('hide');
             $('#form_id').val(form_id); // fix typo here
-            $('#app_purpose').val(appointmentPurpose);
+            $('#app_purpose').val(app_purpose);
             $('#reviewModal').modal('show');
             console.log(form_id);
-            console.log(appointmentPurpose);
+            console.log(app_purpose);
         });
 
         $('#submitButton').on('click', function(event) {
             var form_id = $('#form_id').val(); // fix typo here
-            var appointmentPurpose = $('#app_purpose').val();
+            var app_purpose = $('#app_purpose').val();
             console.log(form_id);
-            console.log(appointmentPurpose);
+            console.log(app_purpose);
             $('#reviewModal').modal('hide');
             $.ajax({
                 url: "{{ route('bookAppointment') }}",
@@ -718,7 +718,7 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                     form_id: form_id,
-                    app_purpose: appointmentPurpose
+                    app_purpose: app_purpose
                 },
                 success: function(response) {
                     console.log(response);
