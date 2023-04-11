@@ -13,6 +13,7 @@
             <th>Last Name</th>
             <th>Form Name</th>
             <th>Purpose</th>
+            <th>Booking Created</th>
           </tr>
         </thead>
         <tbody>

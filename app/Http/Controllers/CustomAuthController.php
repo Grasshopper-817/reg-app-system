@@ -173,43 +173,38 @@ public function delete($id){
 
 //------------------------// Retrieving and passing information to Appointment database and Displaying //-----------------------//
 public function appointment(){
-      $user = null;
-      if (session()->has('loginId')) {
-          $user = User::where('id', session()->get('loginId'))->first();
-      }
-  
-      // get user's first name
-      $firstName = null;
-      $lastName = null;
-      $middleName = null;
-      $suffix  = null;
-      $address = null;
-      $school_id = null;
-      $cell_no = null;
-      $civil_status = null;
-      $email = null;
-      $birthdate = null;
-      $status = null;
-      $gender = null;
-      $course = null;
-      if ($user) {
-          $firstName = $user->firstName;
-          $lastName = $user->lastName;
-          $middleName = $user -> middleName;
-          $suffix = $user -> suffix ;
-          $address  = $user -> address ;
-          $school_id = $user -> school_id ;
-          $cell_no = $user -> cell_no;
-          $civil_status = $user->civil_status ; //dropdown table
-          $email = $user -> email;
-          $birthdate = $user->birthdate;//birtdate
-          $status = $user->status; //dropdown
-          $gender = $user->gender; //dropdown
-          $course = $user->course; // dropdown
-      }
-  
-      $forms = Form::all();
-      return view('appointment.appointment', compact( 
+            $user = null;
+            $appointments = Appointment::all();
+            $forms = Form::all();
+
+            if (session()->has('loginId')) {
+            $user = User::where('id', session()->get('loginId'))->first();
+            $user_id = session('loginId');
+            $appointments = Appointment::where('user_id', $user_id)
+                  ->orderBy('created_at', 'desc')
+                  ->with(['user' => function ($query) {
+                        $query->select('id', 'firstName','lastName');
+                  }, 'form' => function ($query) {
+                        $query->select('id', 'name');
+                  }])
+                  ->get();
+            }
+
+            $firstName = $user ? $user->firstName : null;
+            $lastName = $user ? $user->lastName : null;
+            $middleName = $user ? $user->middleName : null;
+            $suffix = $user ? $user->suffix : null;
+            $address = $user ? $user->address : null;
+            $school_id = $user ? $user->school_id : null;
+            $cell_no = $user ? $user->cell_no : null;
+            $civil_status = $user ? $user->civil_status : null;
+            $email = $user ? $user->email : null;
+            $birthdate = $user ? $user->birthdate : null;
+            $status = $user ? $user->status : null;
+            $gender = $user ? $user->gender : null;
+            $course = $user ? $user->course : null;
+
+            return view('appointment.appointment', compact(
             'firstName',
             'lastName',
             'middleName',
@@ -223,7 +218,9 @@ public function appointment(){
             'gender',
             'status',
             'course',
-            'forms'));
+            'forms',
+            'appointments'
+            ));
 
  }
 
@@ -234,12 +231,13 @@ public function bookAppointment(Request $request){
             $user_id = session('loginId');
             $form = Form::find($request->form_id);
 
+
       if (!$form) {
          abort(404);
-      }
-
+      }   
             $appointment = new Appointment();
             $appointment->app_purpose = $request->app_purpose;
+            $appointment->acad_year = $request ->acad_year;
             $appointment->user_id = $user_id;
             $appointment->form_id = $form->id;
 
@@ -259,20 +257,19 @@ public function bookAppointment(Request $request){
         }
 }
 
- public function showAppointment()
- {
-     $user_id = session('loginId');
-     $appointments = Appointment::where('user_id', $user_id)
-         ->orderBy('created_at', 'desc')
-         ->with(['user' => function ($query) {
-             $query->select('id', 'firstName','lastName');
-         }, 'form' => function ($query) {
-             $query->select('id', 'name');
-         }])
-         ->get();
-      return view('appointment.showAppointment', ['appointments' => $appointments]);
- }
-
+//  public function showAppointment()
+//  {
+//      $user_id = session('loginId');
+//      $appointments = Appointment::where('user_id', $user_id)
+//          ->orderBy('created_at', 'desc')
+//          ->with(['user' => function ($query) {
+//              $query->select('id', 'firstName','lastName');
+//          }, 'form' => function ($query) {
+//              $query->select('id', 'name');
+//          }])
+//          ->get();
+//       return view('appointment.showAppointment', ['appointments' => $appointments]);
+//  }
 
 
 //-------------------------------// Retrive All Bookings and Displaying//-------------------------------//
@@ -287,4 +284,12 @@ public function bookings()
 }
 
 
+
+//-------------------------// Announcement //--------------------------------------------------------//
+public function announcement(){
+      return view('announcement.announcement');
+}
+public function faqs(){
+      return view('announcement.faqs');
+}
 }

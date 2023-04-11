@@ -15,7 +15,9 @@ class Appointment extends Model
 
     protected $fillable = [
         'app_purpose',
-        'booking_number'
+        'acad_year',
+        'booking_number',
+       
     ];
 
      public function form()

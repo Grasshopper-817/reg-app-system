@@ -48,7 +48,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">FAQs</a>
-                                    </li>
+                                    </li> 
                                     <li class="nav-item">
                                         <a href="#appointment-records" class="nav-link" onclick="recordsView()">Appointments</a>
                                     </li>
@@ -318,95 +318,52 @@
                         <div class="appointment-records-head">
                             <p class="display-6 font-mont font-bold">Appointment Records</p>
                         </div>
-                        <div class="appointment-records-lists">
-                            <div class="accordion accordion-flush" id="accordionFlushExample">
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                      Transcript of Records (TOR): March 20, 2023: Pending
-                                    </button>
-                                  </h2>
-                                  <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        <div class="requestID">
-                                            <p class="fs-6">
-                                                <b>Request ID: </b>
-                                                R-1010101
-                                            </p>
-                                        </div>
-                                        <div class="date-filled">
-                                            <p class="fs-6"><b>Date Filled: </b>March 9, 2023</p>
-                                        </div>
-                                        <div class="purpose">
-                                            <p class="fs-6"><b>Purpose: </b>Need for work char</p>
-                                        </div>
-                                        <div class="payment">
-                                            <p class="fs-6"><b>Payment: </b>Walk-in</p>
-                                        </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                        School ID: January 7, 2023: Completed
-                                    </button>
-                                  </h2>
-                                  <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        <div class="requestID">
-                                            <p class="fs-6">
-                                                <b>Request ID: </b>
-                                                R-1010101
-                                            </p>
-                                        </div>
-                                        <div class="date-filled">
-                                            <p class="fs-6"><b>Date Filled: </b>March 9, 2023</p>
-                                        </div>
-                                        <div class="purpose">
-                                            <p class="fs-6"><b>Purpose: </b>Need for work char</p>
-                                        </div>
-                                        <div class="payment">
-                                            <p class="fs-6"><b>Payment: </b>G-Cash</p>
-                                        </div>
-                                        <div class="proof-of-payment w-100">
-                                            <p class="fs-6"><img class="w-100" src="images/g-cash-temp.png" alt=""></p>
+                    
+                        @if(count($appointments) > 0)
+                            @foreach($appointments as $appointment)
+                            <div class="appointment-records-lists">
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->form->id }}" aria-expanded="false" aria-controls="flush-collapseThree">
+                                                {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }} Pending
+                                            </button>
+                                        </h2>
+                                        <div id="{{ $appointment->form->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="requestID">
+                                                    <p class="fs-6">
+                                                        <b>Tracking ID: </b>
+                                                        {{ $appointment->booking_number }}
+                                                    </p>
+                                                </div>
+                                                <div class="date-filled">
+                                                    <p class="fs-6"><b>Date Filled: </b>{{ $appointment->created_at->format('M d, Y h:i A') }}</p>
+                                                </div>
+                                                <div class="purpose">
+                                                    <p class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</p>
+                                                </div>
+                                                <div class="payment">
+                                                    <p class="fs-6"><b>Payment: </b>Gcash</p>
+                                                </div>
+                                                <div class="proof-of-payment">
+                                                    {{-- <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p> --}}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                  </div>
                                 </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                        {Document}: {Date Appointed}: {Appointment Status}
-                                    </button>
-                                  </h2>
-                                  <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        <div class="requestID">
-                                            <p class="fs-6">
-                                                <b>Request ID: </b>
-                                                {ReqID}
-                                            </p>
-                                        </div>
-                                        <div class="date-filled">
-                                            <p class="fs-6"><b>Date Filled: </b>{dateFilled}</p>
-                                        </div>
-                                        <div class="purpose">
-                                            <p class="fs-6"><b>Purpose: </b>{purpose}</p>
-                                        </div>
-                                        <div class="payment">
-                                            <p class="fs-6"><b>Payment: </b>{paymentMethod}</p>
-                                        </div>
-                                        <div class="proof-of-payment">
-                                            <p class="fs-6"><img src="" alt="">{imageProof,, with script nsab ni ata}</p>
-                                        </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                        </div>
+                            </div>
+                            @endforeach
+                        @else
+                            <div class="appointment-records-lists">
+                                <p>You have no bookings at the moment.</p>
+                            </div>
+                        @endif
                     </div>
+                    
+                    
+                    <!--close  sa open div sa appointment--->
                 </div>
             </div>
         </div>
@@ -446,7 +403,7 @@
                             </div>
                             <div class="row mb-3">
                                 <label for="inputDocAcadYear">Academic Year</label>
-                                <input class="form-control form-control" type="text" name="acad_year" placeholder="Academic Year" aria-label="default input example">
+                                <input class="form-control form-control" type="text" name="acad_year" id="acad_year" placeholder="Academic Year" aria-label="default input example">
                             </div>
                             <div><hr class="row mb-3"></div>
                             <div class="row d-flex flex-row w-100 mb-3">
@@ -588,7 +545,7 @@
                         </div>
                         <div class="col-lg-4 " id="input-acadYear">
                             <label for="inputAcadYear">Academic Year</label>
-                            <input type="text" name="acad_year" class="form-control" id="inputAcadYear" placeholder="" required>
+                            <input type="text" name="" id="" class="form-control" id="inputAcadYear" placeholder="" required>
                         </div>
                         <div class="col-lg-4 " id="input-gradYear">
                             <label for="inputGradYear">Year Graduated</label>
@@ -698,19 +655,24 @@
         $('#proceedButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
+            var acad_year = $('#acad_year').val();
             $('#appointmentModal').modal('hide');
-            $('#form_id').val(form_id); // fix typo here
+            $('#form_id').val(form_id);
+            $('#acad_year').val(acad_year);
             $('#app_purpose').val(app_purpose);
             $('#reviewModal').modal('show');
             console.log(form_id);
             console.log(app_purpose);
+            console.log(acad_year);
         });
 
         $('#submitButton').on('click', function(event) {
             var form_id = $('#form_id').val(); // fix typo here
             var app_purpose = $('#app_purpose').val();
+            var acad_year = $('#acad_year').val();
             console.log(form_id);
             console.log(app_purpose);
+            console.log(acad_year);
             $('#reviewModal').modal('hide');
             $.ajax({
                 url: "{{ route('bookAppointment') }}",
@@ -718,7 +680,8 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                     form_id: form_id,
-                    app_purpose: app_purpose
+                    app_purpose: app_purpose,
+                    acad_year: acad_year
                 },
                 success: function(response) {
                     console.log(response);

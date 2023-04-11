@@ -30,10 +30,10 @@
                                     <a href="#about-sect" class="nav-link">About</a>
                                 </li> 
                                 <li class="nav-item">
-                                    <a href="announcement.html" class="nav-link">Announcements</a>
+                                    <a href="{{ route('announcement') }}" class="nav-link">Announcements</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">FAQs</a>
+                                    <a href="{{ route('faqs') }}" class="nav-link">FAQs</a>
                                 </li>
                             </ul>
                         </div>

@@ -6,6 +6,7 @@
     <table>
       <thead>
         <tr>
+       
           <th>Booking Number</th>
           <th>Form</th>
           <th>Appointment Purpose</th>
@@ -15,6 +16,7 @@
       <tbody>
         @foreach($appointments as $appointment)
           <tr>
+            
             <td>{{ $appointment->booking_number }}</td>
             <td>{{ $appointment->form->name }}</td>
             <td>{{ $appointment->app_purpose }}</td>

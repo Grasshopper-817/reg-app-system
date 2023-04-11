@@ -16,14 +16,13 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('app_purpose');
+            $table->string('acad_year');
             $table->string('booking_number')->unique()->nullable();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('form_id');
             $table->foreign('form_id')->references('id')->on('forms');
 
-            
-            // $table->string('acad_year');
             // $table->string('payment')->nullable();
             // $table->string('pay_image')->nullable();
             // $table->dateTime('appointment_date');

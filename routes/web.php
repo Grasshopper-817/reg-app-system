@@ -45,19 +45,22 @@ Route::get('dashboard/admin',[CustomAuthController::class,'getAllForm'])->name('
 
 
 //Appointments and Bookings
-//User Dashboard 
+//User Dashboard - show appointments
 Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appointment');
 //Set up bookings
 Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
 
+//Show Bookings
+Route::get('/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings');
 
-//Show Appointment 
-Route::get('/showAppointment',[CustomAuthController::class,'showAppointment']);
+//Working in announcements
+ Route::get('/announcement',[CustomAuthController::class,'announcement'])->name('announcement');
+ Route::get('/faqs',[CustomAuthController::class,'faqs'])->name('faqs');
 
 
 //Testing area
 // Route::post('/makeAppointment-user',[CustomAuthController::class,'bookAppointment'])->name('makeAppointment-user');
-Route::get('/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings');
+// Route::get('/showAppointment',[CustomAuthController::class,'showAppointment']);
 // Route::get('/booking/{id}', [BookingController::class, 'showBookings'])->name('booking.show');
 
 
