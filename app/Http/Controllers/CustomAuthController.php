@@ -74,7 +74,7 @@ class CustomAuthController extends Controller
  {
       $request->validate([
             'email'=>'required|email',
-            'password'=>'required|min:8|max:12',
+            'password'=>'required|min:8',
       ]);
       //checking user
       $user = User::where('email','=',$request->email)->first();
@@ -120,7 +120,7 @@ public function createForm(Request $request){
             'name' => 'required',
             'description'=>'required',
             'days'=>'required',
-            'fee'=>'required|integer',
+            'fee'=>'required',
       ]);
 
       $form = new Form();
@@ -204,20 +204,7 @@ public function appointment(){
             $gender = $user ? $user->gender : null;
             $course = $user ? $user->course : null;
 
-            return view('appointment.appointment', compact(
-            'firstName',
-            'lastName',
-            'middleName',
-            'suffix',
-            'address',
-            'school_id',
-            'cell_no',
-            'civil_status',
-            'email',
-            'birthdate',
-            'gender',
-            'status',
-            'course',
+            return view('appointment.appointment', compact('firstName','lastName','middleName','suffix','address','school_id','cell_no','civil_status','email','birthdate','gender','status','course',
             'forms',
             'appointments'
             ));
@@ -238,6 +225,7 @@ public function bookAppointment(Request $request){
             $appointment = new Appointment();
             $appointment->app_purpose = $request->app_purpose;
             $appointment->acad_year = $request ->acad_year;
+            $appointment->appointment_date = $request ->appointment_date;
             $appointment->user_id = $user_id;
             $appointment->form_id = $form->id;
 

@@ -9,6 +9,7 @@
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     
+    <link rel="icon" type="image/png" href="images/msat-logo.png">
     <link rel="stylesheet" href="css/dashboard/dasboard02.css">
     <link rel="stylesheet" href="css/dashboard/fonts.css">
     <link rel="stylesheet" href="css/dashboard/breakpoints.css">
@@ -152,11 +153,11 @@
                                 </h2>
                                 <div id="{{ $form->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
-                                        <div class="requirements">
-                                            <p class="fs-6">
-                                                <b>Requirements: </b>
+                                        <div class="requirements d-flex flex-column fs-6">
+                                            <b>Requirements: </b>
+                                            <pre class="text-start w-100">
                                                 {{ $form->description }}
-                                            </p>
+                                            </pre>
                                         </div>
                                         <div class="process">
                                             <p class="fs-6"><b>Days of Process: </b>{{ $form->days }}</p>
@@ -165,9 +166,6 @@
                                             <p class="fs-6"><b>Document Fee: </b>{{ $form->fee }}</p>
                                         </div>
                                         <div class="row w-100 d-flex flex-row justify-content-end">
-                                            <!-- <button type="button" id="open-button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#appointmentModal" name="{{ $form->id }}" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
-                                                Appoint
-                                            </button> -->
                                             <button type="button" class="btn btn-appoint open-modal" data-bs-toggle="modal" data-bs-target="#appointmentModal" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
                                                 Appoint
                                             </button>
@@ -347,7 +345,7 @@
                                                     <p class="fs-6"><b>Payment: </b>Gcash</p>
                                                 </div>
                                                 <div class="proof-of-payment">
-                                                    {{-- <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p> --}}
+                                                    <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p> 
                                                 </div>
                                             </div>
                                         </div>
@@ -529,18 +527,18 @@
                             <label for="inputCourse">Course</label>
                             <select name="course " class="form-control" id="inputCourse" required disabled>
                                 <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
-                                     <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
-                                     <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
-                                     <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
-                                     <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
-                                     <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
-                                     <option value="BSHM"{{ $course == 'BSHM' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
-                                     <option value="BIT-MD"{{ $course == 'BIT-MD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
-                                     <option value="BIT-MGFD"{{ $course == 'BIT-MGFD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
-                                     <option value="BIT-MMT"{{ $course == 'BIT-MMT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
-                                     <option value="BIT-MFSM"{{ $course == 'BIT-MFSM' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
-                                     <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
-                                     <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
+                                <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
+                                <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
+                                <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
+                                <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
+                                <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
+                                <option value="BSHM"{{ $course == 'BSHM' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
+                                <option value="BIT-MD"{{ $course == 'BIT-MD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
+                                <option value="BIT-MGFD"{{ $course == 'BIT-MGFD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                <option value="BIT-MMT"{{ $course == 'BIT-MMT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                <option value="BIT-MFSM"{{ $course == 'BIT-MFSM' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
+                                <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
                                </select>
                         </div>
                         <div class="col-lg-4 " id="input-acadYear">
@@ -593,11 +591,11 @@
                     <div class="form-group row">
                         <div class="col-md-4">
                             <label for="">Purpose</label>
-                            <textarea class="form-control form-control" type="text" placeholder="Single" aria-label="default input example" disabled>This is required for my Internship at OO Company</textarea>
+                            <textarea id="app_purpose01" class="form-control" type="text" aria-label="default input example" disabled></textarea>
                         </div>  
                         <div class="col-md-4">
                             <label for="">Appointment Date</label>
-                            <input class="form-control form-control" type="text" placeholder="April 6, 2023" aria-label="default input example" disabled>
+                            <input class="form-control" type="text" placeholder="" id="appointment_date" aria-label="default input example" disabled>
                         </div>
                         <div class="col-md-4">
                             <p class="fs-6 font-mont"><b>Payment Method: </b> Gcash</p>
@@ -638,6 +636,62 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
     <script>
+
+
+var appointment_date;
+var appointment_booked = false;
+
+$(document).ready(function() { 
+    $('#calendar').fullCalendar({
+        header: {
+            defaultView: 'month'
+        },
+        navLinks: false,
+        editable: true,
+        eventLimit: true,
+        events: [],
+        selectable: true,
+        selectHelper: true,
+        select: function(start) {
+            if (appointment_booked) {
+                alert('You have already booked an appointment. Please cancel the existing appointment before booking a new one.');
+                return;
+            }
+            appointment_date = moment(start).format('MMMM DD, YYYY');
+            console.log('Selected date:', appointment_date);
+            var confirmBooking = confirm('Do you want to book this date?');
+            if (confirmBooking) {
+                var eventData = {
+                    title: 'Booking',
+                    start: start,
+                    booked: true
+                };
+                appointment_booked = true;
+                $('#calendar').fullCalendar('renderEvent', eventData, true);
+            }
+        },
+        eventRender: function(event, element) {
+            if (event.booked) {
+                element.append("<div class='booked-text'>You booked!!!</div>");
+            }
+        },
+        eventClick: function(event) {
+            appointment_booked = false;
+            $('#calendar').fullCalendar('removeEvents', event._id);
+        },
+        eventDrop: function(event) {
+            var new_date = moment(event.start).format('MMMM DD, YYYY');
+            if (new_date !== appointment_date) {
+                appointment_date = new_date;
+                console.log('Selected date:', appointment_date);
+                alert('Your appointment has been moved to ' + moment(event.start).format('MMMM DD, YYYY'));
+            }
+        }
+    });
+});
+
+
+
         $('.open-modal').on('click', function() {
             var form_id = $(this).data('form-id');
             var form_name = $(this).data('form-name');
@@ -660,19 +714,23 @@
             $('#form_id').val(form_id);
             $('#acad_year').val(acad_year);
             $('#app_purpose').val(app_purpose);
+            $('#app_purpose01').val(app_purpose);
+            $('#appointment_date').val(appointment_date);
             $('#reviewModal').modal('show');
             console.log(form_id);
             console.log(app_purpose);
             console.log(acad_year);
+            console.log(appointment_date);
         });
 
         $('#submitButton').on('click', function(event) {
-            var form_id = $('#form_id').val(); // fix typo here
+            var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
             var acad_year = $('#acad_year').val();
             console.log(form_id);
             console.log(app_purpose);
             console.log(acad_year);
+            console.log(appointment_date);
             $('#reviewModal').modal('hide');
             $.ajax({
                 url: "{{ route('bookAppointment') }}",
@@ -681,7 +739,8 @@
                     _token: "{{ csrf_token() }}",
                     form_id: form_id,
                     app_purpose: app_purpose,
-                    acad_year: acad_year
+                    acad_year: acad_year,
+                    appointment_date: appointment_date
                 },
                 success: function(response) {
                     console.log(response);
@@ -691,39 +750,6 @@
                 }
             });
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-        $('#calendar').fullCalendar({
-          header: {
-            defaultView: 'month'
-          },
-          navLinks: true,
-          selectable: true,
-          selectHelper: true,
-          select: function(start, end) {
-            alert('You clicked on ' + moment(start).format('YYYY-MM-DD'));
-          },
-          editable: true,
-          eventLimit: true,
-          events: [
-            {
-              title: 'Event 1',
-              start: '2023-03-01'
-            },
-            {
-              title: 'Event 2',
-              start: '2023-03-05',
-              end: '2023-03-07'
-            },
-            {
-              title: 'Event 3',
-              start: '2023-03-09T12:30:00',
-              allDay: false
-            }
-          ]
-        });
-      });
     </script>
 </body>
 </html>

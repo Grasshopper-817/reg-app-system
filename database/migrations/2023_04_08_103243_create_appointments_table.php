@@ -17,6 +17,7 @@ class CreateAppointmentsTable extends Migration
             $table->increments('id');
             $table->string('app_purpose');
             $table->string('acad_year');
+            $table->string('appointment_date');
             $table->string('booking_number')->unique()->nullable();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
