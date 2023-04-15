@@ -32,7 +32,7 @@ class CustomAuthController extends Controller
               'firstName'=>'required',
               'lastName'=>'required',
               'middleName'=>'required',
-              'suffix'=>'required',
+              'suffix'=>'',
               'address'=>'required',
               'school_id'=>'required|unique:users',
               'cell_no'=>'required|unique:users',
@@ -109,68 +109,6 @@ class CustomAuthController extends Controller
   }
 
 
-
- //------------------------------------// Create Update Delete Form //--------------------------------------------------------// 
-public function create(){
-      return view('appointment.create');
-}
-
-public function createForm(Request $request){
-      $request ->validate([
-            'name' => 'required',
-            'description'=>'required',
-            'days'=>'required',
-            'fee'=>'required',
-      ]);
-
-      $form = new Form();
-      $form -> name = $request -> name;
-      $form -> description = $request -> description;
-      $form -> days = $request -> days;
-      $form -> fee = $request -> fee;
-      $form = $form -> save();
-      if($form){
-            return back()-> with ('success','You have created successfully');
-      }else{
-            return back()-> with('fail','Something wrong');
-      }
-
-}
-
-public function getAllForm(Request $request){
-      $forms = Form::all();
-      return view('mainpage', compact('forms'));
-}
-
-public function edit($id){
-      $forms = Form::find($id);
-      return view('appointment.edit',compact('forms'));
-}
-
-public function update (Request $request, $id){
-      $form = Form::find($id);
-
-      $form -> name = $request -> input('name');
-      $form -> description = $request -> input('description');
-      $form -> days = $request -> input('days');
-      $form -> fee = $request -> input('fee');
-      $form -> update();
-      if($form){
-            return redirect('dashboard/admin')-> with ('success','You have update successfully');
-      }else{
-            return back()-> with('fail','Something wrong');
-      }     
-
-}
-
-public function delete($id){
-      $forms = Form::find($id);
-      $forms ->delete();
-      return redirect('dashboard/admin')-> with ('success','You have deleted successfully');
-}
-
-
-
 //------------------------// Retrieving and passing information to Appointment database and Displaying //-----------------------//
 public function appointment(){
             $user = null;
@@ -211,8 +149,6 @@ public function appointment(){
 
  }
 
-
-
  //------------------------------------// Setting up Booking Appointment //--------------------------------------------------------// 
 public function bookAppointment(Request $request){
             $user_id = session('loginId');
@@ -225,6 +161,8 @@ public function bookAppointment(Request $request){
             $appointment = new Appointment();
             $appointment->app_purpose = $request->app_purpose;
             $appointment->acad_year = $request ->acad_year;
+            $appointment->user_year_grad = $request ->user_year_grad;
+            $appointment->user_acad_year = $request ->user_acad_year;
             $appointment->appointment_date = $request ->appointment_date;
             $appointment->user_id = $user_id;
             $appointment->form_id = $form->id;
@@ -245,21 +183,6 @@ public function bookAppointment(Request $request){
         }
 }
 
-//  public function showAppointment()
-//  {
-//      $user_id = session('loginId');
-//      $appointments = Appointment::where('user_id', $user_id)
-//          ->orderBy('created_at', 'desc')
-//          ->with(['user' => function ($query) {
-//              $query->select('id', 'firstName','lastName');
-//          }, 'form' => function ($query) {
-//              $query->select('id', 'name');
-//          }])
-//          ->get();
-//       return view('appointment.showAppointment', ['appointments' => $appointments]);
-//  }
-
-
 //-------------------------------// Retrive All Bookings and Displaying//-------------------------------//
 
 public function bookings()
@@ -271,13 +194,31 @@ public function bookings()
             return view('appointment.showBookings', compact('bookings', 'users', 'appointments'));
 }
 
+public function updateProfile(Request $request){
+      $user_id = session('loginId');
+
+      $user = User::find($user_id);
+      if (!$user) {
+            abort(404);
+      }
+
+      $user->firstName = $request->input('editFirstName');
+      $user->lastName = $request->input('editLastName');
+      $user->middleName = $request->input('editMiddleName');
+      $user->suffix = $request->input('editSuffix');
+      $user->address = $request->input('editAddress');
+      $user->school_id = $request->input('editSchoolID');
+      $user->cell_no = $request->input('editCpNo');
+      $user->civil_status = $request->input('editCivilStatus');
+      $user->email = $request->input('editEmail');
+      $user->birthdate = $request->input('editBirthdate');
+      $user->status = $request->input('editStatus');
+      $user->gender = $request->input('editGender');
+      $user->course = $request->input('editCourse');
+      $user->save();
+
+      return redirect('/dashboard')->with('success', 'User information updated successfully.');
+}
 
 
-//-------------------------// Announcement //--------------------------------------------------------//
-public function announcement(){
-      return view('announcement.announcement');
-}
-public function faqs(){
-      return view('announcement.faqs');
-}
 }

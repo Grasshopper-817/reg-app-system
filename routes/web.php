@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\announcementController;
+use App\Http\Controllers\faqsController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UsersCalendarController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\formController;
 use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Booking;
@@ -21,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('index');
 });
@@ -33,34 +37,33 @@ Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->
 Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('login-user');
 Route::get('/dashboard',[CustomAuthController::class,'dashboard']);
 Route::get('/logout',[CustomAuthController::class,'logout']);
+Route::post('/dashboard', [CustomAuthController::class, 'updateProfile'])->name('updateProfile');
 
 
 //Set up form controlls
-Route::get('/create',[CustomAuthController::class,'create'])->name('create');
-Route::post('/create-form',[CustomAuthController::class,'createForm'])->name('create-form');    
-Route::get('dashboard/edit/{id}',[CustomAuthController::class,'edit']);
-Route::put('dashboard/update/{id}',[CustomAuthController::class,'update']);
-Route::get('dashboard/delete/{id}',[CustomAuthController::class,'delete']);
-Route::get('dashboard/admin',[CustomAuthController::class,'getAllForm'])->name('dashboard');
-
+Route::get('/create',[formController::class,'create'])->name('create');
+Route::post('/create-form',[formController::class,'createForm'])->name('create-form');    
+Route::get('dashboard/edit/{id}',[formController::class,'edit']);
+Route::put('dashboard/update/{id}',[formController::class,'update']);
+Route::get('dashboard/delete/{id}',[formController::class,'delete']);
+Route::get('dashboard/admin',[formController::class,'getAllForm'])->name('dashboard');
 
 //Appointments and Bookings
 //User Dashboard - show appointments
 Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appointment');
 //Set up bookings
 Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
-
 //Show Bookings
 Route::get('/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings');
 
 //Working in announcements
- Route::get('/announcement',[CustomAuthController::class,'announcement'])->name('announcement');
- Route::get('/faqs',[CustomAuthController::class,'faqs'])->name('faqs');
+ Route::get('/announcement',[announcementController::class,'index'])->name('announcement');
+ Route::get('/faqs',[faqsController::class,'index'])->name('faqs');
 
 
 //Testing area
-// Route::post('/makeAppointment-user',[CustomAuthController::class,'bookAppointment'])->name('makeAppointment-user');
-// Route::get('/showAppointment',[CustomAuthController::class,'showAppointment']);
-// Route::get('/booking/{id}', [BookingController::class, 'showBookings'])->name('booking.show');
+
+
+
 
 

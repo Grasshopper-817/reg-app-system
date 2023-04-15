@@ -239,9 +239,9 @@
                                 <label for="inputGender">Status</label>
                                 <select class="form-control" name="status"id="inputStudentStatus" required>
                                     <option value="">Choose...</option>
-                                    <option value="undergraduate">Undergraduate</option>
-                                    <option value="graduate">Graduate</option>
-                                    <option value="high hchool">High School</option>
+                                    <option value="high hchool">Secondary</option>
+                                    <option value="undergraduate">Undergraduate College</option>
+                                    <option value="graduate">Masteral/Alumni/Alumna</option>
                                     </select>
                                 <span class="text-danger">@error('gender'){{ $message }} @enderror </span>
                             </div>
@@ -271,12 +271,13 @@
         </div>
     </div>
 
-    <!-- ABOUT SECTION -->
+    <!-- ABOUT SECTION --> 
     <div class="about row">
         <div class="col-md-6 about-details">
             <div class="about-title display-text font-mont font-bold">MSU-MSAT Registrar</div>    
             <div class="about-subtitle font-este font-body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis voluptates distinctio reiciendis fugit sed, itaque saepe veritatis id in ullam nostrum autem animi praesentium. Iste sit eum sed placeat eaque? Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, suscipit culpa! Voluptate tempora vitae fugiat excepturi, nisi eum quod totam eaque ea at. Similique fugiat at, doloribus dolores itaque possimus.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora quisquam fugiat delectus deleniti distinctio! Voluptas animi sunt natus nam adipisci, corrupti quod asperiores necessitatibus corporis modi quas omnis aperiam nulla!</p>
+                <p>The Registrar's office is a crucial department in Mindanao State University - Maigo School of Arts and Trades, that plays a vital role in maintaining academic integrity. The office manages student records, ensuring that information is up-to-date and complete, and coordinates the issuance of transcripts and diplomas. Additionally, the Registrar's office is responsible for enforcing academic policies and procedures, such as grading and credit transfer, and provides guidance and support to students regarding registration and academic requirements. <br><br>
+                    The Registrar's office in Mindanao State University - Maigo School of Arts and Trades is often the main point of contact for students seeking academic assistance. They provide academic counseling and support services to students who are struggling with their coursework and ensure that students receive the support they need to succeed academically. Overall, the Registrar's office is an essential part of Mindanao State University - Maigo School of Arts and Trades as it ensures the accuracy of student records, enforces academic policies, and supports student success.</p>
             </div>
         </div>
         <div class="col-md-6 about-image">

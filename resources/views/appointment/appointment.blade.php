@@ -20,7 +20,7 @@
 </head>
 <body> 
 
-    <!-- NAVBAR pan ni -->
+    <!-- NAVBAR pan ni //TODO-->
     <div class="navbar-cover">
         <nav class="navbar navbar-expand-md navbar-dark p-0">
             <div class="container-fluid d-flex flex-column p-0">
@@ -58,7 +58,7 @@
                                         {{ $firstName }}   {{ $lastName }}
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#edit-profile" onclick="profileView()">Edit Profile</a></li>
+                                            <li><a class="dropdown-item" href="#edit-profile.$user->id" onclick="profileView()">Edit Profile</a></li>
                                             <li><a class="dropdown-item" href="#account-settings" onclick="settingsView()">Account Settings</a></li>
                                             <li><a class="dropdown-item" href="logout">Logout</a></li>
                                         </ul>
@@ -154,16 +154,28 @@
                                 <div id="{{ $form->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
                                         <div class="requirements d-flex flex-column fs-6">
-                                            <b>Requirements: </b>
-                                            <pre class="text-start w-100">
-                                                {{ $form->description }}
-                                            </pre>
+                                            <b>Availability of the Service: </b> 
+                                            {{ $form->form_avail }}
+                                        </div>
+                                        <div class="requirements d-flex flex-column fs-6">
+                                        <b>Who May Avail the Service:  </b> 
+                                          {{ $form->form_who_avail }}
+                                        </div>
+                                        <div class="requirements d-flex flex-column fs-6">
+                                            <b>What Are the Requirements:</b> 
+                                                {{ $form->form_requirements }}
                                         </div>
                                         <div class="process">
-                                            <p class="fs-6"><b>Days of Process: </b>{{ $form->days }}</p>
+                                            <p class="fs-6"><b>Complete Processing Time: </b>
+                                                {{ $form->form_process }}</p>
                                         </div>
                                         <div class="fees">
-                                            <p class="fs-6"><b>Document Fee: </b>{{ $form->fee }}</p>
+                                            <p class="fs-6"><b>Document Fee: </b>
+                                                {{ $form->fee }}</p>
+                                        </div>
+                                        <div class="max-time">
+                                            <p class="fs-6"><b>Maximum Time to Claim: </b>
+                                                {{ $form->form_max_time }}
                                         </div>
                                         <div class="row w-100 d-flex flex-row justify-content-end">
                                             <button type="button" class="btn btn-appoint open-modal" data-bs-toggle="modal" data-bs-target="#appointmentModal" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
@@ -178,56 +190,65 @@
                         <!--endd sa document form-->
                     </div>
 
-                    <!-- edit profile section link  -->
+                    <!-- edit profile section link //FIX -->
+
+                    
                     <div class="edit-profile" id="edit-profile">
                         <div class="edit-profile-head">
                             <p class="display-6 font-mont font-bold"> Edit Profile</p>
                         </div>
                         <div class="edit-profile-form">
-                            <form action="" method="post">
+                            <form action="{{ route('updateProfile') }}" method="post"> 
+                                @csrf
+                                @if (Session::has('success'))
+                      <div class="alert alert-success">{{ Session::get('success') }}</div>
+                      @endif
+                        @if (Session::has('fail'))
+                        <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                        @endif 
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="">First Name</label>
-                                        <input class="form-control form-control" type="text" value="{{ $firstName }}" aria-label="default input example" required>
+                                        <label for="editFirstName">First Name</label>
+                                        <input id="editFirstName" name="editFirstName" class="form-control" type="text" value="{{ $firstName }}" aria-label="default input example" required>
                                     </div>    
                                     <div class="col-md-6">
-                                        <label for="">Last Name</label>
-                                        <input class="form-control form-control" type="text" value="{{ $lastName }}" aria-label="default input example" required>
+                                        <label for="editLastName">Last Name</label>
+                                        <input id="editLastName" name="editLastName" class="form-control" type="text" value="{{ $lastName }}" aria-label="default input example" required>
                                     </div>  
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="">Middle Name</label>
-                                        <input class="form-control form-control" type="text" value="{{ $middleName }}" aria-label="default input example" required>
+                                        <label for="editMiddleName">Middle Name</label>
+                                        <input id="editMiddleName" name="editMiddleName" class="form-control" type="text" value="{{ $middleName }}" aria-label="default input example" required>
                                     </div>  
                                     <div class="col-md-6">
-                                        <label for="">Suffix</label>
-                                        <input class="form-control form-control" type="text" value="{{ $suffix }}" aria-label="default input example">
+                                        <label for="editSuffix">Suffix</label>
+                                        <input id="editSuffix" name="editSuffix" class="form-control" type="text" value="{{ $suffix }}" aria-label="default input example">
                                     </div>  
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="">School ID</label>
-                                        <input class="form-control form-control" type="text" value="{{ $school_id }}" aria-label="default input example" required>
+                                        <label for="editSchoolID">School ID</label>
+                                        <input id="editSchoolID" name="editSchoolID" class="form-control" type="text" value="{{ $school_id }}" aria-label="default input example" required>
                                     </div> 
                                     <div class="col-md-6">
-                                        <label for="">Cellphone No.</label>
-                                        <input class="form-control form-control" type="text" value="{{  $cell_no }}" aria-label="default input example" required>
+                                        <label for="editCpNo">Cellphone No.</label>
+                                        <input id="editCpNo" name="editCpNo" class="form-control" type="text" value="{{  $cell_no }}" aria-label="default input example" required>
                                     </div>    
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="">Email</label>
-                                        <input class="form-control form-control" type="email" value="{{ $email }}" aria-label="default input example" required>
+                                        <label for="editEmail">Email</label>
+                                        <input id="editEmail" name="editEmail" class="form-control" type="email" value="{{ $email }}" aria-label="default input example" required>
                                     </div>  
                                     <div class="col-md-6">
-                                        <label for="">Address</label>
-                                        <input class="form-control form-control" type="text" value="{{ $address }}" aria-label="default input example" required>
+                                        <label for="editAddress">Address</label>
+                                        <input id="editAddress" name="editAddress" class="form-control" type="text" value="{{ $address }}" aria-label="default input example" required>
                                     </div>
                                 </div><div class="form-group row mt-3">
                                     <div class="col-lg-6">
-                                        <label for="inputCivilStatus">Civil Status</label>
-                                        <select name="civil_status"class="form-control" id="inputCivilStatus" required>
+                                        <label for="editCivilStatus">Civil Status</label>
+                                        <select name="editCivilStatus" class="form-control" id="editCivilStatus" name="editCivilStatus" required>
                                           <option value=""{{ $civil_status == null ? 'selected' : '' }}>Choose...</option>
                                           <option value="single"{{ $civil_status == 'single' ? 'selected' : '' }}>Single</option>
                                           <option value="married"{{ $civil_status == 'married' ? 'selected' : '' }}>Married</option>
@@ -239,31 +260,31 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label for="inputBirthdate">Birthdate</label>
-                                        <input type="date" class="form-control" id="inputBirthdate" name="birthdate" value="{{ $birthdate }}" required>
+                                        <label for="editBirthdate">Birthdate</label>
+                                        <input type="date" class="form-control" id="editBirthdate" name="editBirthdate" value="{{ $birthdate }}" required>
                                     </div>
                                 </div>
                                 <div class="form-group row mt-3">
                                     <div class="col-lg-4">
-                                        <label for="inputGender">Gender</label>
-                                        <select name="gender" class="form-control" id="inputGender" required>
+                                        <label for="editGender">Gender</label>
+                                        <select name="editGender" class="form-control" id="editGender" required>
                                           <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
                                           <option value="female"{{ $gender == 'female' ? 'selected' : '' }}>Female</option>
                                           <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
-                                        <label for="inputStatus">Status</label>
-                                        <select name="status" class="form-control" id="inputStatus" required>
+                                        <label for="editStatus">Status</label>
+                                        <select name="editStatus" class="form-control" id="editStatus" required>
                                           <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
-                                          <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate</option>
-                                          <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>High School</option>
-                                          <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
+                                          <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>Secondary</option>
+                                          <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate College</option>
+                                          <option value="graduate"{{ $status == 'graduate' ? 'selected' : '' }}>Masteral/Alumni/Alumna</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
-                                        <label for="inputCourse">Course</label>
-                                        <select name="course " class="form-control" id="inputCourse" required>
+                                        <label for="editCourse">Course</label>
+                                        <select name="editCourse" class="form-control" id="editCourse" required>
                                            <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
                                                 <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
                                                 <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
@@ -286,7 +307,7 @@
                             </form>
                         </div>
                     </div>
-
+                    
                     <!-- account settings section  -->
                     <div class="account-settings" id="account-settings">
                         <div class="account-settings-head">
@@ -323,11 +344,11 @@
                                 <div class="accordion accordion-flush" id="accordionFlushExample">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->form->id }}" aria-expanded="false" aria-controls="flush-collapseThree">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->id }}" aria-expanded="false" aria-controls="{{ $appointment->id }}">
                                                 {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }} Pending
                                             </button>
                                         </h2>
-                                        <div id="{{ $appointment->form->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                        <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <div class="requestID">
                                                     <p class="fs-6">
@@ -345,7 +366,7 @@
                                                     <p class="fs-6"><b>Payment: </b>Gcash</p>
                                                 </div>
                                                 <div class="proof-of-payment">
-                                                    <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p> 
+                                                  <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p>  
                                                 </div>
                                             </div>
                                         </div>
@@ -516,7 +537,7 @@
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <label for="inputStudentStatus">Status</label>
-                            <select name="status" class="form-control" id="inputStatus" required disabled>
+                            <select name="status" class="form-control" id="inputStudentStatus" required disabled>
                                 <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
                                 <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate</option>
                                 <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>High School</option>
@@ -637,7 +658,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
     <script>
 
-
 var appointment_date;
 var appointment_booked = false;
 
@@ -652,7 +672,21 @@ $(document).ready(function() {
         events: [],
         selectable: true,
         selectHelper: true,
+        businessHours: { //0 and 6 mao ang sat ug sun
+            daysOfWeek: [ 1, 2, 3, 4, 5 ], // mon-fri
+            startTime: '8:00', 
+            endTime: '17:00', 
+        },
         select: function(start) {
+            var today = moment();
+            if (start.isBefore(today, 'day')) {
+                alert('You cannot book appointments for past dates.');
+                return;
+            }
+            if (start.day() === 6 || start.day() === 0) {
+                alert('You cannot book appointments on weekends.');
+                return;
+            }
             if (appointment_booked) {
                 alert('You have already booked an appointment. Please cancel the existing appointment before booking a new one.');
                 return;
@@ -673,6 +707,12 @@ $(document).ready(function() {
         eventRender: function(event, element) {
             if (event.booked) {
                 element.append("<div class='booked-text'>You booked!!!</div>");
+
+                var today = moment();
+                if (event.start.isBefore(today, 'day')) {
+                    element.draggable = false;
+                    element.resizable = false;
+                }
             }
         },
         eventClick: function(event) {
@@ -681,7 +721,13 @@ $(document).ready(function() {
         },
         eventDrop: function(event) {
             var new_date = moment(event.start).format('MMMM DD, YYYY');
+            var today = moment();
             if (new_date !== appointment_date) {
+                if (event.start.isBefore(today, 'day')) {
+                    alert('You cannot move appointments to past dates.');
+                    $('#calendar').fullCalendar('rerenderEvents');
+                    return;
+                }
                 appointment_date = new_date;
                 console.log('Selected date:', appointment_date);
                 alert('Your appointment has been moved to ' + moment(event.start).format('MMMM DD, YYYY'));
@@ -689,7 +735,6 @@ $(document).ready(function() {
         }
     });
 });
-
 
 
         $('.open-modal').on('click', function() {
@@ -705,7 +750,6 @@ $(document).ready(function() {
             console.log(form_name);
             console.log(accordion_id);
         });
-
         $('#proceedButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
@@ -722,7 +766,6 @@ $(document).ready(function() {
             console.log(acad_year);
             console.log(appointment_date);
         });
-
         $('#submitButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
@@ -751,5 +794,6 @@ $(document).ready(function() {
             });
         });
     </script>
+
 </body>
 </html>

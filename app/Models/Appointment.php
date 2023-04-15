@@ -18,6 +18,8 @@ class Appointment extends Model
         'acad_year',
         'booking_number',
         'appointment_date',
+        'user_year_grad',
+        'user_acad_year',
        
     ];
 

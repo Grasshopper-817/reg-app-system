@@ -10,6 +10,22 @@ use App\Models\Appointment;
 class User extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'firstName',
+        'lastName',
+        'middleName',
+        'suffix',
+        'address',
+        'school_id',
+        'cell_no',
+        'civil_status',
+        'email',
+        'birthdate',
+        'status',
+        'gender',
+        'course',
+        'gender',
+    ];
     
      public function bookings()
      {

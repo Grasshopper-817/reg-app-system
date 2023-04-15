@@ -50,8 +50,8 @@
     @foreach ($forms as $form)
     <tr>
       <td>{{ $form->name }}</td>
-      <td>{{ $form->description }}</td>
-      <td>{{ $form->days }}</td>
+      <td>{{ $form->form_requirements }}</td>
+      <td>{{ $form->form_process }}</td>
       <td>{{ $form->fee }}</td>
       <td>
         <td><a class="btn btn-success" href="{{ 'edit/'.$form->id }}">Edit</a></td>

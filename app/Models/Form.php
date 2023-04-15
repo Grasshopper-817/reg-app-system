@@ -10,9 +10,14 @@ class Form extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'description',
-        'days',
+        'form_requirements',
+        'form_process',
         'fee',
+        'form_avail',
+        'form_who_avail',
+        'form_max_time',
+
+
     ];
 
      public function appointments()

@@ -25,7 +25,14 @@
 
 <form action="{{ url('dashboard/update/'.$forms->id) }}" method="POST">
     @csrf
+    @if (Session::has('success'))
+    <div class="alert alert-success">{{ Session::get('success') }}</div>
+    @endif
+      @if (Session::has('fail'))
+      <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+      @endif 
     @method('PUT')
+   
      <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
@@ -35,16 +42,29 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Requirements:</strong>
-                <textarea class="form-control"  name="description"   placeholder="Detail">{{ $forms->description }}</textarea>
+                <strong>Availability of the Service:</strong>
+                <textarea class="form-control"  name="form_avail"   placeholder="">{{ $forms->form_avail }}</textarea>
             </div>
             <div class="form-group">
-                <strong>Days of process:</strong>
-                <textarea class="form-control"  name="days" placeholder="Number working days">{{ $forms -> days }}</textarea>
+                <strong>Who May Avail the Service:</strong>
+                <textarea class="form-control"  name="form_who_avail" placeholder="">{{ $forms->form_who_avail }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <strong>What are the requirements:</strong>
+                <textarea class="form-control"  name="form_requirements"   placeholder="Detail">{{ $forms->form_requirements }}</textarea>
+            </div>
+            <div class="form-group">
+                <strong>Complete Processing Time:</strong>
+                <textarea class="form-control"  name="form_process" placeholder="Number working days">{{ $forms ->form_process }}</textarea>
             </div>
             <div class="form-group">
                 <strong>Document fee:</strong>
-                <textarea class="form-control" name="fee" placeholder=" ">{{ $forms -> fee }}</textarea>
+                <textarea class="form-control" name="fee" placeholder=" ">{{ $forms ->fee }}</textarea>
+            </div>
+            <div class="form-group">
+                <strong>Maximum Time to Claim:</strong>
+                <textarea class="form-control" name="form_max_time" placeholder=" ">{{ $forms ->form_max_time }}</textarea>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

@@ -25,26 +25,43 @@
 
 <form action="{{ route('create-form') }}" method="POST">
     @csrf
-  
+    @if (Session::has('success'))
+    <div class="alert alert-success">{{ Session::get('success') }}</div>
+    @endif
+      @if (Session::has('fail'))
+      <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+      @endif 
      <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
+                <strong> Form name:</strong>
                 <input type="text" name="name" class="form-control" placeholder="Name">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Requirements:</strong>
-                <textarea class="form-control"  name="description" placeholder="Detail"></textarea>
+                <strong>Availability of the Service:</strong>
+                <textarea class="form-control"  name="form_avail" placeholder=""></textarea>
             </div>
             <div class="form-group">
-                <strong>Days of process:</strong>
-                <textarea class="form-control"  name="days" placeholder="Number working days"></textarea>
+                <strong>Who May Avail the Service:</strong>
+                <textarea class="form-control"  name="form_who_avail" placeholder=""></textarea>
+            </div>
+            <div class="form-group">
+                <strong>What Are the Requirements:  :</strong>
+                <textarea class="form-control"  name="form_requirements" placeholder="Detail"></textarea>
+            </div>
+            <div class="form-group">
+                <strong>Complete Processing Time:</strong>
+                <textarea class="form-control"  name="form_process" placeholder="Number working days"></textarea>
             </div>
             <div class="form-group">
                 <strong>Document fee:</strong>
                 <textarea class="form-control" name="fee" placeholder=" "></textarea>
+            </div>
+            <div class="form-group">
+                <strong>Maximum Time to Claim:</strong>
+                <textarea class="form-control" name="form_max_time" placeholder=" "></textarea>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

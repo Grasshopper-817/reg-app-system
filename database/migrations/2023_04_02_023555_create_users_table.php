@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('middleName');
-            $table->string('suffix');
+            $table->string('suffix')->nullable();
             $table->string('address');
             $table->string('school_id');
             $table->string('cell_no');
