@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/dashboard/fonts.css">
     <link rel="stylesheet" href="css/dashboard/breakpoints.css">
     <link rel="stylesheet" href="css/dashboard/modal.css">
+    <link rel="stylesheet" href="css/dashboard/reciept.css">
 
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
 
@@ -73,7 +74,7 @@
     </div>
 
     <!-- content sa user page,, mgchange2 gamit atung extend2 section2 chu2, idivide nlng daun palihog-->
-    <div class="site-content d-flex justify-content-center container py-5">
+    <div class="site-content d-flex justify-content-center p-5">
         <!-- dashboard -->
         <div class="dashboard d-flex row flex-row w-100" id="dashboard">
             <div class="col-md-4 mb-4">
@@ -340,17 +341,16 @@
                     
                         @if(count($appointments) > 0)
                             @foreach($appointments as $appointment)
-                            <div class="appointment-records-lists">
+                            <div class="appointment-records-lists mb-1">
                                 <div class="accordion accordion-flush" id="accordionFlushExample">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->id }}" aria-expanded="false" aria-controls="{{ $appointment->id }}">
-                                                {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }} Pending
-                                            </button>
+                                                {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }}
                                         </h2>
-                                        <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                        <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample" >
                                             <div class="accordion-body">
-                                                <div class="requestID">
+                                                {{-- <div class="requestID">
                                                     <p class="fs-6">
                                                         <b>Tracking ID: </b>
                                                         {{ $appointment->booking_number }}
@@ -364,10 +364,72 @@
                                                 </div>
                                                 <div class="payment">
                                                     <p class="fs-6"><b>Payment: </b>Gcash</p>
-                                                </div>
-                                                <div class="proof-of-payment">
+                                                </div> --}}
+                                                {{-- <div class="proof-of-payment">
                                                   <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p>  
+                                                </div> --}}
+                                                <div class="purpose">
+                                                    <p class="fs-6"><b>Status: </b>Pending</p>
                                                 </div>
+                                                <div class="receipt-box p-3">
+                                                    <div class="receipt-content fs-6 d-flex flex-column font-mont">
+                                                        <div class="content-head d-flex flex-column">
+                                                            <small class="font-bold">Mindanao State University - Maigo School of Arts and Trades</small>
+                                                            <small>msumsat.edu.ph</small>
+                                                        </div>
+                                                        <div class="content-body mt-5">
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Date Filled: </small>
+                                                                <small>{{ $appointment->created_at->format('M d, Y h:i A') }}</small>
+                                                            </div>
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Appointment Date: </small>
+                                                                <small>{{ $appointment->appointment_date}}</small>
+                                                            </div>
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Client name: </small>
+                                                                <small>{{ $appointment->user->firstName }} {{ $appointment->user->middleName }} {{ $appointment->user->lastName }} {{ $appointment->user->suffix }}</small>
+                                                            </div>
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Appointment No.: </small>
+                                                                <small>{{ $appointment->booking_number }}</small>
+                                                            </div>
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Email: </small>
+                                                                <small>{{ $appointment->user->email }}</small>
+                                                            </div>
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Document Requested: </small>
+                                                                <small class="">{{ $appointment->form->name }}</small>
+                                                            </div>
+                                                            <div class="d-flex flex-wrap m-0 p-0">
+                                                                <small class="font-bold me-1">Total Amount: </small>
+                                                                <small>{{ $appointment->form->fee }}</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="content-foot mt-5 d-flex flex-row align-items-center">
+                                                            <img src="/images/qrcode.png" alt="">
+                                                            <div class="d-flex flex-column m-0 p-0">
+                                                                <small style="font-size: 11px;">*Bring the total amount and the requeirements</small>
+                                                                <small style="color: red;font-size: 11px;">Please take a screenshot of the receipt or open this account to present this on registrar personnel.</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="more-info d-flex flex-row row font-mont p-3">
+                                                    <div class="col-md-6">
+                                                        <small class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</small>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <a class="btn btn-proof" data-bs-toggle="collapse" href="#proof" role="button" aria-expanded="false" aria-controls="proof">
+                                                        View Proof of Payment
+                                                        </a>
+                                                        <div class="collapse mt-2" id="proof">
+                                                            <img src="/images/g-cash-temp.png" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
                                             </div>
                                         </div>
                                     </div>

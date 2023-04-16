@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\announcementController;
 use App\Http\Controllers\faqsController;
 use App\Http\Controllers\AppointmentController;
@@ -41,12 +42,12 @@ Route::post('/dashboard', [CustomAuthController::class, 'updateProfile'])->name(
 
 
 //Set up form controlls
-Route::get('/create',[formController::class,'create'])->name('create');
+Route::get('admin/create',[formController::class,'create'])->name('create');
 Route::post('/create-form',[formController::class,'createForm'])->name('create-form');    
-Route::get('dashboard/edit/{id}',[formController::class,'edit']);
-Route::put('dashboard/update/{id}',[formController::class,'update']);
-Route::get('dashboard/delete/{id}',[formController::class,'delete']);
-Route::get('dashboard/admin',[formController::class,'getAllForm'])->name('dashboard');
+Route::get('admin/dashboard/edit/{id}',[formController::class,'edit']);
+Route::put('admin/dashboard/update/{id}',[formController::class,'update']);
+Route::get('admin/dashboard/delete/{id}',[formController::class,'delete']);
+Route::get('admin/dashboard',[formController::class,'getAllForm'])->name('dashboard');
 
 //Appointments and Bookings
 //User Dashboard - show appointments
@@ -54,14 +55,32 @@ Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appo
 //Set up bookings
 Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
 //Show Bookings
-Route::get('/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings');
+Route::get('admin/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings');
 
-//Working in announcements
- Route::get('/announcement',[announcementController::class,'index'])->name('announcement');
+//Working in announcements -> temporary
+Route::get('/announcement',[announcementController::class,'showAnnouncement'])->name('announcement');
+Route::get('admin/announcement',[announcementController::class,'createAnnouncement']);
+Route::post('admin/announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
+
+
+//faqs sa user side dapit -> temporary
  Route::get('/faqs',[faqsController::class,'index'])->name('faqs');
 
 
 //Testing area
+
+
+//Sa admin ni dapit tanan
+
+//Admin dashboard display routes
+Route::get('admin/dashboard/dashboard',[CustomAuthController::class,'adminDashboard']);
+Route::get('admin-announcement',[adminController::class,'adminAnnouncement'])->name('admin-announcement');
+Route::get('admin-request',[adminController::class,'adminRequest'])->name('admin-request');
+Route::get('admin-message',[adminController::class,'adminMessage'])->name('admin-message');
+Route::get('admin-forms',[adminController::class,'adminForms'])->name('admin-forms');
+Route::get('admin-faqs',[adminController::class,'adminFaqs'])->name('admin-faqs');
+Route::get('admin-settings',[adminController::class,'adminSettings'])->name('admin-settings');
+
 
 
 

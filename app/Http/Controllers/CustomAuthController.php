@@ -121,9 +121,9 @@ public function appointment(){
             $appointments = Appointment::where('user_id', $user_id)
                   ->orderBy('created_at', 'desc')
                   ->with(['user' => function ($query) {
-                        $query->select('id', 'firstName','lastName');
+                        $query->select('id', 'firstName','lastName','middleName','email','suffix');
                   }, 'form' => function ($query) {
-                        $query->select('id', 'name');
+                        $query->select('id', 'name','fee');
                   }])
                   ->get();
             }
@@ -220,5 +220,8 @@ public function updateProfile(Request $request){
       return redirect('/dashboard')->with('success', 'User information updated successfully.');
 }
 
+public function adminDashboard(){
+      return view('admin.dashboard');
+}
 
 }
