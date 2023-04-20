@@ -26,28 +26,19 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
+                    @foreach ($bookings as $booking)
                     <tr class="text-center">
-                        <td>123456</td>
-                        <td>ABCD1234</td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Transcript of Records (TOR)</td>
-                        <td>2022-03-15</td>
+                        <td>{{ $booking->id }}</td>
+                        <td>{{ $booking->appointment->booking_number}}</td>
+                        <td>{{ $booking->user->firstName }}</td>
+                        <td>{{ $booking->user->lastName }}</td>
+                        <td>{{ $booking->appointment->form->name}}</td>
+                        <td>{{ $booking->created_at->format('M d, Y h:i A') }}</td>
                         <td class="td-view">
                             <a type="button" class="btn view-request p-0" id="view-request" data-bs-toggle="modal" data-bs-target="#view-request-modal">View</a>
                         </td>
                     </tr>
-                    <tr class="text-center">
-                        <td>654321</td>
-                        <td>EFGH5678</td>
-                        <td>Jane</td>
-                        <td>Smith</td>
-                        <td>Diploma</td>
-                        <td>2022-03-16</td>
-                        <td class="td-view">
-                            <a type="button" class="btn view-request p-0" id="view-request" data-bs-toggle="modal" data-bs-target="#view-request-modal">View</a>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

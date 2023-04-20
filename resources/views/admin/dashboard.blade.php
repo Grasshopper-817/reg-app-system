@@ -47,10 +47,11 @@
             </div>
             <ul class="navbar-nav d-flex flex-column mt-3 w-100">
                 <li class="nav-item w-100">
-                    <a href="#" class="nav-link" onclick="viewRequests()"
-                        >Appointment Requests<span class="badge badge-custom"
-                            >11</span
-                        ></a
+                    <a
+                        href="dashboard"
+                        class="nav-link active"
+                        onclick="viewDashboard()"
+                        >Dashboard</a
                     >
                 </li>
                 <li class="nav-item w-100">
@@ -60,11 +61,10 @@
                 </li>
                 <hr />
                 <li class="nav-item w-100">
-                    <a
-                        href="dashboard"
-                        class="nav-link active"
-                        onclick="viewDashboard()"
-                        >Dashboard</a
+                    <a href="#" class="nav-link" onclick="viewRequests()"
+                        >Appointment Requests<span class="badge badge-custom"
+                            >11</span
+                        ></a
                     >
                 </li>
                 <li class="nav-item w-100">
@@ -218,13 +218,14 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-group-divider">
+                                        @foreach ($bookings as $booking)
                                         <tr class="text-center">
-                                            <td>123456</td>
-                                            <td>ABCD1234</td>
-                                            <td>John</td>
-                                            <td>Doe</td>
-                                            <td>Transcript of Records (TOR)</td>
-                                            <td>2022-03-15</td>
+                                            <td>{{ $booking->appointment->booking_number }}</td>
+                                            <td>{{ $booking->user->school_id }}</td>
+                                            <td>{{ $booking->user->firstName }}</td>
+                                            <td>{{ $booking->user->lastName }}</td>
+                                            <td>{{ $booking->appointment->form->name}}</td>
+                                            <td>{{ $booking->created_at->format('M d, Y h:i A') }}</td>
                                             <td class="td-view">
                                                 <a
                                                     type="button"
@@ -232,28 +233,12 @@
                                                     id="view-request"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#view-request-modal"
+                                                    data-id = "{{ $booking->id }}"
                                                     >View</a
                                                 >
                                             </td>
                                         </tr>
-                                        <tr class="text-center">
-                                            <td>654321</td>
-                                            <td>EFGH5678</td>
-                                            <td>Jane</td>
-                                            <td>Smith</td>
-                                            <td>Diploma</td>
-                                            <td>2022-03-16</td>
-                                            <td class="td-view">
-                                                <a
-                                                    type="button"
-                                                    class="btn view-request p-0"
-                                                    id="view-request"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#view-request-modal"
-                                                    >View</a
-                                                >
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -299,6 +284,17 @@
                     </div>
                     <div class="modal-body font-nun px-5 text-center">
                         <form action="" method="post">
+                            <div class="w-auto d-flex flex-row justify-content-end mb-3">
+                                <b class="me-4 ">LEGEND:</b>
+                                <input class="form-check-input" type="checkbox" value="" id="" disabled>
+                                <label class="form-check-label" for="">Not Disabled</label>
+                                <input class="form-check-input ms-2" type="checkbox" value="" id="" checked disabled>
+                                <label class="form-check-label" for="">Disabled</label>
+                            </div>
+                            <div class="w-auto d-flex flex-row justify-content-end">
+                                <input type="checkbox" class="btn-check" id="disable" name="disable" autocomplete="off">
+                                <label class="btn btn-disable" for="disable">Disable</label>
+                            </div>
                             <div class="row">
                                 <label
                                     class="p-0 font-karma text-center"
@@ -353,10 +349,10 @@
                             <div
                                 class="d-flex flex-column w-100 font-13 px-3 font-nun"
                             >
-                                <p class="p-0 m-0 fs-5 font-bold">
+                                <p class="p-0 m-0 fs-5 font-bold" id="">
                                     Gonoy, Meriflor Nonong
                                 </p>
-                                <p class="p-0 m-0 font-small">
+                                <p class="p-0 m-0 font-small" id="viewEmail">
                                     mgonoy13@gmail.com
                                 </p>
                                 <p class="p-0 m-0 font-small">09559381788</p>
@@ -425,6 +421,7 @@
                                         <div class="col-md-6">
                                             <p class="info-content">
                                                 2020-2021
+                                            
                                             </p>
                                         </div>
                                     </div>
@@ -796,6 +793,10 @@
             backToTopBtn.addEventListener("click", () => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
             });
+        </script>
+
+        <script>
+            
         </script>
     </body>
 </html>

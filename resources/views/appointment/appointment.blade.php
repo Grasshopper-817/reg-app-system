@@ -144,18 +144,18 @@
                             </div>
                         </div> --}}
                         <!--Starting sa document form-->
-                        @foreach ($forms as $form)
                         <div class="accordion accordion-flush mb-1" id="accordionFlushExample">
+                        @foreach ($forms as $form)
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $form->id }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $form->id }}" aria-expanded="false" aria-controls="{{ $form->id }}">
                                         {{ $form->name }}
                                     </button>
                                 </h2>
                                 <div id="{{ $form->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
-                                        <div class="requirements d-flex flex-column fs-6">
-                                            <b>Availability of the Service: </b> 
+                                        <div class="requirements d-flex flex-row flex-wrap fs-6">
+                                            <b class="me-1">Availability of the Service: </b> 
                                             {{ $form->form_avail }}
                                         </div>
                                         <div class="requirements d-flex flex-column fs-6">
@@ -186,14 +186,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
+                        </div>
                         <!--endd sa document form-->
                     </div>
 
-                    <!-- edit profile section link //FIX -->
-
-                    
+                    <!-- edit profile section link -->                    
                     <div class="edit-profile" id="edit-profile">
                         <div class="edit-profile-head">
                             <p class="display-6 font-mont font-bold"> Edit Profile</p>
@@ -246,7 +244,8 @@
                                         <label for="editAddress">Address</label>
                                         <input id="editAddress" name="editAddress" class="form-control" type="text" value="{{ $address }}" aria-label="default input example" required>
                                     </div>
-                                </div><div class="form-group row mt-3">
+                                </div>
+                                <div class="form-group row mt-3">
                                     <div class="col-lg-6">
                                         <label for="editCivilStatus">Civil Status</label>
                                         <select name="editCivilStatus" class="form-control" id="editCivilStatus" name="editCivilStatus" required>
@@ -266,7 +265,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row mt-3">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <label for="editGender">Gender</label>
                                         <select name="editGender" class="form-control" id="editGender" required>
                                           <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
@@ -274,16 +273,7 @@
                                           <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label for="editStatus">Status</label>
-                                        <select name="editStatus" class="form-control" id="editStatus" required>
-                                          <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
-                                          <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>Secondary</option>
-                                          <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate College</option>
-                                          <option value="graduate"{{ $status == 'graduate' ? 'selected' : '' }}>Masteral/Alumni/Alumna</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <label for="editCourse">Course</label>
                                         <select name="editCourse" class="form-control" id="editCourse" required>
                                            <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
@@ -300,6 +290,27 @@
                                                 <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
                                                 <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
                                           </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-3">
+                                    <div class="col-lg-6">
+                                        <label for="editStatus">Status</label>
+                                        <select name="editStatus" class="form-control" id="editStatus" required>
+                                          <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
+                                          <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>Secondary</option>
+                                          <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate College</option>
+                                          <option value="graduate"{{ $status == 'graduate' ? 'selected' : '' }}>Masteral/Alumni/Alumna</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div id="edit-AcadYear" style="display:none;">
+                                            <label for="editAcadYear">Academic Year</label>
+                                            <input type="text" class="form-control" id="editAcadYear" name="editAcadYear" value="{{ $acadYear }}">
+                                        </div>
+                                        <div id="edit-GradYear" style="display:none;">
+                                            <label for="editGradYear">Year Graduated</label>
+                                            <input type="text" class="form-control" id="editGradYear" name="editGradYear" value="{{ $gradYear }}">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row d-flex flex-row justify-content-end my-3">
@@ -333,7 +344,7 @@
                         </div>
                     </div>
 
-                    <!-- APPOINTMENT SECTION -->
+                    <!-- APPOINTMENT RECORD SECTION -->
                     <div class="appointment-records" id="appointment-records">
                         <div class="appointment-records-head">
                             <p class="display-6 font-mont font-bold">Appointment Records</p>
@@ -442,8 +453,6 @@
                             </div>
                         @endif
                     </div>
-                    
-                    
                     <!--close  sa open div sa appointment--->
                 </div>
             </div>
@@ -464,8 +473,8 @@
                 </div>
             @endif  
                      
-                
-<form action="{{ route('bookAppointment') }}" method="POST">
+                <!-- fix -->
+<form action="{{ route('bookAppointment') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal fade" id="appointmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
@@ -479,10 +488,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="row mb-3">
-                                <label for="inputDocPurpose">Purpose</label>
+                                <label for="app_purpose">Purpose</label>
                                 <textarea class="form-control form-control" id="app_purpose" name="app_purpose" style="height: 150px;" type="text" placeholder="" aria-label="default input example"></textarea>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-3" id="app-acad-year">
                                 <label for="inputDocAcadYear">Academic Year</label>
                                 <input class="form-control form-control" type="text" name="acad_year" id="acad_year" placeholder="Academic Year" aria-label="default input example">
                             </div>
@@ -490,11 +499,11 @@
                             <div class="row d-flex flex-row w-100 mb-3">
                                 <p class="fs-4 font-mont font-bold">Payment</p>
                                 <div>
-                                    <input type="radio" id="walk-in" name="payment" value="walk-in">
+                                    <input type="radio" id="walk-in" name="payment_method" value="Walk-in">
                                     <label for="walk-in">Walk-in</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="gcash" name="payment" value="gcash">
+                                    <input type="radio" id="g-cash" name="payment_method" value="GCash">
                                     <label for="gcash">G-Cash</label>
                                 </div>
                             </div>
@@ -504,8 +513,8 @@
                             <div class="row mb-3" id="gcash-sect">
                                 <img src="/images/g-cash-temp.png" alt="">
                                 <div class="mt-3">
-                                    <label for="formFile" class="form-label">Upload the picture or screenshot of the proof of payment.</label>
-                                    <input class="form-control" type="file" id="formFile" required>
+                                    <label for="proof_of_payment" class="form-label">Upload the picture or screenshot of the proof of payment.</label>
+                                    <input class="form-control" type="file" id="proof_of_payment" name="proof_of_payment" accept=".jpg,.png,.jpeg,.svg">
                                 </div>
                             </div>
                         </div>
@@ -532,7 +541,9 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
+                <!-- fix reminder -->
+                <input type="hidden" id="proof_of_payment_01">
+
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label for="">First Name</label>
@@ -681,7 +692,8 @@
                             <input class="form-control" type="text" placeholder="" id="appointment_date" aria-label="default input example" disabled>
                         </div>
                         <div class="col-md-4">
-                            <p class="fs-6 font-mont"><b>Payment Method: </b> Gcash</p>
+                            <b>Payment Method: </b>
+                            <p class="fs-6 font-mont" id="payment_method_01"></p>
                         </div>
                     </div>
             </div>
@@ -710,94 +722,95 @@
         </div>
     </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
     <script src="js/dashboard/navbar.js"></script>
     <script src="js/dashboard/dashboard.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/form.js"></script>
     <script src="js/dashboard/forms.js"></script>
-    <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+
+    <!-- script for the calendar and such exclusively for appointment blade php -->
     <script>
+        var appointment_date;
+        var appointment_booked = false;
 
-var appointment_date;
-var appointment_booked = false;
+        $(document).ready(function() { 
+            $('#calendar').fullCalendar({
+                header: {
+                    defaultView: 'month'
+                },
+                navLinks: false,
+                editable: true,
+                eventLimit: true,
+                events: [],
+                selectable: true,
+                selectHelper: true,
+                businessHours: { //0 and 6 mao ang sat ug sun
+                    daysOfWeek: [ 1, 2, 3, 4, 5 ], // mon-fri
+                    startTime: '8:00', 
+                    endTime: '17:00', 
+                },
+                select: function(start) {
+                    var today = moment();
+                    if (start.isBefore(today, 'day')) {
+                        alert('You cannot book appointments for past dates.');
+                        return;
+                    }
+                    if (start.day() === 6 || start.day() === 0) {
+                        alert('You cannot book appointments on weekends.');
+                        return;
+                    }
+                    if (appointment_booked) {
+                        alert('You have already booked an appointment. Please cancel the existing appointment before booking a new one.');
+                        return;
+                    }
+                    appointment_date = moment(start).format('MMMM DD, YYYY');
+                    console.log('Selected date:', appointment_date);
+                    var confirmBooking = confirm('Do you want to book this date?');
+                    if (confirmBooking) {
+                        var eventData = {
+                            title: 'Booking',
+                            start: start,
+                            booked: true
+                        };
+                        appointment_booked = true;
+                        $('#calendar').fullCalendar('renderEvent', eventData, true);
+                    }
+                },
+                eventRender: function(event, element) {
+                    if (event.booked) {
+                        element.append("<div class='booked-text'>You booked!!!</div>");
 
-$(document).ready(function() { 
-    $('#calendar').fullCalendar({
-        header: {
-            defaultView: 'month'
-        },
-        navLinks: false,
-        editable: true,
-        eventLimit: true,
-        events: [],
-        selectable: true,
-        selectHelper: true,
-        businessHours: { //0 and 6 mao ang sat ug sun
-            daysOfWeek: [ 1, 2, 3, 4, 5 ], // mon-fri
-            startTime: '8:00', 
-            endTime: '17:00', 
-        },
-        select: function(start) {
-            var today = moment();
-            if (start.isBefore(today, 'day')) {
-                alert('You cannot book appointments for past dates.');
-                return;
-            }
-            if (start.day() === 6 || start.day() === 0) {
-                alert('You cannot book appointments on weekends.');
-                return;
-            }
-            if (appointment_booked) {
-                alert('You have already booked an appointment. Please cancel the existing appointment before booking a new one.');
-                return;
-            }
-            appointment_date = moment(start).format('MMMM DD, YYYY');
-            console.log('Selected date:', appointment_date);
-            var confirmBooking = confirm('Do you want to book this date?');
-            if (confirmBooking) {
-                var eventData = {
-                    title: 'Booking',
-                    start: start,
-                    booked: true
-                };
-                appointment_booked = true;
-                $('#calendar').fullCalendar('renderEvent', eventData, true);
-            }
-        },
-        eventRender: function(event, element) {
-            if (event.booked) {
-                element.append("<div class='booked-text'>You booked!!!</div>");
-
-                var today = moment();
-                if (event.start.isBefore(today, 'day')) {
-                    element.draggable = false;
-                    element.resizable = false;
+                        var today = moment();
+                        if (event.start.isBefore(today, 'day')) {
+                            element.draggable = false;
+                            element.resizable = false;
+                        }
+                    }
+                },
+                eventClick: function(event) {
+                    appointment_booked = false;
+                    $('#calendar').fullCalendar('removeEvents', event._id);
+                },
+                eventDrop: function(event) {
+                    var new_date = moment(event.start).format('MMMM DD, YYYY');
+                    var today = moment();
+                    if (new_date !== appointment_date) {
+                        if (event.start.isBefore(today, 'day')) {
+                            alert('You cannot move appointments to past dates.');
+                            $('#calendar').fullCalendar('rerenderEvents');
+                            return;
+                        }
+                        appointment_date = new_date;
+                        console.log('Selected date:', appointment_date);
+                        alert('Your appointment has been moved to ' + moment(event.start).format('MMMM DD, YYYY'));
+                    }
                 }
-            }
-        },
-        eventClick: function(event) {
-            appointment_booked = false;
-            $('#calendar').fullCalendar('removeEvents', event._id);
-        },
-        eventDrop: function(event) {
-            var new_date = moment(event.start).format('MMMM DD, YYYY');
-            var today = moment();
-            if (new_date !== appointment_date) {
-                if (event.start.isBefore(today, 'day')) {
-                    alert('You cannot move appointments to past dates.');
-                    $('#calendar').fullCalendar('rerenderEvents');
-                    return;
-                }
-                appointment_date = new_date;
-                console.log('Selected date:', appointment_date);
-                alert('Your appointment has been moved to ' + moment(event.start).format('MMMM DD, YYYY'));
-            }
-        }
-    });
-});
-
+            });
+        });
 
         $('.open-modal').on('click', function() {
             var form_id = $(this).data('form-id');
@@ -805,6 +818,11 @@ $(document).ready(function() {
             var accordion_item = $(this).closest('.accordion-item');
             var accordion_id = accordion_item.find('.accordion-collapse').attr('id');
             var modal = $('#appointmentModal');
+            if(form_name === 'Issuance of Transcript of Records'){
+                $('#app-acad-year').show();
+            }else{
+                $('#app-acad-year').hide();
+            }
             modal.find('#form_name').text(form_name);
             modal.find('#form_id').val(form_id);
             modal.find('#accordion_id').val(accordion_id);
@@ -812,41 +830,69 @@ $(document).ready(function() {
             console.log(form_name);
             console.log(accordion_id);
         });
+
         $('#proceedButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
             var acad_year = $('#acad_year').val();
+            var payment_method = $('input[name=payment_method]:checked').val();
+            // fix not documented yet
+            var proof_of_payment = $('#proof_of_payment')[0].files[0];
+
+            // $('#proof_of_payment').val(proof_of_payment);
+            
             $('#appointmentModal').modal('hide');
             $('#form_id').val(form_id);
             $('#acad_year').val(acad_year);
-            $('#app_purpose').val(app_purpose);
             $('#app_purpose01').val(app_purpose);
             $('#appointment_date').val(appointment_date);
+            $('#payment_method_01').text(payment_method);
+
+            if (typeof proof_of_payment !== 'undefined') {
+                $('#proof_of_payment_01').val(proof_of_payment);
+            }
+
             $('#reviewModal').modal('show');
+
             console.log(form_id);
+            console.log(payment_method);
+            console.log(proof_of_payment);
             console.log(app_purpose);
             console.log(acad_year);
             console.log(appointment_date);
         });
+        
         $('#submitButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
             var acad_year = $('#acad_year').val();
+            var payment_method = $('#payment_method_01').text();
+            var proof_of_payment = $('#proof_of_payment').prop('files')[0];
+            var appointment_date = $('#appointment_date').val();
+
             console.log(form_id);
             console.log(app_purpose);
+            console.log(payment_method);
+            console.log(proof_of_payment);
             console.log(acad_year);
             console.log(appointment_date);
             $('#reviewModal').modal('hide');
+            
+            var formData = new FormData();
+            formData.append('_token', "{{ csrf_token() }}");
+            formData.append('form_id', form_id);
+            formData.append('app_purpose', app_purpose);
+            formData.append('acad_year', acad_year);
+            formData.append('appointment_date', appointment_date);
+            formData.append('payment_method', payment_method);
+            formData.append('proof_of_payment', proof_of_payment);
+
             $.ajax({
                 url: "{{ route('bookAppointment') }}",
                 method: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    form_id: form_id,
-                    app_purpose: app_purpose,
-                    acad_year: acad_year,
-                    appointment_date: appointment_date
-                },
+                processData: false,
+                contentType: false,
+                data: formData,
                 success: function(response) {
                     console.log(response);
                 },
@@ -856,6 +902,5 @@ $(document).ready(function() {
             });
         });
     </script>
-
 </body>
 </html>

@@ -1,80 +1,46 @@
-var articleBtn = document.getElementById("article-btnproceed");
-var documentBtn = document.getElementById("document-btnproceed");
-var stats = document.getElementById('inputStudentStatus');
-var graduate = document.getElementById('input-gradYear');
-var undergrad = document.getElementById('input-acadYear');
+$(document).ready(function () {
+    $("#inputStudentStatus").change(function () {
+        if ($(this).val() === "graduate") {
+            $("#reg-input-acadYear").hide();
+            // $('#reg-input-acadYear').removeAttr('required');
+            $("#reg-input-gradYear").show();
+            // $('#reg-input-gradYear').attr('required', 'required');
+        } else {
+            $("#reg-input-gradYear").hide();
+            // $('#reg-input-gradYear').removeAttr('required');
+            $("#reg-input-acadYear").show();
+            // $('#reg-input-acadYear').attr('required', 'required');
+        }
+    });
+});
 
+// fix
+$(document).ready(function () {
+    $("#editStatus").change(function () {
+        if ($(this).val() === "graduate") {
+            $("#edit-AcadYear").hide();
+            $("#edit-GradYear").show();
+        } else {
+            $("#edit-GradYear").hide();
+            $("#edit-AcadYear").show();
+        }
+    });
+    var status = $("#editStatus").val();
+    if (status === "graduate") {
+        $("#edit-AcadYear").hide();
+        $("#edit-GradYear").show();
+    } else {
+        $("#edit-GradYear").hide();
+        $("#edit-AcadYear").show();
+    }
+});
 
-function articleSect(){
-    var documentSect = document.getElementById("document-section");
-    var articleSect = document.getElementById("articles-section");
-    articleSect.style.display = 'block';
-    documentSect.style.display = 'none';
-}
-
-function documentSect(){
-    var documentSect = document.getElementById("document-section");
-    var articleSect = document.getElementById("articles-section");
-    articleSect.style.display = 'none';
-    documentSect.style.display = 'block';
-    alert("This is being pressed.");
-}
-
-
-
-function updateForm(){
-  if(stats.value === 'Graduate'){
-      graduate.style.display = 'block';
-      undergrad.style.display = 'none';
-  }else{
-      graduate.style.display = 'none';
-      undergrad.style.display = 'block';
-  }
-}stats.addEventListener('change', updateForm);
-
-
-
-
-
-
-
-
-// var stats = document.getElementById('inputStudentStatus');
-// var collegeForm = document.getElementById('college-form');
-
-// function updateForm() {
-//     if (stats.value === 'Undergraduate' || stats.value === 'Graduate') {
-//         collegeForm.style.display = 'block';
-//     } else {
-//         collegeForm.style.display = 'none';
-//     }
-// }stats.addEventListener('change', updateForm);
-
-
-// var aTransferSchool = document.getElementById('ATransferSchool');
-// var bTransferSchool = document.getElementById('BTransferSchool');
-
-// var aTransfer = document.getElementsByName('isATransfer');
-// var bTransfer = document.getElementsByName('isBTransfer');
-
-// function updateATransfer(){
-//     if(aTransfer[0].checked && aTransfer[0].value === 'yes'){
-//         aTransferSchool.style.display = 'block';
-//     }else{
-//         aTransferSchool.style.display = 'none';
-//     }
-// }for (var i = 0; i < aTransfer.length; i++) {
-//     aTransfer[i].addEventListener('change', updateATransfer);
-// }
-
-// function updateBTransfer(){
-//     if(bTransfer[0].checked && bTransfer[0].value === 'yes'){
-//         bTransferSchool.style.display = 'block';
-//     }else{
-//         bTransferSchool.style.display = 'none';
-//     }
-// }for (var i = 0; i < bTransfer.length; i++) {
-//     bTransfer[i].addEventListener('change', updateBTransfer);
-// }
-
-
+$(document).ready(function () {
+    $("input[name=payment_method]").change(function () {
+        if ($(this).val() === "GCash") {
+            $("#gcash-sect").show();
+        } else {
+            $("#gcash-sect").hide();
+        }
+    });
+});

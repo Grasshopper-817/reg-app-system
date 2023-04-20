@@ -54,8 +54,8 @@
       <td>{{ $form->form_process }}</td>
       <td>{{ $form->fee }}</td>
       <td>
-        <td><a class="btn btn-success" href="{{ 'edit/'.$form->id }}">Edit</a></td>
-        <td><a class="btn btn-danger" href="{{ 'delete/'.$form->id }}">Delete</a></td>
+        <td><a class="btn btn-success" href="{{url( 'admin/dashboard/edit/'.$form->id )}}">Edit</a></td>
+        <td><a class="btn btn-danger" href="{{ url('admin/dashboard/delete/'.$form->id )}}">Delete</a></td>
       </td>
     </tr>
     @endforeach

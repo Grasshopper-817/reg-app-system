@@ -53,7 +53,7 @@ class formController extends Controller
         return view('mainpage', compact('forms'));
   }
   
-  public function edit($id){
+  public function edit($id){ 
         $forms = Form::find($id);
         return view('appointment.edit',compact('forms'));
   }
@@ -69,7 +69,7 @@ class formController extends Controller
         $form -> form_max_time = $request -> input('form_max_time');
         $form -> update();
         if($form){
-              return redirect('dashboard/admin')-> with ('success','You have update successfully');
+              return redirect('admin/dashboard')-> with ('success','You have update successfully');
         }else{
               return back()-> with('fail','Something wrong');
         }     
@@ -79,8 +79,12 @@ class formController extends Controller
   public function delete($id){
         $forms = Form::find($id);
         $forms ->delete();
-        return redirect('dashboard/admin')-> with ('success','You have deleted successfully');
+        return redirect('admin/dashboard')-> with ('success','You have deleted successfully');
   }
-  
-  
+
+
+  public function updateForm(Request $request){
+      
+  }
+
 }

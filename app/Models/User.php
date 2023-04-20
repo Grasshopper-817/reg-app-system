@@ -22,6 +22,8 @@ class User extends Model
         'email',
         'birthdate',
         'status',
+        'acadYear',
+        'gradYear',
         'gender',
         'course',
         'gender',

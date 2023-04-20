@@ -31,7 +31,7 @@ class CustomAuthController extends Controller
         $request->validate([
               'firstName'=>'required',
               'lastName'=>'required',
-              'middleName'=>'required',
+              'middleName'=>'',
               'suffix'=>'',
               'address'=>'required',
               'school_id'=>'required|unique:users',
@@ -42,6 +42,8 @@ class CustomAuthController extends Controller
               'gender'=>'required',
               'status'=>'required',
               'course'=>'required',
+              'acadYear'=>'',
+              'gradYear'=>'',
               'password'=>'required|min:8|max:12',
         ]);
         //Inserting data from the user inputed
@@ -57,6 +59,8 @@ class CustomAuthController extends Controller
         $user -> email = $request->email;
         $user->birthdate = $request->input('birthdate');
         $user->status = $request->input('status');
+        $user->acadYear = $request->input('acad_year');
+        $user->gradYear = $request->input('grad_year');
         $user->gender = $request->input('gender');
         $user->course = $request->input('course');
         $user -> password = Hash::make($request->password);
@@ -139,10 +143,12 @@ public function appointment(){
             $email = $user ? $user->email : null;
             $birthdate = $user ? $user->birthdate : null;
             $status = $user ? $user->status : null;
+            $acadYear = $user ? $user->acadYear : null;
+            $gradYear = $user ? $user->gradYear : null;
             $gender = $user ? $user->gender : null;
             $course = $user ? $user->course : null;
 
-            return view('appointment.appointment', compact('firstName','lastName','middleName','suffix','address','school_id','cell_no','civil_status','email','birthdate','gender','status','course',
+            return view('appointment.appointment', compact('firstName','lastName','middleName','suffix','address','school_id','cell_no','civil_status','email','birthdate','gender','status', 'acadYear', 'gradYear', 'course',
             'forms',
             'appointments'
             ));
@@ -151,21 +157,31 @@ public function appointment(){
 
  //------------------------------------// Setting up Booking Appointment //--------------------------------------------------------// 
 public function bookAppointment(Request $request){
-            $user_id = session('loginId');
-            $form = Form::find($request->form_id);
-
+      $user_id = session('loginId');
+      $form = Form::find($request->form_id);
 
       if (!$form) {
          abort(404);
       }   
-            $appointment = new Appointment();
-            $appointment->app_purpose = $request->app_purpose;
-            $appointment->acad_year = $request ->acad_year;
-            $appointment->user_year_grad = $request ->user_year_grad;
-            $appointment->user_acad_year = $request ->user_acad_year;
-            $appointment->appointment_date = $request ->appointment_date;
-            $appointment->user_id = $user_id;
-            $appointment->form_id = $form->id;
+
+      $appointment = new Appointment();
+      $appointment->app_purpose = $request->app_purpose;
+      $appointment->acad_year = $request ->acad_year;
+      $appointment->appointment_date = $request ->appointment_date;
+      $appointment->payment_method = $request ->payment_method;
+      if ($request->hasFile('proof_of_payment')) {
+            $proof_of_payment = $request->file('proof_of_payment');
+            if ($proof_of_payment->isValid()) {
+                  $pop_storage = $proof_of_payment->store('proof-of-payment');
+                  $appointment->proof_of_payment = $pop_storage;
+            } else {
+                return response()->json(['error' => 'Invalid file'], 400);
+            }
+      } else {
+            $appointment->proof_of_payment = null;
+      }
+      $appointment->user_id = $user_id;
+      $appointment->form_id = $form->id;
 
       if ($appointment->save()) {
             $bookingNumber = 'B' . str_pad($appointment->id, 6, '0', STR_PAD_LEFT);
@@ -191,8 +207,8 @@ public function bookings()
       $users = User::whereIn('id', $bookings->pluck('user_id'))->select('id')->get();
       $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))->get();
         
-            return view('appointment.showBookings', compact('bookings', 'users', 'appointments'));
-}
+      return view('appointment.showBookings', compact('bookings', 'users', 'appointments'));
+} //pwde nani ma delete
 
 public function updateProfile(Request $request){
       $user_id = session('loginId');
@@ -213,6 +229,13 @@ public function updateProfile(Request $request){
       $user->email = $request->input('editEmail');
       $user->birthdate = $request->input('editBirthdate');
       $user->status = $request->input('editStatus');
+      if ($user->status === 'graduate') {
+            $user->acadYear = null;
+            $user->gradYear = $request->input('editGradYear');
+      } else {
+            $user->acadYear = $request->input('editAcadYear');
+            $user->gradYear = null;
+      }
       $user->gender = $request->input('editGender');
       $user->course = $request->input('editCourse');
       $user->save();
@@ -220,8 +243,8 @@ public function updateProfile(Request $request){
       return redirect('/dashboard')->with('success', 'User information updated successfully.');
 }
 
-public function adminDashboard(){
-      return view('admin.dashboard');
-}
+// public function adminDashboard(){
+//       return view('admin.dashboard');
+// }
 
 }

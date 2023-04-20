@@ -49,6 +49,9 @@
 
 <!-- todo modalizationssssssxxzzz -->
 <!-- fix update modal -->
+<form action="{{ route('announcement-store') }}" method="POST">
+    @csrf
+
 <div class="modal fade" id="addAnnouncementModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addAnnouncementModal" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable  modal-dialog-centered">
         <div class="modal-content">
@@ -59,11 +62,11 @@
             <div class="modal-body px-5">
                 <div class="mb-3">
                     <label for="addATitle" class="form-label">Title</label>
-                    <input type="text" class="form-control" name="addATitle" id="addATitle" placeholder="">
+                    <input type="text" class="form-control" name="announcement_title" id="addATitle" placeholder="">
                 </div>
                 <div class="mb-3">
                     <label for="addAPost" class="form-label">Announcement</label>
-                    <textarea class="form-control" name="addAPost" id="addAPost" rows="5"></textarea>
+                    <textarea class="form-control" name="announcement_text" id="addAPost" rows="5"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -73,7 +76,7 @@
         </div>
     </div>
 </div>
-
+</form>
 <!-- fix update -->
 <div class="modal fade" id="editAnnouncementModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editAnnouncementModal" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable  modal-dialog-centered">

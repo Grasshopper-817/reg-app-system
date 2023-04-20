@@ -30,6 +30,8 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable();
             $table->string('course')->nullable();
             $table->string('password');
+            $table->string('acadYear')->nullable();
+            $table->string('gradYear')->nullable();
             $table->timestamps();
         });
     }

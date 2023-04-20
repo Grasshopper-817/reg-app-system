@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -16,14 +17,35 @@ use PhpParser\Node\Expr\FuncCall;
 
 class announcementController extends Controller
 {
-    public function showAnnouncement()
-    {
+    public function dashboardAnnouncement(){
         return view('announcement.announcement');
     }
-
-    public function createAnnouncement(Request $request){
-        
-        return view('announcement.createAnnouncement');
+    public function showAnnouncement(Request $request)
+    {
+        $announcements = Announcement::orderBy('created_at', 'desc')->take(2)->get();
+        return view('index', compact('announcements'));
     }
+
+    public function createAnnouncement(){
+        
+        return view('admin.announcement');
+    }
+    public function storeAnnouncement(Request $request){
+        $request ->validate([
+            'announcement_title' => 'required',
+            'announcement_text' => 'required',
+        ]);
+
+        $announcement = new Announcement();
+        $announcement -> announcement_title =$request -> announcement_title;
+        $announcement -> announcement_text = $request -> announcement_text;
+        $announcement = $announcement -> save();
+        if($announcement){
+                    return back()-> with ('success','Announcement post successfully');
+            }else{
+                    return back()-> with('fail','Something wrong');
+            }
+    }
+
     
 }

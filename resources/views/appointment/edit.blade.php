@@ -23,7 +23,7 @@
     </div>
 @endif  
 
-<form action="{{ url('dashboard/update/'.$forms->id) }}" method="POST">
+<form action="{{ url('admin/dashboard/update/'.$forms->id) }}" method="POST">
     @csrf
     @if (Session::has('success'))
     <div class="alert alert-success">{{ Session::get('success') }}</div>

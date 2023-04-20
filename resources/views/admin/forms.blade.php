@@ -8,7 +8,7 @@
     </nav>
 
     <!-- fix sectionf forms -->
-    <section id="forms" class="mt-4 mb-2">
+        <section id="forms" class="mt-4 mb-2">
         <div id="forms-head" class="w-100 px-5 d-flex flex-row justify-content-between align-items-center">
             <div class="title font-nun font-bold fs-3">Forms</div>
             <button class="btn btn-custom d-flex flex-row align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#addFormModal">
@@ -20,13 +20,14 @@
         </div>
         <div id="forms-body" class="this-box mt-2">
             <div class="accordion" id="forms-list">
+            @foreach ($forms as $form)
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#1" aria-expanded="false" aria-controls="1">
-                        Issuance of Transcript of Records (TOR)
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $form->id }}" aria-expanded="false" aria-controls="1">
+                        <!-- Issuance of Transcript of Records (TOR) -->   {{ $form->name }}
                         </button>
                     </h2>
-                    <div id="1" class="accordion-collapse collapse" data-bs-parent="#forms-list">
+                    <div id="{{ $form->id }}" class="accordion-collapse collapse" data-bs-parent="#forms-list">
                         <div class="accordion-body d-flex flex-column">
                             <div class="body-content">
                                 <div class="row w-100 p-0 my-2">
@@ -34,7 +35,7 @@
                                         <p class="info-title">Availability of the Service</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="info-content">Monday to Friday (8:00 AM to 5:00 PM) </p>
+                                        <p class="info-content"> {{ $form->form_avail }}</p>
                                     </div>
                                 </div>
                                 <hr class="font-88">
@@ -43,7 +44,7 @@
                                         <p class="info-title">Who May Avail the Service</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="info-content">Graduates, Students, Their Parents or Duly Authorized Representative </p>
+                                        <p class="info-content"> {{ $form->form_who_avail }}</p>
                                     </div>
                                 </div>
                                 <hr class="font-88">
@@ -52,7 +53,7 @@
                                         <p class="info-title">What Are the Requirements</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="info-content">Clearance Form</p>
+                                        <p class="info-content">{{ $form->form_requirements }}</p>
                                     </div>
                                 </div>
                                 <hr class="font-88">
@@ -61,7 +62,7 @@
                                         <p class="info-title">Complete Processing Time: </p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="info-content">15 Processing Time</p>
+                                        <p class="info-content">{{ $form->form_process }}</p>
                                     </div>
                                 </div>
                                 <hr class="font-88">
@@ -70,7 +71,7 @@
                                         <p class="info-title">Document Fee: </p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="info-content">PHP 20.00</p>
+                                        <p class="info-content">{{ $form->fee }}</p>
                                     </div>
                                 </div>
                                 <hr class="font-88">
@@ -79,7 +80,7 @@
                                         <p class="info-title">Maximum Time to Claim</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="info-content">20 minutes</p>
+                                        <p class="info-content"> {{ $form->form_max_time }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -96,9 +97,11 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
     </section>
+    
     
     <!-- fix section courses -->
     <section id="courses" class="mt-2 mb-2">
@@ -146,7 +149,17 @@
 
 
 <!-- TODO modals -->
-<!-- fix add form modal -->
+<!-- fix add form modal --> 
+{{-- Create og new form --}}
+{{-- <form action="{{ url('admin/dashboard/update/'.$forms->id) }}" method="POST">
+    @csrf
+    @if (Session::has('success'))
+    <div class="alert alert-success">{{ Session::get('success') }}</div>
+    @endif
+      @if (Session::has('fail'))
+      <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+      @endif 
+    @method('PUT') --}}
 <div class="modal fade" id="addFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable  modal-dialog-centered">
         <div class="modal-content">
@@ -157,31 +170,31 @@
             <div class="modal-body px-5">
                 <div class="mb-3">
                     <label for="addFormName" class="form-label">Form Name</label>
-                    <input type="text" class="form-control" name="addFormName" id="addFormName" placeholder="">
+                    <input type="text" class="form-control" name="name"  id="addFormName" placeholder="">
                 </div>
                 <div class="mb-3">
                     <label for="addAvailability" class="form-label">Availability of the Service</label>
-                    <textarea class="form-control" name="addAvailability" id="addAvailability" rows="3"></textarea>
+                    <textarea class="form-control" name="form_avail" id="addAvailability" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="addAvailService" class="form-label">Who may Avail the Service</label>
-                    <textarea class="form-control" name="addAvailService" id="addAvailService" rows="3"></textarea>
+                    <textarea class="form-control" name="form_who_avail" id="addAvailService" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="addReq" class="form-label">What are the Requirements</label>
-                    <textarea class="form-control" name="addReq" id="addReq" rows="3"></textarea>
+                    <textarea class="form-control" name="form_requirements" id="addReq" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="addProcessingTime" class="form-label">Complete Processing Time</label>
-                    <textarea class="form-control" name="addProcessingTime" id="addProcessingTime" rows="3"></textarea>
+                    <textarea class="form-control" name="form_process" id="addProcessingTime" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="addDocFee" class="form-label">Document Fee</label>
-                    <textarea class="form-control" name="addDocFee" id="addDocFee" rows="3"></textarea>
+                    <textarea class="form-control" name="fee" id="addDocFee" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="addMaxTimeClaim" class="form-label">Maximum Time to Claim</label>
-                    <textarea class="form-control" name="addMaxTimeClaim" id="addMaxTimeClaim" rows="3"></textarea>
+                    <textarea class="form-control" name="form_max_time" id="addMaxTimeClaim" rows="3"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -191,8 +204,11 @@
         </div>
     </div>
 </div>
+{{-- </form> --}}
 
 <!-- fix update modal -->
+{{-- <form action="{{ route('create-form') }}" method="POST">
+    @csrf --}}
 <div class="modal fade" id="editFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editFormModal" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable  modal-dialog-centered">
         <div class="modal-content">
@@ -237,6 +253,7 @@
         </div>
     </div>
 </div>
+{{-- </form> --}}
 
 <!-- fix delete confirmation modal -->
 <div class="modal fade" id="deleteFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteFormModal" aria-hidden="true">

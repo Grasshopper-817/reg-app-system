@@ -30,7 +30,7 @@
                                     <a href="#about-sect" class="nav-link">About</a>
                                 </li> 
                                 <li class="nav-item">
-                                    <a href="{{ route('announcement') }}" class="nav-link">Announcements</a>
+                                    <a href="{{ route('announcement.dashboard') }}" class="nav-link">Announcements</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('faqs') }}" class="nav-link">FAQs</a>
@@ -42,23 +42,32 @@
             </nav>
         </div>
         <div class="row content-cover">
+          
             <div class="col-md-6 con1-pad">
                 <div class="container announcement" id="announcement-sect">
                     <p class="head font-mont title font-bold">ANNOUNCEMENTS</p>
+                    @foreach ( $announcements as $announcement )
                     <div class="row notice">
+                        <p class="title font-mont font-semibold" id="postTitle">{{-- ClosedTransactionsonFebruary15,2023 --}} {{ $announcement->announcement_title }} </p>
+                        <p class="font-mont font-small date" id="datePosted">Posted: {{ $announcement->created_at->format('F d, Y') }} </p>
+                        <p class="font-small subtitle" id="postSubtitle">{{-- PleasebeinformedthattheOfficeoftheRegistrarwillbeclosedfortransactionsonFriday,February15,2023.Thisisduetothescheduledupgradeofourinformation. --}}{{ $announcement->announcement_text }}</p>
+                        <a id="btn-readMore" href="{{ route('announcement.dashboard') }}" class="ms-auto font-small font-black btn">Read More</a>
+                    </div>
+                    @endforeach
+                    <style>
+                        .announcement:nth-child(n+3) {
+                            display: none;
+                        }
+                    </style>
+                    {{-- <div class="row notice">
                         <p class="title font-mont font-semibold" id="postTitle">Closed Transactions on February 15, 2023</p>
                         <p class="font-mont font-small date" id="datePosted">February 10, 2023</p>
                         <p class="font-small subtitle" id="postSubtitle">Please be informed that the Office of the Registrar will be closed for transactions on Friday, February 15, 2023. This is due to the scheduled upgrade of our information.</p>
                         <button class="btn ms-auto font-small" id="btn-readMore">Read More</button>
-                    </div>
-                    <div class="row notice">
-                        <p class="title font-mont font-semibold" id="postTitle">Closed Transactions on February 15, 2023</p>
-                        <p class="font-mont font-small date" id="datePosted">February 10, 2023</p>
-                        <p class="font-small subtitle" id="postSubtitle">Please be informed that the Office of the Registrar will be closed for transactions on Friday, February 15, 2023. This is due to the scheduled upgrade of our information.</p>
-                        <button class="btn ms-auto font-small" id="btn-readMore">Read More</button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
+            
             <!-- WELCOME -->
             <div class="col-md-6 make-appoint">
                 <p class="display-text font-mont font-bold font-white">Make Your Online <br>Appointment <br>Now</p>
@@ -77,13 +86,13 @@
                     </div>
                     <div class="article-list d-flex flex-column mt-3">
                         <div class="article">
-                            <p>How to make an Appointment?</p><button class="btn">>></button>
+                            <p>How to make an Appointment?</p><button class="btn"><a href="{{ route('announcement.dashboard') }}" class="nav-link">>></a></button>
                         </div>
                         <div class="article">
-                            <p>What are the requirements?</p><button class="btn">>></button>
+                            <p>What are the requirements?</p><button class="btn"><a href="{{ route('announcement.dashboard') }}" class="nav-link">>></a></button>
                         </div>
                         <div class="article">
-                            <p>Document Fees.</p><button class="btn">>></button>
+                            <p>Document Fees.</p><button class="btn"><a href="{{ route('announcement.dashboard') }}" class="nav-link">>></a></button>
                         </div>
                     </div>
                 </div>
@@ -233,11 +242,10 @@
                                   <span class="text-danger">@error('course'){{ $message }} @enderror </span>
                             </div>
                         </div>
-
                         <div class="form-group row mt-3">
                             <div class="col-lg-3">
                                 <label for="inputGender">Status</label>
-                                <select class="form-control" name="status"id="inputStudentStatus" required>
+                                <select class="form-control" name="status" id="inputStudentStatus" required>
                                     <option value="">Choose...</option>
                                     <option value="high hchool">Secondary</option>
                                     <option value="undergraduate">Undergraduate College</option>
@@ -246,8 +254,20 @@
                                 <span class="text-danger">@error('gender'){{ $message }} @enderror </span>
                             </div>
                             <div class="col-lg-9">
+                                <div id="reg-input-acadYear" style="display:block;">
+                                    <label for="inputAcadYear">Academic Year</label>
+                                    <input type="text" name="acad_year" class="form-control" id="inputAcadYear" placeholder="ex. 2022-2023">
+                                </div>
+                                <div id="reg-input-gradYear" style="display:none;">
+                                    <label for="inputGradYear">Year Graduated</label>
+                                    <input type="text" name="grad_year" class="form-control" id="inputGradYear" placeholder="ex. 2022-2023">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-3">
+                            <div class="col-lg-12">
                                 <label for="inputPassword">Password</label>
-                                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+                                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" required>
                                 <span class="text-danger">@error('password'){{ $message }} @enderror </span>
                             </div>
                         </div>
@@ -353,7 +373,4 @@
             </div>
         </div>
     </div>
-
-
-
     @endsection
