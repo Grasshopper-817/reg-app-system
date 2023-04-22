@@ -106,10 +106,12 @@
                     <div class="row d-flex flex-row">
                         <div class="col-md-4">
                             <div id="track-boxes" class="track-boxes p-4">
+                                <h4>List of pending as of today!</h4>
                                 <ul class="list-group list-group-flush">
                                     <li
                                         class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
                                     >
+
                                         <p
                                             class="p-0 m-0 doc-title flex-1 col-9"
                                         >
@@ -117,7 +119,7 @@
                                         </p>
                                         <span
                                             class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                            >2000</span
+                                            >20</span
                                         >
                                     </li>
                                     <li
@@ -191,7 +193,10 @@
                             </div>
                         </div>
                         <div class="col-md-8">
+                            
                             <div id="cal-box" class="cal-box p-4">
+                                <h4>Scheduling Calendar</h4>
+                                <small>Set a day for appointment slot</small>
                                 <div id="calendar"></div>
                             </div>
                         </div>
@@ -229,11 +234,10 @@
                                             <td class="td-view">
                                                 <a
                                                     type="button"
-                                                    class="btn view-request p-0"
-                                                    id="view-request"
+                                                    class="btn view-request p-0 view-btn"
+                                                    id="{{ $booking->id }}"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#view-request-modal"
-                                                    data-id = "{{ $booking->id }}"
                                                     >View</a
                                                 >
                                             </td>
@@ -349,13 +353,13 @@
                             <div
                                 class="d-flex flex-column w-100 font-13 px-3 font-nun"
                             >
-                                <p class="p-0 m-0 fs-5 font-bold" id="">
-                                    Gonoy, Meriflor Nonong
+                                <p class="p-0 m-0 fs-5 font-bold" id="viewFullName">
+                                    
                                 </p>
                                 <p class="p-0 m-0 font-small" id="viewEmail">
-                                    mgonoy13@gmail.com
+                                    {{-- mgonoy13@gmail.com --}}
                                 </p>
-                                <p class="p-0 m-0 font-small">09559381788</p>
+                                <p class="p-0 m-0 font-small" id="viewCpNo"></p>
                             </div>
                         </div>
 
@@ -386,7 +390,7 @@
                                             <p class="info-title">SCHOOL ID</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">1009974</p>
+                                            <p class="info-content" id="viewSchoolID"></p>
                                         </div>
                                     </div>
                                     <div class="row w-100 p-0 my-2">
@@ -396,8 +400,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                Undergraduate
+                                            <p class="info-content" id="viewStudentStatus">
+                                              
                                             </p>
                                         </div>
                                     </div>
@@ -406,9 +410,8 @@
                                             <p class="info-title">COURSE</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                Bachelor of Science in Computer
-                                                Science
+                                            <p class="info-content" id="viewCourse">
+                                                
                                             </p>
                                         </div>
                                     </div>
@@ -419,8 +422,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                2020-2021
+                                            <p class="info-content" id="viewAcadYear">
+                                              
                                             
                                             </p>
                                         </div>
@@ -432,7 +435,7 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">2000</p>
+                                            <p class="info-content" id="viewGradYear"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -442,7 +445,7 @@
                                             <p class="info-title">GENDER</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">Female</p>
+                                            <p class="info-content" id="viewGender"></p>
                                         </div>
                                     </div>
                                     <div class="row w-100 p-0 my-2">
@@ -452,7 +455,7 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">Single</p>
+                                            <p class="info-content" id="viewCivilStats"></p>
                                         </div>
                                     </div>
                                     <div class="row w-100 p-0 my-2">
@@ -460,8 +463,8 @@
                                             <p class="info-title">BIRTHDATE</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                November 21, 2000
+                                            <p class="info-content" id="viewBirthdate">
+                                                
                                             </p>
                                         </div>
                                     </div>
@@ -470,9 +473,8 @@
                                             <p class="info-title">ADDRESS</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                P3 Libertad Kolambugan Lanao del
-                                                Norte
+                                            <p class="info-content" id="viewAddress">
+                                               
                                             </p>
                                         </div>
                                     </div>
@@ -508,7 +510,7 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">B00001</p>
+                                            <p class="info-content" id="viewAppID"></p>
                                         </div>
                                     </div>
                                     <div class="row w-100 p-0 my-2">
@@ -518,8 +520,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                April 22, 2023
+                                            <p class="info-content" id="viewAppDate">
+                                               
                                             </p>
                                         </div>
                                     </div>
@@ -530,8 +532,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                April 10, 2023
+                                            <p class="info-content" id="viewDocDateReq">
+                                               
                                             </p>
                                         </div>
                                     </div>
@@ -544,8 +546,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                Transcript of Records (TOR)
+                                            <p class="info-content" id="viewDocReq">
+                                                
                                             </p>
                                         </div>
                                     </div>
@@ -556,8 +558,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                2022-2023
+                                            <p class="info-content" id="viewDocReqYear">
+                                                
                                             </p>
                                         </div>
                                     </div>
@@ -566,8 +568,8 @@
                                             <p class="info-title">PURPOSE</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                It will be used for job hunting
+                                            <p class="info-content" id="viewPurpose">
+                                               
                                             </p>
                                         </div>
                                     </div>
@@ -603,8 +605,8 @@
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">
-                                                PHP 50.00
+                                            <p class="info-content" id="viewDocFee">
+                                                
                                             </p>
                                         </div>
                                     </div>
@@ -613,7 +615,7 @@
                                             <p class="info-title">METHOD</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="info-content">Gcash</p>
+                                            <p class="info-content" id="viewMethod"></p>
                                         </div>
                                     </div>
                                     <div class="row w-100 p-0 my-2">
@@ -795,8 +797,42 @@
             });
         </script>
 
-        <script>
-            
-        </script>
+<script>
+    var viewBtns = document.querySelectorAll('.view-btn');
+    for (var i = 0; i < viewBtns.length; i++) {
+        viewBtns[i].addEventListener('click', function() {
+            var bookingId = this.id;
+
+            fetch('/bookings/' + bookingId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.email);
+                    document.getElementById("viewFullName").innerHTML = data.fullName;
+                    document.getElementById("viewEmail").innerHTML = data.email;
+                    document.getElementById("viewCpNo").innerHTML = data.cell_no;
+                    document.getElementById("viewSchoolID").innerHTML = data.school_id;
+                    document.getElementById("viewStudentStatus").innerHTML = data.status;
+                    document.getElementById("viewCourse").innerHTML = data.course;
+                    document.getElementById("viewAcadYear").innerHTML = data.acadYear;
+                    document.getElementById("viewGradYear").innerHTML = data.gradYear;
+                    document.getElementById("viewGender").innerHTML = data.gender;
+                    document.getElementById("viewCivilStats").innerHTML = data.civil_status;
+                    document.getElementById("viewBirthdate").innerHTML = data.birthdate;
+                    document.getElementById("viewAddress").innerHTML = data.address;
+
+                    document.getElementById("viewAppID").innerHTML = data.booking_number;
+                    document.getElementById("viewAppDate").innerHTML = data.appointment_date;
+                    document.getElementById("viewDocDateReq").innerHTML = data.doc_created;
+                    document.getElementById("viewDocReq").innerHTML = data.doc_name;
+                    document.getElementById("viewDocReqYear").innerHTML = data.doc_req_year;
+                    document.getElementById("viewPurpose").innerHTML = data.app_purpose;
+
+                    document.getElementById("viewDocFee").innerHTML = data.doc_fee;
+                    document.getElementById("viewMethod").innerHTML = data.payment_method;
+                    // ...
+                    });
+        });
+    }
+</script>
     </body>
 </html>

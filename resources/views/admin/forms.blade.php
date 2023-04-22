@@ -92,6 +92,7 @@
                                 <button class="btn btn-custom d-flex flex-row align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#deleteFormModal">
                                         <img src="/images/delete.png" alt="">
                                     <small class="m-0 ms-2 p-0 font-nun">Delete</small>
+                                   
                                 </button>
                             </div>
                         </div>
@@ -151,7 +152,7 @@
 <!-- TODO modals -->
 <!-- fix add form modal --> 
 {{-- Create og new form --}}
-{{-- <form action="{{ url('admin/dashboard/update/'.$forms->id) }}" method="POST">
+<form action="{{ route('create-form') }}" method="POST">
     @csrf
     @if (Session::has('success'))
     <div class="alert alert-success">{{ Session::get('success') }}</div>
@@ -159,7 +160,6 @@
       @if (Session::has('fail'))
       <div class="alert alert-danger">{{ Session::get('fail') }}</div>
       @endif 
-    @method('PUT') --}}
 <div class="modal fade" id="addFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable  modal-dialog-centered">
         <div class="modal-content">
@@ -204,7 +204,7 @@
         </div>
     </div>
 </div>
-{{-- </form> --}}
+</form>
 
 <!-- fix update modal -->
 {{-- <form action="{{ route('create-form') }}" method="POST">
@@ -270,7 +270,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Dissmis</button>
-                <button type="submit" class="btn btn-custom ms-3">Delete</button>
+                {{-- <button type="submit" class="btn btn-custom ms-3">Delete</button> --}}
+                <a href="{{ url('admin/dashboard/delete/'.$form->id )}}"><button type="submit" class="btn btn-custom ms-3">Delete</button></a>
+
+
             </div>
         </div>
     </div>

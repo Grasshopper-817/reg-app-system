@@ -48,9 +48,9 @@
                     <p class="head font-mont title font-bold">ANNOUNCEMENTS</p>
                     @foreach ( $announcements as $announcement )
                     <div class="row notice">
-                        <p class="title font-mont font-semibold" id="postTitle">{{-- ClosedTransactionsonFebruary15,2023 --}} {{ $announcement->announcement_title }} </p>
+                        <p class="title font-mont font-semibold" id="postTitle">{{ $announcement->announcement_title }} </p>
                         <p class="font-mont font-small date" id="datePosted">Posted: {{ $announcement->created_at->format('F d, Y') }} </p>
-                        <p class="font-small subtitle" id="postSubtitle">{{-- PleasebeinformedthattheOfficeoftheRegistrarwillbeclosedfortransactionsonFriday,February15,2023.Thisisduetothescheduledupgradeofourinformation. --}}{{ $announcement->announcement_text }}</p>
+                        <p class="font-small subtitle" id="postSubtitle">{{ $announcement->announcement_text }}</p>
                         <a id="btn-readMore" href="{{ route('announcement.dashboard') }}" class="ms-auto font-small font-black btn">Read More</a>
                     </div>
                     @endforeach
@@ -159,12 +159,12 @@
                         <div class="form-group row mt-3">
                             <div class="col-lg-6">
                                 <label for="inputMiddleName">Middle Name</label>
-                                <input type="text" class="form-control" value="{{ old('middleName') }}" name="middleName" id="inputMiddleName" placeholder="Middle Name">
+                                <input type="text" class="form-control" value="{{ old('middleName') }}" name="middleName" id="inputMiddleName" placeholder="Optional">
                                 
                             </div>
                             <div class="col-lg-6">
                                 <label for="inputSuffix">Suffix</label>
-                                <input type="text" class="form-control" value="{{ old('suffix') }}" name="suffix" id="inputSuffix" placeholder="optional">
+                                <input type="text" class="form-control" value="{{ old('suffix') }}" name="suffix" id="inputSuffix" placeholder="Optional">
                             </div>
                         </div>
                         <div class="form-group row mt-3">
@@ -227,7 +227,7 @@
                                 <select class="form-control" name="course" value="{{ old('course') }}" id="inputCourse">
                                     <option value="">Choose...</option>
                                     <option value="secondary">Secondary level High School / Senior High School</option>
-                                    <option value="alumni">Alumni/Alumna/Masteral</option>
+                                    <option value="alumni">Masteral/Alumni</option>
                                     <option value="BSCS">Bachelor of Science in Computer Science</option>
                                     <option value="BTLE ">Bachelor of Technology and Livelihood Education</option>
                                     <option value="BTTE ">Bachelor of Technical-Vocational Teacher Education</option>
@@ -247,11 +247,11 @@
                                 <label for="inputGender">Status</label>
                                 <select class="form-control" name="status" id="inputStudentStatus" required>
                                     <option value="">Choose...</option>
-                                    <option value="high hchool">Secondary</option>
+                                    <option value="high school">Secondary</option>
                                     <option value="undergraduate">Undergraduate College</option>
-                                    <option value="graduate">Masteral/Alumni/Alumna</option>
+                                    <option value="alumni">Masteral/Alumni/Alumna</option>
                                     </select>
-                                <span class="text-danger">@error('gender'){{ $message }} @enderror </span>
+                                <span class="text-danger">@error('status'){{ $message }} @enderror </span>
                             </div>
                             <div class="col-lg-9">
                                 <div id="reg-input-acadYear" style="display:block;">

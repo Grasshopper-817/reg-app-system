@@ -48,14 +48,14 @@ class formController extends Controller
   
   }
   
-  public function getAllForm(Request $request){
-        $forms = Form::all();
-        return view('mainpage', compact('forms'));
-  }
+//   public function getAllForm(Request $request){
+//         $forms = Form::all();
+//         return view('mainpage', compact('forms'));
+//   }
   
   public function edit($id){ 
         $forms = Form::find($id);
-        return view('appointment.edit',compact('forms'));
+        return view('admin.appointment',compact('forms'));
   }
   
   public function update (Request $request, $id){
@@ -79,7 +79,7 @@ class formController extends Controller
   public function delete($id){
         $forms = Form::find($id);
         $forms ->delete();
-        return redirect('admin/dashboard')-> with ('success','You have deleted successfully');
+        return redirect('admin/dashboard/dashboard')-> with ('success','You have deleted successfully');
   }
 
 

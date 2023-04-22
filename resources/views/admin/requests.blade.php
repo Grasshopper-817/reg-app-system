@@ -28,14 +28,21 @@
                 <tbody class="table-group-divider">
                     @foreach ($bookings as $booking)
                     <tr class="text-center">
-                        <td>{{ $booking->id }}</td>
-                        <td>{{ $booking->appointment->booking_number}}</td>
+                        <td>{{ $booking->appointment->booking_number }}</td>
+                        <td>{{ $booking->user->school_id }}</td>
                         <td>{{ $booking->user->firstName }}</td>
                         <td>{{ $booking->user->lastName }}</td>
                         <td>{{ $booking->appointment->form->name}}</td>
                         <td>{{ $booking->created_at->format('M d, Y h:i A') }}</td>
                         <td class="td-view">
-                            <a type="button" class="btn view-request p-0" id="view-request" data-bs-toggle="modal" data-bs-target="#view-request-modal">View</a>
+                            <a
+                                type="button"
+                                class="btn view-request p-0 view-btn"
+                                id="{{ $booking->id }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#view-request-modal"
+                                >View</a
+                            >
                         </td>
                     </tr>
                     @endforeach
@@ -44,3 +51,41 @@
         </div>
     </div>
 </div>
+
+<script>
+    var viewBtns = document.querySelectorAll('.view-btn');
+    for (var i = 0; i < viewBtns.length; i++) {
+        viewBtns[i].addEventListener('click', function() {
+            var bookingId = this.id;
+
+            fetch('/bookings/' + bookingId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.email);
+                    document.getElementById("viewFullName").innerHTML = data.fullName;
+                    document.getElementById("viewEmail").innerHTML = data.email;
+                    document.getElementById("viewCpNo").innerHTML = data.cell_no;
+                    document.getElementById("viewSchoolID").innerHTML = data.school_id;
+                    document.getElementById("viewStudentStatus").innerHTML = data.status;
+                    document.getElementById("viewCourse").innerHTML = data.course;
+                    document.getElementById("viewAcadYear").innerHTML = data.acadYear;
+                    document.getElementById("viewGradYear").innerHTML = data.gradYear;
+                    document.getElementById("viewGender").innerHTML = data.gender;
+                    document.getElementById("viewCivilStats").innerHTML = data.civil_status;
+                    document.getElementById("viewBirthdate").innerHTML = data.birthdate;
+                    document.getElementById("viewAddress").innerHTML = data.address;
+
+                    document.getElementById("viewAppID").innerHTML = data.booking_number;
+                    document.getElementById("viewAppDate").innerHTML = data.appointment_date;
+                    document.getElementById("viewDocDateReq").innerHTML = data.doc_created;
+                    document.getElementById("viewDocReq").innerHTML = data.doc_name;
+                    document.getElementById("viewDocReqYear").innerHTML = data.doc_req_year;
+                    document.getElementById("viewPurpose").innerHTML = data.app_purpose;
+
+                    document.getElementById("viewDocFee").innerHTML = data.doc_fee;
+                    document.getElementById("viewMethod").innerHTML = data.payment_method;
+                    // ...
+                    });
+        });
+    }
+</script>

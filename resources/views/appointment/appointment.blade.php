@@ -79,7 +79,7 @@
         <div class="dashboard d-flex row flex-row w-100" id="dashboard">
             <div class="col-md-4 mb-4">
                 <div class="accordion accordion-flush" id="dashboard-sidebar">
-            <!-- announcement -->
+                <!-- announcement -->
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-announcement" aria-expanded="false" aria-controls="dashboard-announcement">
@@ -90,8 +90,8 @@
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
-                                  <h5 class="mb-1">Close Transaction as of February 5, 2023</h5>
-                                  <small class="text-body-secondary">1/31/22</small>
+                                    <h5 class="mb-1">Close Transaction as of February 5, 2023</h5>
+                                    <small class="text-body-secondary">1/31/22</small>
                                 </div>
                             </a>
                             <a href="#" class="list-group-item list-group-item-action">
@@ -112,12 +112,24 @@
         <!-- APPOINTMENTS -->
                     <div class="accordion-item">
                         <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-appointment" aria-expanded="false" aria-controls="dashboard-appointment">
-                            Appointments
-                        </button>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-appointment" aria-expanded="false" aria-controls="dashboard-appointment">
+                                Appointments
+                            </button>
                         </h2>
-                    <div id="dashboard-appointment" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">You have no pending appointments at the moment.</div>
+
+    <!-- display appointments here -->
+
+                        <div id="dashboard-appointment" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                            	<ul class="list-group list-group-flush">
+                                	<li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                                <li class="list-group-item">A third item</li>
+                                <li class="list-group-item">A fourth item</li>
+                                <li class="list-group-item">And a fifth one</li>
+                            </ul>
+                                You have no pending appointments at the moment.
+                            </div>
                       </div>
                     </div>
                 </div>
@@ -200,8 +212,8 @@
                             <form action="{{ route('updateProfile') }}" method="post"> 
                                 @csrf
                                 @if (Session::has('success'))
-                      <div class="alert alert-success">{{ Session::get('success') }}</div>
-                      @endif
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                        @endif
                         @if (Session::has('fail'))
                         <div class="alert alert-danger">{{ Session::get('fail') }}</div>
                         @endif 
@@ -278,7 +290,7 @@
                                         <select name="editCourse" class="form-control" id="editCourse" required>
                                            <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
                                                 <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
-                                                <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
+                                                <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
                                                 <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
                                                 <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
                                                 <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
@@ -299,7 +311,7 @@
                                           <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
                                           <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>Secondary</option>
                                           <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate College</option>
-                                          <option value="graduate"{{ $status == 'graduate' ? 'selected' : '' }}>Masteral/Alumni/Alumna</option>
+                                          <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni/Alumna</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
@@ -380,7 +392,7 @@
                                                   <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p>  
                                                 </div> --}}
                                                 <div class="purpose">
-                                                    <p class="fs-6"><b>Status: </b>Pending</p>
+                                                    <p class="fs-6"><b>Status: </b>{{ $appointment->status }}</p>
                                                 </div>
                                                 <div class="receipt-box p-3">
                                                     <div class="receipt-content fs-6 d-flex flex-column font-mont">
@@ -462,7 +474,7 @@
     <!-- modalizationizest -->
                 <!-- appointmentModal -->
 
-                @if ($errors->any())
+                 @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
                     <ul>
@@ -471,7 +483,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif  
+                @endif 
                      
                 <!-- fix -->
 <form action="{{ route('bookAppointment') }}" method="POST" enctype="multipart/form-data">
@@ -532,7 +544,7 @@
         </div>
     </div>
 
-    <!-- REVIEW MODAAAAAAAAAAAAAALz -->
+    <!--  MODAAAAAAAAAAAAAALz -->
     <div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">
@@ -569,15 +581,15 @@
                         </div> 
                         <div class="col-md-3">
                             <label for="">Cellphone No.</label>
-                            <input class="form-control form-control" type="text" placeholder="{{ $cell_no }}" aria-label="default input example" required disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $cell_no }}" aria-label="default input example" disabled>
                         </div>    
                         <div class="col-md-3">
                             <label for="">Email</label>
-                            <input class="form-control form-control" type="email" placeholder="{{ $email }}" aria-label="default input example" required disabled>
+                            <input class="form-control form-control" type="email" placeholder="{{ $email }}" aria-label="default input example" disabled>
                         </div>  
                         <div class="col-md-3">
                             <label for="">Address</label>
-                            <input class="form-control form-control" type="text" placeholder="{{ $address }}" aria-label="default input example" required disabled>
+                            <input class="form-control form-control" type="text" placeholder="{{ $address }}" aria-label="default input example" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -600,7 +612,7 @@
                         </div>    
                         <div class="col-md-4">
                             <label for="">Gender</label>
-                            <select name="gender" class="form-control" id="inputGender" required disabled>
+                            <select name="gender" class="form-control" id="inputGender" disabled>
                                 <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
                                 <option value="female"{{ $gender == 'female' ? 'selected' : '' }}>Female</option>
                                 <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
@@ -610,16 +622,16 @@
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <label for="inputStudentStatus">Status</label>
-                            <select name="status" class="form-control" id="inputStudentStatus" required disabled>
+                            <select name="status" class="form-control" id="inputStudentStatus" disabled>
                                 <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
                                 <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate</option>
                                 <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>High School</option>
                                 <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
-                              </select>
+                            </select>
                         </div>
                         <div class="col-lg-4">
                             <label for="inputCourse">Course</label>
-                            <select name="course " class="form-control" id="inputCourse" required disabled>
+                            <select name="course " class="form-control" id="inputCourse" disabled>
                                 <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
                                 <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
                                 <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
@@ -637,13 +649,14 @@
                         </div>
                         <div class="col-lg-4 " id="input-acadYear">
                             <label for="inputAcadYear">Academic Year</label>
-                            <input type="text" name="" id="" class="form-control" id="inputAcadYear" placeholder="" required>
+                            <input type="text" class="form-control" id="inputAcadYear" value="{{ $acadYear }}" disabled>
                         </div>
                         <div class="col-lg-4 " id="input-gradYear">
                             <label for="inputGradYear">Year Graduated</label>
-                            <input type="text" class="form-control" id="inputGradYear" placeholder="" required>
+                            <input type="text" class="form-control" id="inputGradYear" value="{{ $gradYear }}" disabled>
                         </div>
                     </div>
+                    <!-- review -->
                     <div class="form-group row mt-3" id="college-form">
                         <div class="col-lg-6 d-flex flex-column justify-content-start custom-form-group">
                             <p class="font-small font-mont m-0">Before MSU-MSAT, did you study in a different college?</p>
@@ -658,7 +671,7 @@
                                 </label>
                             </div>
                             <div class="w-100" id="ATransferSchool">
-                                <label for="inputAcadYear">Please indicate school</label>
+                                <label for="inputATransferSchool">Please indicate school</label>
                                 <input type="text" class="form-control" id="inputATransferSchool" placeholder="">
                             </div>
                         </div>
@@ -689,7 +702,7 @@
                         </div>  
                         <div class="col-md-4">
                             <label for="">Appointment Date</label>
-                            <input class="form-control" type="text" placeholder="" id="appointment_date" aria-label="default input example" disabled>
+                            <input class="form-control" type="text" placeholder="" id="appointment_date" aria-label="default input example" value="" disabled>
                         </div>
                         <div class="col-md-4">
                             <b>Payment Method: </b>
@@ -725,10 +738,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
     <script src="js/dashboard/navbar.js"></script>
-    <script src="js/dashboard/dashboard.js"></script>
+    <!-- <script src="js/dashboard/dashboard.js"></script> -->
     <script src="js/navbar.js"></script>
     <script src="js/form.js"></script>
-    <script src="js/dashboard/forms.js"></script>
+    <!-- <script src="js/dashboard/forms.js"></script> -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
 
@@ -830,7 +843,7 @@
             console.log(form_name);
             console.log(accordion_id);
         });
-
+// review
         $('#proceedButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
@@ -839,7 +852,6 @@
             // fix not documented yet
             var proof_of_payment = $('#proof_of_payment')[0].files[0];
 
-            // $('#proof_of_payment').val(proof_of_payment);
             
             $('#appointmentModal').modal('hide');
             $('#form_id').val(form_id);
@@ -869,6 +881,22 @@
             var payment_method = $('#payment_method_01').text();
             var proof_of_payment = $('#proof_of_payment').prop('files')[0];
             var appointment_date = $('#appointment_date').val();
+            var a_transfer = $('input[name=isATransfer]:checked').val();
+            var b_transfer = $('input[name=isBTransfer]:checked').val();
+            if(a_transfer === "yes"){
+                a_transfer = 1;
+                var a_transfer_school = $('#inputATransferSchool').val();
+            }else{
+                a_transfer = 0;
+                var a_transfer_school = null;
+            }if(b_transfer === "yes"){
+                b_transfer = 1;
+                var b_transfer_school = $('#inputBTransferSchool').val();
+            }else{
+                b_transfer = 0;
+                var b_transfer_school = null;
+            }
+
 
             console.log(form_id);
             console.log(app_purpose);
@@ -876,6 +904,8 @@
             console.log(proof_of_payment);
             console.log(acad_year);
             console.log(appointment_date);
+            console.log(a_transfer);
+            console.log(b_transfer);
             $('#reviewModal').modal('hide');
             
             var formData = new FormData();
@@ -884,6 +914,10 @@
             formData.append('app_purpose', app_purpose);
             formData.append('acad_year', acad_year);
             formData.append('appointment_date', appointment_date);
+            formData.append('a_transfer', a_transfer);
+            formData.append('a_transfer_school', a_transfer_school);
+            formData.append('b_transfer', b_transfer);
+            formData.append('b_transfer_school', b_transfer_school);
             formData.append('payment_method', payment_method);
             formData.append('proof_of_payment', proof_of_payment);
 

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $("#inputStudentStatus").change(function () {
-        if ($(this).val() === "graduate") {
+        if ($(this).val() === "alumni") {
             $("#reg-input-acadYear").hide();
             // $('#reg-input-acadYear').removeAttr('required');
             $("#reg-input-gradYear").show();
@@ -17,7 +17,7 @@ $(document).ready(function () {
 // fix
 $(document).ready(function () {
     $("#editStatus").change(function () {
-        if ($(this).val() === "graduate") {
+        if ($(this).val() === "alumni") {
             $("#edit-AcadYear").hide();
             $("#edit-GradYear").show();
         } else {
@@ -26,7 +26,7 @@ $(document).ready(function () {
         }
     });
     var status = $("#editStatus").val();
-    if (status === "graduate") {
+    if (status === "alumni") {
         $("#edit-AcadYear").hide();
         $("#edit-GradYear").show();
     } else {
@@ -41,6 +41,34 @@ $(document).ready(function () {
             $("#gcash-sect").show();
         } else {
             $("#gcash-sect").hide();
+        }
+    });
+});
+
+$(document).ready(function () {
+    var status = $("#inputStudentStatus").val();
+    if (status === "alumni") {
+        $("#input-acadYear").hide();
+        $("#input-gradYear").show();
+    } else {
+        $("#input-gradYear").hide();
+        $("#input-acadYear").show();
+    }
+});
+
+$(document).ready(function () {
+    $("input[name=isATransfer]").change(function () {
+        if ($(this).val() === "yes") {
+            $("#ATransferSchool").show();
+        } else {
+            $("#ATransferSchool").hide();
+        }
+    });
+    $("input[name=isBTransfer]").change(function () {
+        if ($(this).val() === "yes") {
+            $("#BTransferSchool").show();
+        } else {
+            $("#BTransferSchool").hide();
         }
     });
 });

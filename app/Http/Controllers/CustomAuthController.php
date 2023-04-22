@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Auth\Events\Validated;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Form;
@@ -48,10 +49,10 @@ class CustomAuthController extends Controller
         ]);
         //Inserting data from the user inputed
         $user = new User();
-        $user -> firstName =$request->firstName;
-        $user -> lastName =$request->lastName;
-        $user -> middleName =$request->middleName;
-        $user -> suffix =$request->suffix;
+        $user -> firstName =ucfirst($request->firstName);
+        $user -> lastName =ucfirst($request->lastName);
+        $user -> middleName =ucfirst($request->middleName);
+        $user -> suffix =ucfirst($request->suffix);
         $user -> address = $request->address;
         $user -> school_id = $request ->school_id;
         $user -> cell_no = $request ->cell_no;
@@ -74,37 +75,63 @@ class CustomAuthController extends Controller
 
  }
 
- public function loginUser(Request $request)
- {
-      $request->validate([
-            'email'=>'required|email',
-            'password'=>'required|min:8',
-      ]);
-      //checking user
-      $user = User::where('email','=',$request->email)->first();
-      if($user){
-            if(Hash::check($request->password,$user->password)){
-                  $request->session()->put('loginId',$user->id);
-                  return redirect('dashboard');               
-            }else{
-                  return back()-> with('fail','email and password not match');
-            }
+//  public function loginUser(Request $request)
+//  {
+//       $request->validate([
+//             'email'=>'required|email',
+//             'password'=>'required|min:8',
+//       ]);
+//       //checking user
+//       $user = User::where('email','=',$request->email)->first();
+//       if($user){
+//             if(Hash::check($request->password,$user->password)){
+//                   $request->session()->put('loginId',$user->id);
+//                   return redirect('dashboard');               
+//             }else{
+//                   return back()-> with('fail','email and password not match');
+//             }
             
-      }else{
-            return back()-> with('fail','This email is not registered.');
-      }
- }
+//       }else{
+//             return back()-> with('fail','This email is not registered.');
+//       }
+//  }
 
-  public function dashboard()
-  {
-      //gettig data pag naka login
-      $data = array();
-      if (Session::has('loginId')){
-            $data = User::where('id','=', Session::get('loginId'))->first();
+public function loginUser(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:8',
+    ]);
+
+    $user = User::where('email', '=', $request->email)->first();
+
+    if ($user) {
+        if (Hash::check($request->password, $user->password)) {
+            $request->session()->put('loginId', $user->id);
+
+            if ($user->role == 1) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('appointment');
+            }
+        } else {
+            return back()->with('fail', 'Email and password do not match.');
+        }
+    } else {
+        return back()->with('fail', 'This email is not registered.');
+    }
+}
+
+//   public function dashboard()
+//   {
+//       //gettig data pag naka login
+//       $data = array();
+//       if (Session::has('loginId')){
+//             $data = User::where('id','=', Session::get('loginId'))->first();
             
-      }
-      return view('dashboard',compact('data'));
-  }
+//       }
+//       return view('dashboard',compact('data'));
+//   }
   public function logout(){
       if (Session::has('loginId')){
             Session::pull('loginId');
@@ -114,13 +141,14 @@ class CustomAuthController extends Controller
 
 
 //------------------------// Retrieving and passing information to Appointment database and Displaying //-----------------------//
-public function appointment(){
-            $user = null;
+public function appointment(){ //user-dashboard
+
+            $user = array();
             $appointments = Appointment::all();
             $forms = Form::all();
 
-            if (session()->has('loginId')) {
-            $user = User::where('id', session()->get('loginId'))->first();
+            if (Session::has('loginId')) {
+            $user = User::where('id','=',Session::get('loginId'))->first();
             $user_id = session('loginId');
             $appointments = Appointment::where('user_id', $user_id)
                   ->orderBy('created_at', 'desc')
@@ -150,13 +178,13 @@ public function appointment(){
 
             return view('appointment.appointment', compact('firstName','lastName','middleName','suffix','address','school_id','cell_no','civil_status','email','birthdate','gender','status', 'acadYear', 'gradYear', 'course',
             'forms',
-            'appointments'
+            'appointments','user'
             ));
 
  }
 
  //------------------------------------// Setting up Booking Appointment //--------------------------------------------------------// 
-public function bookAppointment(Request $request){
+ public function bookAppointment(Request $request){
       $user_id = session('loginId');
       $form = Form::find($request->form_id);
 
@@ -164,11 +192,20 @@ public function bookAppointment(Request $request){
          abort(404);
       }   
 
+      $request->validate([
+            'app_purpose' => 'required',
+            'appointment_date' => 'required',
+            'payment_method' => 'required',
+            'a_transfer' => 'required',
+            'b_transfer' => 'required'
+      ]);
+
       $appointment = new Appointment();
       $appointment->app_purpose = $request->app_purpose;
       $appointment->acad_year = $request ->acad_year;
       $appointment->appointment_date = $request ->appointment_date;
       $appointment->payment_method = $request ->payment_method;
+
       if ($request->hasFile('proof_of_payment')) {
             $proof_of_payment = $request->file('proof_of_payment');
             if ($proof_of_payment->isValid()) {
@@ -180,6 +217,14 @@ public function bookAppointment(Request $request){
       } else {
             $appointment->proof_of_payment = null;
       }
+
+      $appointment->a_transfer = $request ->a_transfer;
+      $appointment->a_transfer_school = $request ->a_transfer_school;
+      $appointment->b_transfer = $request ->b_transfer;
+      $appointment->b_transfer_school = $request ->b_transfer_school;
+
+      $appointment->status = "Pending";
+
       $appointment->user_id = $user_id;
       $appointment->form_id = $form->id;
 
@@ -194,9 +239,9 @@ public function bookAppointment(Request $request){
             $booking->save();
     
             return response()->json(['success' => true, 'message' => 'Appointment booked successfully.']);
-        } else {
+      } else {
             return response()->json(['success' => false, 'message' => 'Appointment booking failed.']);
-        }
+      }
 }
 
 //-------------------------------// Retrive All Bookings and Displaying//-------------------------------//

@@ -16,9 +16,11 @@ class AlreadyLoggedIn
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session()->has('loginId') && (url('login')==$request->url() || (url('registration')==$request->url()))){
-         return back();
+        if (Session()->has('loginId') && $request->url() == url('/')) {
+            return redirect()->route('appointment');
         }
+    
         return $next($request);
     }
+    
 }
