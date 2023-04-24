@@ -265,7 +265,7 @@
         </div>
 <!--//TODO: this is displaying in the calendar-->
 
-        <div class="container">
+        {{-- <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <div id="cal-box" class="cal-box p-4">
@@ -304,7 +304,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
 
