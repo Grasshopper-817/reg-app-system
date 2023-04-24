@@ -272,8 +272,6 @@
                 <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Dissmis</button>
                 {{-- <button type="submit" class="btn btn-custom ms-3">Delete</button> --}}
                 <a href="{{ url('admin/dashboard/delete/'.$form->id )}}"><button type="submit" class="btn btn-custom ms-3">Delete</button></a>
-
-
             </div>
         </div>
     </div>

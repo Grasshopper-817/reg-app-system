@@ -38,4 +38,8 @@ class Appointment extends Model
      {
          return $this->belongsTo(User::class);
      }
+     public function appointmentSlots()
+     {
+         return $this->hasMany(AppointmentSlot::class);
+     }
 }

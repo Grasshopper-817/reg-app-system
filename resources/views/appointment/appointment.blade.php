@@ -122,12 +122,12 @@
                         <div id="dashboard-appointment" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
                             	<ul class="list-group list-group-flush">
-                                	<li class="list-group-item">An item</li>
+                                <li class="list-group-item">An item</li>
                                 <li class="list-group-item">A second item</li>
                                 <li class="list-group-item">A third item</li>
                                 <li class="list-group-item">A fourth item</li>
                                 <li class="list-group-item">And a fifth one</li>
-                            </ul>
+                              </ul>
                                 You have no pending appointments at the moment.
                             </div>
                       </div>
@@ -373,24 +373,6 @@
                                         </h2>
                                         <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample" >
                                             <div class="accordion-body">
-                                                {{-- <div class="requestID">
-                                                    <p class="fs-6">
-                                                        <b>Tracking ID: </b>
-                                                        {{ $appointment->booking_number }}
-                                                    </p>
-                                                </div>
-                                                <div class="date-filled">
-                                                    <p class="fs-6"><b>Date Filled: </b>{{ $appointment->created_at->format('M d, Y h:i A') }}</p>
-                                                </div>
-                                                <div class="purpose">
-                                                    <p class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</p>
-                                                </div>
-                                                <div class="payment">
-                                                    <p class="fs-6"><b>Payment: </b>Gcash</p>
-                                                </div> --}}
-                                                {{-- <div class="proof-of-payment">
-                                                  <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p>  
-                                                </div> --}}
                                                 <div class="purpose">
                                                     <p class="fs-6"><b>Status: </b>{{ $appointment->status }}</p>
                                                 </div>
@@ -712,7 +694,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#appointmentModal">Back</button>
-              <button type="submit" id="submitButton" class="btn btn-appoint">Submit</button>
+              <button type="submit" id="submitButton" class="btn btn-appoint" >Submit</button>
               <!-- data-bs-toggle="modal" data-bs-target="#confirmedModal" -->
             </div> 
           </div>
@@ -785,7 +767,7 @@
                     var confirmBooking = confirm('Do you want to book this date?');
                     if (confirmBooking) {
                         var eventData = {
-                            title: 'Booking',
+                            title: '',
                             start: start,
                             booked: true
                         };

@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Form;
+use App\Models\Announcement;
 use App\Models\Appointment;
 use App\Models\Booking;
 use Carbon\Carbon;
@@ -17,9 +18,9 @@ use PhpParser\Node\Expr\FuncCall;
 
 class adminController extends Controller
 {
-    public function adminAnnouncement()
-    {
-        return view('admin.announcement');
+    public function adminAnnouncement(Request $request)
+    {   $announcements = Announcement::get();
+        return view('admin.announcement', compact('announcements'));
     }
     public function adminRequest()
     {

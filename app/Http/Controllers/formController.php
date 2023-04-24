@@ -79,7 +79,7 @@ class formController extends Controller
   public function delete($id){
         $forms = Form::find($id);
         $forms ->delete();
-        return redirect('admin/dashboard/dashboard')-> with ('success','You have deleted successfully');
+        return redirect('admin/dashboard')-> with ('success','You have deleted successfully');
   }
 
 

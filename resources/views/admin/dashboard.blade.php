@@ -195,6 +195,12 @@
                         <div class="col-md-8">
                             
                             <div id="cal-box" class="cal-box p-4">
+                                @if (Session::has('success'))
+                                <div class="alert alert-success">{{ Session::get('success') }}</div>
+                                @endif
+                                @if (Session::has('fail'))
+                                <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+                                @endif 
                                 <h4>Scheduling Calendar</h4>
                                 <small>Set a day for appointment slot</small>
                                 <div id="calendar"></div>
@@ -257,6 +263,50 @@
                 <div id="settings-content"></div>
             </div>
         </div>
+<!--//TODO: this is displaying in the calendar-->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="cal-box" class="cal-box p-4">
+                        <h4>Scheduling Calendar</h4>
+                        <small>Set a day for appointment slot</small>
+                        <div id="calendar">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-header font-karma">Appointment Slots</div>
+                        <div class="card-body">
+                            <form id="create_slot_form" method="POST" action="{{ route('appointment_slots.store') }}">
+                                @csrf
+                                
+                                <div class="form-group">
+                                    <label for="slot_date" class="font-karma">Slot Date:</label>
+                                    <input type="date" class="form-control" id="slot_date" name="slot_date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="available_slots" class="font-karma">Available Slots:</label>
+                                    <input type="number" class="form-control" id="available_slots" name="available_slots" required>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label font-karma" for="">
+                                            Disable
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-custom">Create Slot</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <!-- //TODO: this is modalization -->
         <div
@@ -270,8 +320,10 @@
         >
             <div
                 class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered"
-            >
+            > 
                 <div class="modal-content">
+                    <form id="create_slot_form" method="POST" action="{{ route('appointment_slots.store') }}">
+                        @csrf
                     <div class="modal-header">
                         <h1
                             class="modal-title fs-5 font-white font-nun"
@@ -287,7 +339,6 @@
                         ></button>
                     </div>
                     <div class="modal-body font-nun px-5 text-center">
-                        <form action="" method="post">
                             <div class="w-auto d-flex flex-row justify-content-end mb-3">
                                 <b class="me-4 ">LEGEND:</b>
                                 <input class="form-check-input" type="checkbox" value="" id="" disabled>
@@ -296,25 +347,24 @@
                                 <label class="form-check-label" for="">Disabled</label>
                             </div>
                             <div class="w-auto d-flex flex-row justify-content-end">
-                                <input type="checkbox" class="btn-check" id="disable" name="disable" autocomplete="off">
-                                <label class="btn btn-disable" for="disable">Disable</label>
+                                <input type="checkbox" class="btn-check" id="is_disabled" name="is_disabled" autocomplete="off">
+                                <label class="btn btn-disable" for="is_disabled">Disable</label>
                             </div>
-                            <div class="row">
+                         
                                 <label
                                     class="p-0 font-karma text-center"
                                     for="input_slot"
                                     >Set a number of slots available<br />for
-                                    <span id="slot_date"></span
+                                    <span id="slot_date" name="slot_date" ></span
                                 ></label>
                                 <input
                                     class="form-control"
                                     type="number"
-                                    id="input_slot"
+                                    id="available_slots"
+                                    name="available_slots"
                                     placeholder=""
                                     aria-label="default input example"
-                                />
-                            </div>
-                        </form>
+                                />                           
                     </div>
                     <div class="modal-footer">
                         <button
@@ -325,9 +375,10 @@
                             Dissmis
                         </button>
                         <button type="submit" class="btn btn-custom ms-3">
-                            Set
+                            Create Slot
                         </button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -671,106 +722,116 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
         <script>
             $(document).ready(function () {
-                $("#calendar").fullCalendar({
-                    header: {
-                        defaultView: "month",
-                    },
-                    viewRender: function (view, element) {
-                        var cal_box_height = $("#calendar").height();
-                        var track_box = $("#track-boxes");
-                        track_box.height(cal_box_height);
-                    },
-                    aspectRatio: 1.5,
-                    selectable: true,
-                    selectHelper: true,
-                    editable: true,
-                    eventLimit: true,
-                    businessHours: {
-                        //0 and 6 mao ang sat ug sun
-                        daysOfWeek: [1, 2, 3, 4, 5], // mon-fri
-                        startTime: "8:00",
-                        endTime: "17:00",
-                    },
-                    minDate: moment().add(1, "day"),
-                    dayClick: function (date, jsEvent, view) {
-                        var today = moment().format("YYYY-MM-DD");
-                        var clickedDate = moment(date).format("YYYY-MM-DD");
-                        var formattedDate =
-                            moment(date).format("MMMM, DD YYYY");
+                        $("#calendar").fullCalendar({
+                            header: {
+                                defaultView: "month",
+                            },
+                            viewRender: function (view, element) {
+                                var cal_box_height = $("#calendar").height();
+                                var track_box = $("#track-boxes");
+                                track_box.height(cal_box_height);
+                            },
+                            aspectRatio: 1.5,
+                            selectable: true,
+                            selectHelper: true,
+                            editable: true,
+                            eventLimit: true,
+                            businessHours: {
+                                //0 and 6 mao ang sat ug sun
+                                daysOfWeek: [1, 2, 3, 4, 5], // mon-fri
+                                startTime: "8:00",
+                                endTime: "17:00",
+                            },
+                            minDate: moment().add(1, "day"),
+                            dayClick: function (date, jsEvent, view) {
+                                var today = moment().format("YYYY-MM-DD");
+                                var clickedDate = moment(date).format("YYYY-MM-DD");
+                                var formattedDate = moment(date).format("MMMM, DD YYYY");
 
-                        if (
-                            clickedDate > today &&
-                            date.day() !== 0 &&
-                            date.day() !== 6
-                        ) {
-                            // Check if the date is already occupied by an event
-                            var isOccupied =
-                                $("#calendar").fullCalendar(
-                                    "clientEvents",
-                                    function (event) {
-                                        return (
-                                            moment(event.start).format(
-                                                "YYYY-MM-DD"
-                                            ) === clickedDate
-                                        );
+                                if (clickedDate > today && date.day() !== 0 && date.day() !== 6) {
+                                    // Check if the date is already occupied by an event
+                                    var isOccupied =
+                                        $("#calendar").fullCalendar(
+                                            "clientEvents",
+                                            function (event) {
+                                                return (
+                                                    moment(event.start).format("YYYY-MM-DD") ===
+                                                    clickedDate
+                                                );
+                                            }
+                                        ).length > 0;
+                                    // pass the formatted date value to the modal
+                                    $("#appointment_slot_modal")
+                                        .find("#slot_date")
+                                        .text(formattedDate);
+                                    $("#appointment_slot_modal").modal("show");
+
+                                    // Add event listener to remove clicked class and message when modal is dismissed
+                                    $("#appointment_slot_modal").on("hidden.bs.modal", function () {
+                                        $(".fc-day.clicked")
+                                            .removeClass("clicked")
+                                            .find(".click-message")
+                                            .remove();
+                                    });
+                                    if (!isOccupied) {
+                                        $("#calendar").fullCalendar("renderEvent", {
+                                            title: "Clicked",
+                                            start: date,
+                                            allDay: true,
+                                        });
+
+                                        $(".fc-day.clicked")
+                                            .removeClass("clicked")
+                                            .find(".click-message")
+                                            .remove();
+
+                                        $('.fc-day[data-date="' + clickedDate + '"]')
+                                            .addClass("clicked")
+                                            .find(".fc-day-number")
+                                            .append(
+                                                '<span class="click-message">Clicked</span>'
+                                            );
+                                    } else {
+                                        // The date is already occupied, show an error message or do nothing
+                                        alert("This date is already occupied.");
                                     }
-                                ).length > 0;
-                            // pass the formatted date value to the modal
-                            $("#appointment_slot_modal")
-                                .find("#slot_date")
-                                .text(formattedDate);
-                            $("#appointment_slot_modal").modal("show");
-
-                            // Add event listener to remove clicked class and message when modal is dismissed
-                            $("#appointment_slot_modal").on(
-                                "hidden.bs.modal",
-                                function () {
-                                    $(".fc-day.clicked")
-                                        .removeClass("clicked")
-                                        .find(".click-message")
-                                        .remove();
                                 }
-                            );
-                            if (!isOccupied) {
-                                $("#calendar").fullCalendar("renderEvent", {
-                                    title: "Clicked",
-                                    start: date,
-                                    allDay: true,
-                                });
+                            },
+                        });
 
-                                $(".fc-day.clicked")
-                                    .removeClass("clicked")
-                                    .find(".click-message")
-                                    .remove();
+                        $("#submit_slot").on("click", function (event) {
+                                var slot_date = $("#slot_date").text();
+                                var input_slot = $("#input_slot").val();
+                                var is_disabled = $("#disable").is(":checked");
 
-                                $('.fc-day[data-date="' + clickedDate + '"]')
-                                    .addClass("clicked")
-                                    .find(".fc-day-number")
-                                    .append(
-                                        '<span class="click-message">Clicked</span>'
-                                    );
-                            } else {
-                                // The date is already occupied, show an error message or do nothing
-                                alert("This date is already occupied.");
-                            }
-                        }
-                    },
-                });
+                                // Make the AJAX call to the server
+                                $.ajax({
+                                        type: "POST",
+                                        url: "/appointment_slots",
+                                        data: {
+                                            slot_date: clickedDate, // pass the clicked date as a parameter
+                                            available_slots: input_slot,
+                                            is_disabled: is_disabled,
+                                            appointment_id: appointment_id // Provide a valid appointment_id value here
+                                        },
+                                        success: function (response) {
+                                            console.log(response);
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            console.error(jqXHR, textStatus, errorThrown);
+                                        }
+                                    });
 
-                $("#submit_slot").on("click", function (event) {
-                    var slot_date = $("#slot_date").text();
-                    var input_slot = $("#input_slot").val();
-                    console.log(slot_date);
-                    console.log(input_slot);
-                    $("#appointment_slot_modal").modal("hide");
 
-                    //then AJAX inserted
-                });
-            });
-        </script>
+                                $("#appointment_slot_modal").modal("hide");
+                            });
+                    });
 
+        </script>      
+        
         <script>
             var menu_btn = document.querySelector("#menu-btn");
             var sidebar = document.querySelector("#sidebar");

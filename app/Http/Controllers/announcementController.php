@@ -46,6 +46,5 @@ class announcementController extends Controller
                     return back()-> with('fail','Something wrong');
             }
     }
-
     
 }

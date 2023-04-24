@@ -10,6 +10,7 @@ use App\Http\Controllers\UsersCalendarController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\formController;
 use App\Http\Middleware\AlreadyLoggedIn;
+use App\Http\Controllers\AppointmentSlotController;
 use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Booking;
@@ -49,10 +50,9 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->group(function () {
     Route::get('admin/dashboard/delete/{id}',[formController::class,'delete']);
   //  Route::get('admin/dashboard',[formController::class,'getAllForm'])->name('dashboard'); //pwde nani e delete
     Route::get('/bookings/{id}', [adminController::class, 'viewApp']);
-
     Route::get('admin/announcement',[announcementController::class,'createAnnouncement']);
     Route::post('admin/announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
-    Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
+    
     
 });
 
@@ -63,6 +63,8 @@ Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('logi
 //Route::get('/dashboard',[CustomAuthController::class,'dashboard']);
 Route::get('/logout',[CustomAuthController::class,'logout']);
 Route::post('/updateProfile', [CustomAuthController::class, 'updateProfile'])->name('updateProfile');
+
+Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
 
 //Route::get('/dashboard', [CustomAuthController::class, 'appointment'])->name('appointment');
 
@@ -110,5 +112,8 @@ Route::get('announcement',[announcementController::class,'dashboardAnnouncement'
 // Route::get('/bookings/{id}', [adminController::class, 'viewApp']);
 
 
-
-
+//Para ni sa Crud sa calendar
+Route::get('/appointment_slots', [AppointmentSlotController::class, 'index'])->name('appointment_slots.store');
+Route::post('/appointment_slots', [AppointmentSlotController::class, 'store']);
+Route::put('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'update']);
+Route::delete('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'destroy']);
