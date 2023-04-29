@@ -166,3 +166,17 @@ body {
         display: block !important;
     }
 }
+
+.btn-reverse{
+    border: 2px solid white;
+    color: white;
+    font-weight: bold;
+}.btn-reverse:hover{
+    color: #131313;
+    background-color: white;
+}
+
+ul.small-nav li:not(:last-child) a:after {
+    content: " | ";
+    margin-left: 20px;
+}

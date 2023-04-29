@@ -51,39 +51,65 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#1" aria-expanded="false" aria-controls="flush-collapseOne">
-                            How to make an Appointment?
+                                Is my personal information safe when using the online appointment system?
                             </button>
                         </h2>
                         <div id="1" class="accordion-collapse collapse" data-bs-parent="#featured-articles">
                             <div class="accordion-body d-flex flex-column">
                                 <small>Asked by: Meriflor Gonoy</small>
-                                Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.
+                                Yes, your personal information is safe when using the online appointment system. We use industry-standard security protocols to protect your information and ensure that it is kept confidential.
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#2" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                How many days would it take a document to process?
+                                What services can I book an appointment for using the online appointment system?
                             </button>
                         </h2>
                         <div id="2" class="accordion-collapse collapse" data-bs-parent="#featured-articles">
                             <div class="accordion-body d-flex flex-column">
                                 <small>Asked by: Meriflor Gonoy</small>
-                                Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.
+                                You can book an appointment for a variety of services, including student registration, transcript requests, and academic advising. Check the online appointment system for a full list of available services.
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                            Accordion Item #3
+                                What should I do if I have a question or concern that is not addressed in the FAQs?
                             </button>
                         </h2>
                         <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#featured-articles">
                             <div class="accordion-body d-flex flex-column">
                                 <small>Asked by: Meriflor Gonoy</small>
-                                Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.
+                                If you have a question or concern that is not addressed in the FAQs, please contact the Registrar's Office directly for assistance. You can find contact information on our website.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#4" aria-expanded="false" aria-controls="flush-collapseFour">
+                                How far in advance should I book an appointment with the Registrar's Office?
+                            </button>
+                        </h2>
+                        <div id="4" class="accordion-collapse collapse" data-bs-parent="#featured-articles">
+                            <div class="accordion-body d-flex flex-column">
+                                <small>Asked by: Olympio Sumbilon Jr</small>
+                                We recommend booking your appointment at least a week in advance to ensure availability. Some services may have specific deadlines, so be sure to check the online appointment system for details.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#5" aria-expanded="false" aria-controls="flush-collapseFive">
+                                Can I walk in for an appointment without booking in advance?
+                            </button>
+                        </h2>
+                        <div id="5" class="accordion-collapse collapse" data-bs-parent="#featured-articles">
+                            <div class="accordion-body d-flex flex-column">
+                                <small>Asked by: Olympio Sumbilon Jr</small>
+                                We strongly encourage clients to book their appointments in advance using the online appointment system. However, if you need immediate assistance and cannot book an appointment in advance, you may walk in and speak with a staff member if they are available. Please note that walk-ins may experience longer wait times and may not be able to receive the same level of service as those with appointments.
                             </div>
                         </div>
                     </div>
@@ -94,26 +120,26 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            Where does the Registrar located?
+                                What is Mindanao State University - Maigo School of Arts and Trades Registrar's Office?
                             </button>
                         </h2>
                         <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#other-questions">
                             <div class="accordion-body d-flex flex-column">
                                 <small>Asked by: Meriflor Gonoy</small>
-                                Igna lng ko if di ni ipadaun,, nghuna2 lng ko what if naay other concern ang mga students then if daghan na sab kaau ang mga questions then one page ra,,at least malahi tung pinakaimportnte or knng gifeature gyd sa registrar,, pero if inga.ana sab, pwed sab ta mghimog search2 na input, pero dpende nnu,, go rako unsa inyung desired na design
+                                The Registrar's Office is responsible for maintaining student records, handling registration, and providing academic support services at Mindanao State University - Maigo School of Arts and Trades.
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                How much is the travel fare from Kapatagan to Maigo?
+                                What is the online appointment system for the Registrar's Office?
                             </button>
                         </h2>
                         <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#other-questions">
                             <div class="accordion-body d-flex flex-column">
                                 <small>Asked by: Rotsen Baroquillo</small>
-                                Grabe na gyd ba.
+                                The online appointment system is a convenient and easy-to-use system that allows students, and alumni to schedule appointments with the Registrar's Office online.
                             </div>
                         </div>
                     </div>

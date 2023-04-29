@@ -17,19 +17,21 @@ use PhpParser\Node\Expr\FuncCall;
 
 class announcementController extends Controller
 {
-    public function dashboardAnnouncement(){
-        return view('announcement.announcement');
-    }
     public function showAnnouncement(Request $request)
     {
         $announcements = Announcement::orderBy('created_at', 'desc')->take(2)->get();
         return view('index', compact('announcements'));
     }
 
-    public function createAnnouncement(){
-        
-        return view('admin.announcement');
+    public function viewAnnouncementAdmin(){
+        $announcements = Announcement::all();
+        return view('admin-dashboard.announcement', compact('announcements'));
     }
+    public function dashboardAnnouncement(){
+        $announcements = Announcement::orderBy('created_at', 'desc')->get();
+        return view('announcement.announcement', compact('announcements'));
+    }
+    
     public function storeAnnouncement(Request $request){
         $request ->validate([
             'announcement_title' => 'required',

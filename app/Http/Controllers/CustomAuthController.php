@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Form;
 use App\Models\Appointment;
 use App\Models\Booking;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Hash;
@@ -18,15 +19,6 @@ use PhpParser\Node\Expr\FuncCall;
 
 class CustomAuthController extends Controller
 {
-//  public function login()
-//  {
-//         return view ('auth.login');
-//  }
-//  public function registration()
-//  {
-//         return view('auth.registration');
-    
-//  }
  //------------------------------------// Registration & Log-in //--------------------------------------------------------// 
  public function registerUser(Request $request){
         $request->validate([
@@ -45,7 +37,7 @@ class CustomAuthController extends Controller
               'course'=>'required',
               'acadYear'=>'',
               'gradYear'=>'',
-              'password'=>'required|min:8|max:12',
+              'password'=>'required|min:8',
         ]);
         //Inserting data from the user inputed
         $user = new User();
@@ -75,26 +67,6 @@ class CustomAuthController extends Controller
 
  }
 
-//  public function loginUser(Request $request)
-//  {
-//       $request->validate([
-//             'email'=>'required|email',
-//             'password'=>'required|min:8',
-//       ]);
-//       //checking user
-//       $user = User::where('email','=',$request->email)->first();
-//       if($user){
-//             if(Hash::check($request->password,$user->password)){
-//                   $request->session()->put('loginId',$user->id);
-//                   return redirect('dashboard');               
-//             }else{
-//                   return back()-> with('fail','email and password not match');
-//             }
-            
-//       }else{
-//             return back()-> with('fail','This email is not registered.');
-//       }
-//  }
 
 public function loginUser(Request $request)
 {
@@ -110,7 +82,7 @@ public function loginUser(Request $request)
             $request->session()->put('loginId', $user->id);
 
             if ($user->role == 1) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('dashboard-admin');
             } else {
                 return redirect()->route('appointment');
             }
@@ -122,16 +94,6 @@ public function loginUser(Request $request)
     }
 }
 
-//   public function dashboard()
-//   {
-//       //gettig data pag naka login
-//       $data = array();
-//       if (Session::has('loginId')){
-//             $data = User::where('id','=', Session::get('loginId'))->first();
-            
-//       }
-//       return view('dashboard',compact('data'));
-//   }
   public function logout(){
       if (Session::has('loginId')){
             Session::pull('loginId');
@@ -176,9 +138,15 @@ public function appointment(){ //user-dashboard
             $gender = $user ? $user->gender : null;
             $course = $user ? $user->course : null;
 
+            $user_id = session('loginId');
+            $pending = Appointment::whereNotIn('status', ['Claimed'])
+                                    ->where('user_id', $user_id)->get();
+            
+            $announcements = Announcement::orderBy('created_at', 'desc')->take(5)->get();
+
             return view('appointment.appointment', compact('firstName','lastName','middleName','suffix','address','school_id','cell_no','civil_status','email','birthdate','gender','status', 'acadYear', 'gradYear', 'course',
             'forms',
-            'appointments','user'
+            'appointments', 'pending', 'announcements'
             ));
 
  }
@@ -209,8 +177,12 @@ public function appointment(){ //user-dashboard
       if ($request->hasFile('proof_of_payment')) {
             $proof_of_payment = $request->file('proof_of_payment');
             if ($proof_of_payment->isValid()) {
-                  $pop_storage = $proof_of_payment->store('proof-of-payment');
-                  $appointment->proof_of_payment = $pop_storage;
+                  // $pop_storage = $proof_of_payment->store('proof-of-payment');
+                  $timestamp = time();
+                  $fileName = $timestamp . '_' . $proof_of_payment->getClientOriginalName();
+                  $pop_path = $proof_of_payment->move(public_path('images/proof-of-payment'), $fileName);
+                  $appointment->proof_of_payment = 'images/proof-of-payment/'.$fileName;
+                  // $appointment->proof_of_payment = $pop_storage;
             } else {
                 return response()->json(['error' => 'Invalid file'], 400);
             }
@@ -246,14 +218,14 @@ public function appointment(){ //user-dashboard
 
 //-------------------------------// Retrive All Bookings and Displaying//-------------------------------//
 
-public function bookings()
-{
-      $bookings = Booking::with('user', 'appointment')->get();
-      $users = User::whereIn('id', $bookings->pluck('user_id'))->select('id')->get();
-      $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))->get();
+// public function bookings()
+// {
+//       $bookings = Booking::with('user', 'appointment')->get();
+//       $users = User::whereIn('id', $bookings->pluck('user_id'))->select('id')->get();
+//       $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))->get();
         
-      return view('appointment.showBookings', compact('bookings', 'users', 'appointments'));
-} //pwde nani ma delete
+//       return view('appointment.showBookings', compact('bookings', 'users', 'appointments'));
+// } //pwde nani ma delete
 
 public function updateProfile(Request $request){
       $user_id = session('loginId');
@@ -288,8 +260,5 @@ public function updateProfile(Request $request){
       return redirect('/dashboard')->with('success', 'User information updated successfully.');
 }
 
-// public function adminDashboard(){
-//       return view('admin.dashboard');
-// }
 
 }

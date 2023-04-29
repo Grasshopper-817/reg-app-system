@@ -196,13 +196,13 @@
                                 <label for="inputCivilStatus">Civil Status</label>
                                 <select class="form-control" name="civil_status" id="inputCivilStatus">
                                   <option value="">Choose...</option>
-                                  <option value="single">Single</option>
-                                  <option value="married">Married</option>
-                                  <option value="single parent">Single Parent</option>
-                                  <option value="widow">Widow</option>
-                                  <option value="divorce">Divorced</option>
-                                  <option value="annulled">Annulled</option>
-                                  <option value="separated">Separated</option>
+                                  <option value="Single">Single</option>
+                                  <option value="Married">Married</option>
+                                  <option value="Single Parent">Single Parent</option>
+                                  <option value="Widow">Widow</option>
+                                  <option value="Divorce">Divorced</option>
+                                  <option value="Annulled">Annulled</option>
+                                  <option value="Separated">Separated</option>
                                 </select>
                                 <span class="text-danger">@error('civil_status'){{ $message }} @enderror </span>
                             </div>
@@ -217,8 +217,8 @@
                                 <label for="inputGender">Gender</label>
                                 <select class="form-control" name="gender" id="inputGender">
                                   <option value="">Choose...</option>
-                                  <option value="female">Female</option>
-                                  <option value="male">Male</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Male">Male</option>
                                 </select>
                                 <span class="text-danger">@error('gender'){{ $message }} @enderror </span>
                             </div>
@@ -226,18 +226,17 @@
                                 <label for="inputCourse">Course</label>
                                 <select class="form-control" name="course" value="{{ old('course') }}" id="inputCourse">
                                     <option value="">Choose...</option>
-                                    <option value="secondary">Secondary level High School / Senior High School</option>
-                                    <option value="alumni">Masteral/Alumni</option>
-                                    <option value="BSCS">Bachelor of Science in Computer Science</option>
-                                    <option value="BTLE ">Bachelor of Technology and Livelihood Education</option>
-                                    <option value="BTTE ">Bachelor of Technical-Vocational Teacher Education</option>
-                                    <option value="BSHM ">Bachelor of Science in Hospitality Management</option>
-                                    <option value="BIT-MD">Bachelor of Industrial Technology Major in Drafting</option>
-                                    <option value="BIT-MGFD">Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
-                                    <option value="BIT-MMT">Bachelor of Industrial Technology Major in Mechanical Technology</option>
-                                    <option value="BIT-MFSM">Bachelor of Industrial  Technology Major in Food and Service Management</option>
-                                    <option value="BIT-MET">Bachelor of Industrial Technology Major in Electrical Technology</option>
-                                    <option value="BIT-MAT">Bachelor of Industrial Technology Major in Automotive Technology</option>
+                                    <option value="Secondary Level High School / Senior High School">Secondary Level High School / Senior High School</option>
+                                    <option value="Bachelor of Science in Computer Science">Bachelor of Science in Computer Science</option>
+                                    <option value="Bachelor of Technology and Livelihood Education">Bachelor of Technology and Livelihood Education</option>
+                                    <option value="Bachelor of Technical-Vocational Teacher Education">Bachelor of Technical-Vocational Teacher Education</option>
+                                    <option value="Bachelor of Science in Hospitality Management">Bachelor of Science in Hospitality Management</option>
+                                    <option value="Bachelor of Industrial Technology Major in Drafting">Bachelor of Industrial Technology Major in Drafting</option>
+                                    <option value="Bachelor of Industrial Technology Major in Garments Fashion and Design">Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                    <option value="Bachelor of Industrial Technology Major in Mechanical Technology">Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                    <option value="Bachelor of Industrial  Technology Major in Food and Service Management">Bachelor of Industrial  Technology Major in Food and Service Management</option>
+                                    <option value="Bachelor of Industrial Technology Major in Electrical Technology">Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                    <option value="Bachelor of Industrial Technology Major in Automotive Technology">Bachelor of Industrial Technology Major in Automotive Technology</option>
                                   </select>
                                   <span class="text-danger">@error('course'){{ $message }} @enderror </span>
                             </div>
@@ -247,9 +246,9 @@
                                 <label for="inputGender">Status</label>
                                 <select class="form-control" name="status" id="inputStudentStatus" required>
                                     <option value="">Choose...</option>
-                                    <option value="high school">Secondary</option>
-                                    <option value="undergraduate">Undergraduate College</option>
-                                    <option value="alumni">Masteral/Alumni/Alumna</option>
+                                    <option value="Secondary Level">Secondary Level</option>
+                                    <option value="Undergraduate College">Undergraduate College</option>
+                                    <option value="Masteral/Alumni">Masteral/Alumni</option>
                                     </select>
                                 <span class="text-danger">@error('status'){{ $message }} @enderror </span>
                             </div>

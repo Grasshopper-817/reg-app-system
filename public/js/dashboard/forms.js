@@ -25,25 +25,3 @@ function updateBTransfer() {
 for (var i = 0; i < bTransfer.length; i++) {
     bTransfer[i].addEventListener("change", updateBTransfer);
 }
-
-var stats = document.getElementById("inputStudentStatus");
-var graduate = document.getElementById("input-gradYear");
-var undergrad = document.getElementById("input-acadYear");
-if (stats.value === "alumni") {
-    graduate.style.display = "block";
-    undergrad.style.display = "none";
-} else {
-    graduate.style.display = "none";
-    undergrad.style.display = "block";
-}
-
-function updateForm() {
-    if (stats.value === "alumni") {
-        graduate.style.display = "block";
-        undergrad.style.display = "none";
-    } else {
-        graduate.style.display = "none";
-        undergrad.style.display = "block";
-    }
-}
-stats.addEventListener("change", updateForm);

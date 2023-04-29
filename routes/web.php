@@ -9,6 +9,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UsersCalendarController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\formController;
+use App\Http\Controllers\MessageController;
 use App\Http\Middleware\AlreadyLoggedIn;
 use App\Http\Controllers\AppointmentSlotController;
 use App\Models\Appointment;
@@ -33,87 +34,56 @@ Route::middleware([AuthCheck::class,AlreadyLoggedIn::class])->group(function () 
     Route::get('/dashboard', [CustomAuthController::class, 'appointment'])->name('appointment');
 });
 
-Route::middleware([AuthCheck::class, AdminCheck::class])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'adminRequestDashboard'])->name('admin.dashboard');
-    Route::get('admin-message',[adminController::class,'adminMessage'])->name('admin-message');
-    Route::get('admin-forms',[adminController::class,'adminForms'])->name('admin-forms');
-    Route::get('admin-faqs',[adminController::class,'adminFaqs'])->name('admin-faqs');
-    Route::get('admin-settings',[adminController::class,'adminSettings'])->name('admin-settings');
-    Route::get('admin-announcement',[adminController::class,'adminAnnouncement'])->name('admin-announcement');
-    Route::get('admin-request',[adminController::class,'adminRequest'])->name('admin-request');
-
-    //Set up form controlls
-    Route::get('admin/create',[formController::class,'create'])->name('create');
-    Route::post('/create-form',[formController::class,'createForm'])->name('create-form');    
-    Route::get('admin/dashboard/edit/{id}',[formController::class,'edit']);
-    Route::put('admin/dashboard/update/{id}',[formController::class,'update']);
-    Route::get('admin/dashboard/delete/{id}',[formController::class,'delete']);
-  //  Route::get('admin/dashboard',[formController::class,'getAllForm'])->name('dashboard'); //pwde nani e delete
-    Route::get('/bookings/{id}', [adminController::class, 'viewApp']);
-    Route::get('admin/announcement',[announcementController::class,'createAnnouncement']);
-    Route::post('admin/announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
+Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admin')->group(function () {
+    Route::get('dashboard',[adminController::class,'viewAdminRecords'])->name('dashboard-admin');
+    Route::post('announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
     
+    //Admin Functions and content
+    Route::get('request',[adminController::class,'viewAdminRequest'])->name('request');
+    Route::post('create-form',[formController::class,'createForm'])->name('create-form'); 
+    Route::any('config',[formController::class,'viewForm'])->name('config');
+    Route::get('message',[MessageController::class,'viewMessage']);
+    Route::get('announcement',[announcementController::class,'viewAnnouncementAdmin']);
+
+    //Admin Forms Function
+    Route::get('forms/{form}/edit', [FormController::class, 'edit'])->name('forms.edit');
+    Route::put('forms/{form}', [FormController::class, 'update'])->name('forms.update');
+    Route::delete('forms/{form}', [FormController::class,'destroy'])->name('forms.destroy');
     
 });
 
 
-//Login and Registraion
-Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->name('registration-user');  
-Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('login-user');
-//Route::get('/dashboard',[CustomAuthController::class,'dashboard']);
-Route::get('/logout',[CustomAuthController::class,'logout']);
-Route::post('/updateProfile', [CustomAuthController::class, 'updateProfile'])->name('updateProfile');
+    //Login and Registraion - Personal Information
+    Route::post('/registration-user',[CustomAuthController::class,'registerUser'])->name('registration-user');  
+    Route::post('/login-user',[CustomAuthController::class,'loginUser'])->name('login-user');
+    Route::get('/logout',[CustomAuthController::class,'logout'])->name('logout');
+    Route::post('/updateProfile', [CustomAuthController::class, 'updateProfile'])->name('updateProfile');
+    Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
 
-Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
-
-//Route::get('/dashboard', [CustomAuthController::class, 'appointment'])->name('appointment');
-
-
-// //Set up form controlls
-// Route::get('admin/create',[formController::class,'create'])->name('create');
-// Route::post('/create-form',[formController::class,'createForm'])->name('create-form');    
-// Route::get('admin/dashboard/edit/{id}',[formController::class,'edit']);
-// Route::put('admin/dashboard/update/{id}',[formController::class,'update']);
-// Route::get('admin/dashboard/delete/{id}',[formController::class,'delete']);
-// Route::get('admin/dashboard',[formController::class,'getAllForm'])->name('dashboard');
-// Route::get('admin/dashboard/dashboard',[formController::class,'updateForm'])->name('updateForm');
-
-//Appointments and Bookings
-//User Dashboard - show appointments
-//Route::get('/dashboard',[CustomAuthController::class,'appointment'])->name('appointment'); //Trying sa authentication
-//Set up bookings
-// Route::post('/bookAppointment',[CustomAuthController::class,'bookAppointment'])->name('bookAppointment');
-//Show Bookings
-Route::get('admin/bookings', [CustomAuthController::class, 'bookings'])->name('appointment.showBookings'); //pwde na e delete ni
-
-//Working in announcements -> temporary
-
-Route::get('/',[announcementController::class,'showAnnouncement'])->name('announcement');
-Route::get('announcement',[announcementController::class,'dashboardAnnouncement'])->name('announcement.dashboard');
-// Route::get('admin/announcement',[announcementController::class,'createAnnouncement']);
-// Route::post('admin/announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
+    //Working in announcements -> temporary
+    Route::get('/',[announcementController::class,'showAnnouncement'])->name('announcement');
+    Route::get('announcement',[announcementController::class,'dashboardAnnouncement'])->name('announcement.dashboard');
 
 
-//faqs sa user side dapit -> temporary
- Route::get('/faqs',[faqsController::class,'index'])->name('faqs');
+    //faqs sa user side dapit -> temporary
+    Route::get('/faqs',[faqsController::class,'index'])->name('faqs');
+
+    //Para ni sa Crud sa calendar -> wala pani sure,, test rani
+    Route::get('/appointment_slots', [AppointmentSlotController::class, 'index'])->name('appointment_slots.store');
+    Route::post('/appointment_slots', [AppointmentSlotController::class, 'store']);
+    Route::put('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'update']);
+    Route::delete('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'destroy']);
 
 
-//Admin dashboard display routes
-//Route::get('admin/dashboard/dashboard',[CustomAuthController::class,'adminDashboard']); //temporary admin-dashboard
-// Route::get('admin-announcement',[adminController::class,'adminAnnouncement'])->name('admin-announcement');
-// Route::get('admin-request',[adminController::class,'adminRequest'])->name('admin-request');
-//Route::get('admin/dashboard/dashboard',[adminController::class,'adminRequestDashboard'])->name('admin-request-dashboard');//ssample
-// Route::get('admin-message',[adminController::class,'adminMessage'])->name('admin-message');
-// Route::get('admin-forms',[adminController::class,'adminForms'])->name('admin-forms');
-// Route::get('admin-faqs',[adminController::class,'adminFaqs'])->name('admin-faqs');
-// Route::get('admin-settings',[adminController::class,'adminSettings'])->name('admin-settings');
-
-//Testing area
-// Route::get('/bookings/{id}', [adminController::class, 'viewApp']);
+    //Bookings Status
+    Route::get('bookings/{id}', [adminController::class, 'viewApp']);
+    Route::put('acceptStatus', [adminController::class, 'updateStatusAccept'])->name('acceptStatus');
+    Route::put('doneStatus', [adminController::class, 'updateStatusDone'])->name('doneStatus');
+    Route::put('claimedStatus', [adminController::class, 'updateStatusClaimed'])->name('claimedStatus');
 
 
-//Para ni sa Crud sa calendar
-Route::get('/appointment_slots', [AppointmentSlotController::class, 'index'])->name('appointment_slots.store');
-Route::post('/appointment_slots', [AppointmentSlotController::class, 'store']);
-Route::put('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'update']);
-Route::delete('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'destroy']);
+        
+
+        
+        
+

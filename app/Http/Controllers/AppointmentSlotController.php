@@ -37,7 +37,7 @@ class AppointmentSlotController extends Controller
         }
     
         // Pass the events array to the view
-        return view('admin.dashboard', compact('appointments', 'appointmentSlots', 'events'));
+        return view('admin-dashboard.dashboard', compact('appointments', 'appointmentSlots', 'events'));
     }
 
     public function store(Request $request)

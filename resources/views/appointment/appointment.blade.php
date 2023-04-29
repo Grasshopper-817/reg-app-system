@@ -88,24 +88,19 @@
                       </h2>
                       <div id="dashboard-announcement" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Close Transaction as of February 5, 2023</h5>
-                                    <small class="text-body-secondary">1/31/22</small>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                  <h5 class="mb-1">Close Transaction as of February 5, 2023</h5>
-                                  <small class="text-body-secondary">1/31/22</small>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                  <h5 class="mb-1">Close Transaction as of February 5, 2023</h5>
-                                  <small class="text-body-secondary">1/31/22</small>
-                                </div>
-                            </a>
+                            @if(count($announcements) > 0)
+                                @foreach($announcements as $announcement)
+                                <a href="/announcement" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ $announcement->announcement_title }}</h5>
+                                        <small class="text-body-secondary">{{ $announcement->created_at->format('m/d/y') }}</small>
+                                    </div>
+                                </a>
+                            @endforeach
+                            @else
+                                <li class="list-group-item">There are no announcements at the moment.</li>
+                            @endif
+                            
                         </div>
                       </div>
                     </div>
@@ -113,7 +108,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-appointment" aria-expanded="false" aria-controls="dashboard-appointment">
-                                Appointments
+                                Your Appointments
                             </button>
                         </h2>
 
@@ -121,14 +116,15 @@
 
                         <div id="dashboard-appointment" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                            	<ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
-                                <li class="list-group-item">A fourth item</li>
-                                <li class="list-group-item">And a fifth one</li>
-                              </ul>
-                                You have no pending appointments at the moment.
+                                <ul class="list-group list-group-flush">
+                                @if(count($pending) > 0)
+                                    @foreach($pending as $pendapp)
+                                    <li class="list-group-item"> <b>{{ $pendapp->form->name }}</b>  on <b>{{ $pendapp->appointment_date }}</b> (<i>{{ $pendapp->status }}</i>)</li>
+                                    @endforeach
+                                @else
+                                    <li class="list-group-item">You have no pending appointments at the moment.</li>
+                                @endif
+                                </ul>
                             </div>
                       </div>
                     </div>
@@ -192,7 +188,7 @@
                                         </div>
                                         <div class="row w-100 d-flex flex-row justify-content-end">
                                             <button type="button" class="btn btn-appoint open-modal" data-bs-toggle="modal" data-bs-target="#appointmentModal" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
-                                                Appoint
+                                                Book Appointment
                                             </button>
                                         </div>
                                     </div>
@@ -230,7 +226,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="editMiddleName">Middle Name</label>
-                                        <input id="editMiddleName" name="editMiddleName" class="form-control" type="text" value="{{ $middleName }}" aria-label="default input example" required>
+                                        <input id="editMiddleName" name="editMiddleName" class="form-control" type="text" value="{{ $middleName }}" aria-label="default input example">
                                     </div>  
                                     <div class="col-md-6">
                                         <label for="editSuffix">Suffix</label>
@@ -262,13 +258,13 @@
                                         <label for="editCivilStatus">Civil Status</label>
                                         <select name="editCivilStatus" class="form-control" id="editCivilStatus" name="editCivilStatus" required>
                                           <option value=""{{ $civil_status == null ? 'selected' : '' }}>Choose...</option>
-                                          <option value="single"{{ $civil_status == 'single' ? 'selected' : '' }}>Single</option>
-                                          <option value="married"{{ $civil_status == 'married' ? 'selected' : '' }}>Married</option>
-                                          <option value="single parent"{{ $civil_status == 'single parent' ? 'selected' : '' }}>Single Parent</option>
-                                          <option value="widow"{{ $civil_status == 'widow' ? 'selected' : '' }}>Widow</option>
-                                          <option value="divorced"{{ $civil_status == 'divorced' ? 'selected' : '' }}>Divorced</option>
-                                          <option value="annulled"{{ $civil_status == 'annulled' ? 'selected' : '' }}>Annulled</option>
-                                          <option value="separated"{{ $civil_status == 'separated' ? 'selected' : '' }}>Separated</option>
+                                          <option value="Single"{{ $civil_status == 'Single' ? 'selected' : '' }}>Single</option>
+                                          <option value="Married"{{ $civil_status == 'Married' ? 'selected' : '' }}>Married</option>
+                                          <option value="Single Parent"{{ $civil_status == 'Single Parent' ? 'selected' : '' }}>Single Parent</option>
+                                          <option value="Widow"{{ $civil_status == 'Widow' ? 'selected' : '' }}>Widow</option>
+                                          <option value="Divorced"{{ $civil_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                          <option value="Annulled"{{ $civil_status == 'Annulled' ? 'selected' : '' }}>Annulled</option>
+                                          <option value="Separated"{{ $civil_status == 'Separated' ? 'selected' : '' }}>Separated</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
@@ -281,26 +277,25 @@
                                         <label for="editGender">Gender</label>
                                         <select name="editGender" class="form-control" id="editGender" required>
                                           <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
-                                          <option value="female"{{ $gender == 'female' ? 'selected' : '' }}>Female</option>
-                                          <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
+                                          <option value="Female"{{ $gender == 'Female' ? 'selected' : '' }}>Female</option>
+                                          <option value="Male"{{ $gender == 'Male' ? 'selected' : '' }}>Male</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="editCourse">Course</label>
                                         <select name="editCourse" class="form-control" id="editCourse" required>
                                            <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
-                                                <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
-                                                <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
-                                                <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
-                                                <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
-                                                <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
-                                                <option value="BSHM"{{ $course == 'BSHM' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
-                                                <option value="BIT-MD"{{ $course == 'BIT-MD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
-                                                <option value="BIT-MGFD"{{ $course == 'BIT-MGFD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
-                                                <option value="BIT-MMT"{{ $course == 'BIT-MMT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
-                                                <option value="BIT-MFSM"{{ $course == 'BIT-MFSM' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
-                                                <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
-                                                <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
+                                                <option value="Secondary Level High School / Senior High School"{{ $course == 'Secondary Level High School / Senior High School' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
+                                                <option value="Bachelor of Science in Computer Science"{{ $course == 'Bachelor of Science in Computer Science' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
+                                                <option value="Bachelor of Technology and Livelihood Education"{{ $course == 'Bachelor of Technology and Livelihood Education' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
+                                                <option value="Bachelor of Technical-Vocational Teacher Education"{{ $course == 'Bachelor of Technical-Vocational Teacher Education' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
+                                                <option value="Bachelor of Science in Hospitality Management"{{ $course == 'Bachelor of Science in Hospitality Management' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
+                                                <option value="Bachelor of Industrial Technology Major in Drafting"{{ $course == 'Bachelor of Industrial Technology Major in Drafting' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
+                                                <option value="Bachelor of Industrial Technology Major in Garments Fashion and Design"{{ $course == 'Bachelor of Industrial Technology Major in Garments Fashion and Design' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
+                                                <option value="Bachelor of Industrial Technology Major in Mechanical Technology"{{ $course == 'Bachelor of Industrial Technology Major in Mechanical Technology' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
+                                                <option value="Bachelor of Industrial  Technology Major in Food and Service Management"{{ $course == 'Bachelor of Industrial  Technology Major in Food and Service Management' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
+                                                <option value="Bachelor of Industrial Technology Major in Electrical Technology"{{ $course == 'Bachelor of Industrial Technology Major in Electrical Technology' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
+                                                <option value="Bachelor of Industrial Technology Major in Automotive Technology"{{ $course == 'Bachelor of Industrial Technology Major in Automotive Technology' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
                                           </select>
                                     </div>
                                 </div>
@@ -309,9 +304,9 @@
                                         <label for="editStatus">Status</label>
                                         <select name="editStatus" class="form-control" id="editStatus" required>
                                           <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
-                                          <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>Secondary</option>
-                                          <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate College</option>
-                                          <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni/Alumna</option>
+                                          <option value="Secondary Level"{{ $status == 'Secondary Level' ? 'selected' : '' }}>Secondary Level</option>
+                                          <option value="Undergraduate College"{{ $status == 'Undergraduate College' ? 'selected' : '' }}>Undergraduate College</option>
+                                          <option value="Masteral/Alumni"{{ $status == 'Masteral/Alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
@@ -370,9 +365,28 @@
                                         <h2 class="accordion-header">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->id }}" aria-expanded="false" aria-controls="{{ $appointment->id }}">
                                                 {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }}
+            
                                         </h2>
                                         <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample" >
                                             <div class="accordion-body">
+                                                {{-- <div class="requestID">
+                                                    <p class="fs-6">
+                                                        <b>Tracking ID: </b>
+                                                        {{ $appointment->booking_number }}
+                                                    </p>
+                                                </div>
+                                                <div class="date-filled">
+                                                    <p class="fs-6"><b>Date Filled: </b>{{ $appointment->created_at->format('M d, Y h:i A') }}</p>
+                                                </div>
+                                                <div class="purpose">
+                                                    <p class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</p>
+                                                </div>
+                                                <div class="payment">
+                                                    <p class="fs-6"><b>Payment: </b>Gcash</p>
+                                                </div> --}}
+                                                {{-- <div class="proof-of-payment">
+                                                  <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p>  
+                                                </div> --}}
                                                 <div class="purpose">
                                                     <p class="fs-6"><b>Status: </b>{{ $appointment->status }}</p>
                                                 </div>
@@ -456,7 +470,7 @@
     <!-- modalizationizest -->
                 <!-- appointmentModal -->
 
-                 @if ($errors->any())
+                <!-- @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
                     <ul>
@@ -465,7 +479,7 @@
                         @endforeach
                     </ul>
                 </div>
-                @endif 
+                @endif   -->
                      
                 <!-- fix -->
 <form action="{{ route('bookAppointment') }}" method="POST" enctype="multipart/form-data">
@@ -577,16 +591,7 @@
                     <div class="form-group row">
                         <div class="col-md-4">
                             <label for="">Civil Status</label>
-                            <select name="civil_status"class="form-control" id="inputCivilStatus" required disabled>
-                                <option value=""{{ $civil_status == null ? 'selected' : '' }}>Choose...</option>
-                                <option value="single"{{ $civil_status == 'single' ? 'selected' : '' }}>Single</option>
-                                <option value="married"{{ $civil_status == 'married' ? 'selected' : '' }}>Married</option>
-                                <option value="single parent"{{ $civil_status == 'single parent' ? 'selected' : '' }}>Single Parent</option>
-                                <option value="widow"{{ $civil_status == 'widow' ? 'selected' : '' }}>Widow</option>
-                                <option value="divorced"{{ $civil_status == 'divorced' ? 'selected' : '' }}>Divorced</option>
-                                <option value="annulled"{{ $civil_status == 'annulled' ? 'selected' : '' }}>Annulled</option>
-                                <option value="separated"{{ $civil_status == 'separated' ? 'selected' : '' }}>Separated</option>
-                              </select>
+                            <input class="form-control form-control" type="text" placeholder="{{ $civil_status }}" aria-label="default input example" disabled>
                         </div>    
                         <div class="col-md-4">
                             <label for="">Birthdate</label>
@@ -594,40 +599,17 @@
                         </div>    
                         <div class="col-md-4">
                             <label for="">Gender</label>
-                            <select name="gender" class="form-control" id="inputGender" disabled>
-                                <option value=""{{ $gender == null ? 'selected' : '' }}>Choose...</option>
-                                <option value="female"{{ $gender == 'female' ? 'selected' : '' }}>Female</option>
-                                <option value="male"{{ $gender == 'male' ? 'selected' : '' }}>Male</option>
-                              </select>
+                            <input class="form-control form-control" type="text" placeholder="{{ $gender }}" aria-label="default input example" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-4">
-                            <label for="inputStudentStatus">Status</label>
-                            <select name="status" class="form-control" id="inputStudentStatus" disabled>
-                                <option value=""{{ $status == null ? 'selected' : '' }}>Choose...</option>
-                                <option value="undergraduate"{{ $status == 'undergraduate' ? 'selected' : '' }}>Undergraduate</option>
-                                <option value="high school"{{ $status == 'high school' ? 'selected' : '' }}>High School</option>
-                                <option value="alumni"{{ $status == 'alumni' ? 'selected' : '' }}>Masteral/Alumni</option>
-                            </select>
+                            <label for="">Status</label>
+                            <input class="form-control form-control" type="text" placeholder="{{ $status }}" aria-label="default input example" disabled>
                         </div>
                         <div class="col-lg-4">
-                            <label for="inputCourse">Course</label>
-                            <select name="course " class="form-control" id="inputCourse" disabled>
-                                <option value=""{{ $course == null ? 'selected' : '' }}>Choose...</option>
-                                <option value="secondary"{{ $course == 'secondary' ? 'selected' : '' }}>Secondary level High School / Senior High School</option>
-                                <option value="alumni"{{ $course == 'alumni' ? 'selected' : '' }}>Alumni/Alumna/Masteral</option>
-                                <option value="BSCS"{{ $course == 'BSCS' ? 'selected' : '' }}>Bachelor of Science in Computer Science</option>
-                                <option value="BTLE"{{ $course == 'BTLE' ? 'selected' : '' }}>Bachelor of Technology and Livelihood Education</option>
-                                <option value="BTTE"{{ $course == 'BTTE' ? 'selected' : '' }}>Bachelor of Technical-Vocational Teacher Education</option>
-                                <option value="BSHM"{{ $course == 'BSHM' ? 'selected' : '' }}>Bachelor of Science in Hospitality Management</option>
-                                <option value="BIT-MD"{{ $course == 'BIT-MD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Drafting</option>
-                                <option value="BIT-MGFD"{{ $course == 'BIT-MGFD' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Garments Fashion and Design</option>
-                                <option value="BIT-MMT"{{ $course == 'BIT-MMT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Mechanical Technology</option>
-                                <option value="BIT-MFSM"{{ $course == 'BIT-MFSM' ? 'selected' : '' }}>Bachelor of Industrial  Technology Major in Food and Service Management</option>
-                                <option value="BIT-MET"{{ $course == 'BIT-MET' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Electrical Technology</option>
-                                <option value="BIT-MAT"{{ $course == 'BIT-MAT' ? 'selected' : '' }}>Bachelor of Industrial Technology Major in Automotive Technology</option>
-                               </select>
+                            <label for="">Course</label>
+                            <input class="form-control form-control" type="text" placeholder="{{ $course }}" aria-label="default input example" disabled>
                         </div>
                         <div class="col-lg-4 " id="input-acadYear">
                             <label for="inputAcadYear">Academic Year</label>
@@ -694,7 +676,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#appointmentModal">Back</button>
-              <button type="submit" id="submitButton" class="btn btn-appoint" >Submit</button>
+              <button type="submit" id="submitButton" class="btn btn-appoint">Submit</button>
               <!-- data-bs-toggle="modal" data-bs-target="#confirmedModal" -->
             </div> 
           </div>
@@ -767,7 +749,7 @@
                     var confirmBooking = confirm('Do you want to book this date?');
                     if (confirmBooking) {
                         var eventData = {
-                            title: '',
+                            title: 'Booking',
                             start: start,
                             booked: true
                         };
@@ -878,7 +860,6 @@
                 b_transfer = 0;
                 var b_transfer_school = null;
             }
-
 
             console.log(form_id);
             console.log(app_purpose);

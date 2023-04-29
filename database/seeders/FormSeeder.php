@@ -137,5 +137,18 @@ class FormSeeder extends Seeder
             'form_max_time'=> '15 minutes',
         ]);
         $form -> save();
+
+        $announcement = new \App\Models\Announcement([
+            'announcement_title' => 'Closed Transactions on April 28, 2023',
+            'announcement_text' => 'This is an important announcement from the Office of the Registrar. Due to necessary maintenance and upgrades, our registration system will be temporarily down for one week, starting Monday, April 10th at 8:00 am and ending Monday, April 17th at 8:00 am.  ',
+        ]);
+        $announcement -> save();
+
+        $announcement = new \App\Models\Announcement([
+            'announcement_title' => 'Closed Transactions on April 21, 2023',
+            'announcement_text' => "We would like to inform you that our registrar's office will be closed on April 21 2023, in observance of Eid al-Fitr, the festival of breaking the fast that marks the end of Ramadan.
+            ",
+        ]);
+        $announcement -> save();
     }
 }

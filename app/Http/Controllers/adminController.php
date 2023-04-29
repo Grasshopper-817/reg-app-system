@@ -18,27 +18,6 @@ use PhpParser\Node\Expr\FuncCall;
 
 class adminController extends Controller
 {
-    public function adminAnnouncement(Request $request)
-    {   $announcements = Announcement::get();
-        return view('admin.announcement', compact('announcements'));
-    }
-    public function adminRequest()
-    {
-        $bookings = Booking::with('user', 'appointment')->get();
-        $users = User::whereIn('id', $bookings->pluck('user_id'))->select('id')->get();
-        $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))->get();
-          
-        return view('admin.requests', compact('bookings', 'users', 'appointments'));
-    }
-    public function adminRequestDashboard()
-    {
-        $bookings = Booking::with('user', 'appointment')->get();
-        $users = User::whereIn('id', $bookings->pluck('user_id'))->select('id')->get();
-        $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))->get();
-          
-        return view('admin.dashboard', compact('bookings', 'users', 'appointments'));
-    }
-
     public function viewApp($id){
         $booking = Booking::with('user', 'appointment.form')->findOrFail($id);
         $fullName = $booking->user->lastName . ', ' . $booking->user->firstName;
@@ -71,25 +50,73 @@ class adminController extends Controller
 
             'doc_fee' => $booking->appointment->form->fee,
             'payment_method' => $booking->appointment->payment_method,
+            'proof_of_payment' => $booking->appointment->proof_of_payment,
         ]);
     }
 
-    public function adminMessage()
-    {
-        return view('admin.message');
+    public function updateStatusAccept(Request $request){
+        $appointments = Appointment::find($request->id);
+        if ($appointments) {
+            if ($appointments->status === "Pending") {
+                $appointments->status = $request->status;
+                $appointments->save();
+            } else {
+                return response()->json(['message' => 'Appointment status is not pending.'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Appointment not found.'], 404);
+        }
+    }public function updateStatusDone(Request $request){
+        $appointments = Appointment::find($request->id);
+        if ($appointments) {
+            if ($appointments->status === "On Process") {
+                $appointments->status = $request->status;
+                $appointments->save();
+            } else {
+                return response()->json(['message' => 'Appointment status is not pending.'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Appointment not found.'], 404);
+        }
+    }public function updateStatusClaimed(Request $request){
+        $appointments = Appointment::find($request->id);
+        if ($appointments) {
+            if ($appointments->status === "Ready to Claim") {
+                $appointments->status = $request->status;
+                $appointments->save();
+            } else {
+                return response()->json(['message' => 'Appointment status is not pending.'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Appointment not found.'], 404);
+        }
     }
-    public function adminForms(Request $request)
-    {
-        $forms = Form::all();
-        return view('admin.forms',compact('forms'));
+
+    public function viewAdminRecords(){
+        $bookings = Booking::with('user', 'appointment')
+                   ->whereHas('appointment', function ($query) {
+                       $query->where('status', 'claimed');
+                   })->get();
+        $users = User::whereIn('id', $bookings->pluck('user_id'))
+                    ->select('id')
+                    ->get();
+        $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))
+                                    ->get();
+
+        return view('admin-dashboard.dashboard', compact('bookings', 'users', 'appointments'));
     }
-    public function adminFaqs()
-    {
-        return view('admin.faqs');
-    }
-    public function adminSettings()
-    {
-        return view('admin.settings');
+    
+    public function viewAdminRequest(){
+        $bookings = Booking::with('user', 'appointment')
+                        ->whereDoesntHave('appointment', function ($query) {
+                            $query->where('status', 'claimed');
+                        })->get();
+        $users = User::whereIn('id', $bookings->pluck('user_id'))
+                        ->select('id')
+                        ->get();
+        $appointments = Appointment::whereIn('id', $bookings->pluck('appointment_id'))
+                                    ->get();
+        return view('admin-dashboard.request', compact('bookings', 'users', 'appointments'));
     }
 
 }

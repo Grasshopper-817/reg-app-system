@@ -75,7 +75,9 @@
 #deleteAnnouncementModal .modal-content, 
 #addFaqsModal .modal-content, 
 #editFaqsModal .modal-content, 
-#deleteFaqsModal .modal-content{
+#deleteFaqsModal .modal-content, 
+
+#status_appointment_modal .modal-content{
     background-color: white;
     color: #131313;
 }#addFormModal, 
@@ -90,7 +92,9 @@
 #deleteAnnouncementModal,
 #addFaqsModal,
 #editFaqsModal,
-#deleteFaqsModal{
+#deleteFaqsModal,
+
+#status_appointment_modal{
     --bs-modal-header-border-color: none;
     --bs-modal-footer-border-color: none;
     /* color: #131313 !important; */
@@ -118,7 +122,9 @@
 #deleteAnnouncementModal .modal-header,
 #addFaqsModal .modal-header,
 #editFaqsModal .modal-header,
-#deleteFaqsModal .modal-header{
+#deleteFaqsModal .modal-header,
+
+#status_appointment_modal .modal-header{
     background-color: #131313;
 }#addFormModal .btn-custom,
 #editFormModal .btn-custom,
@@ -132,7 +138,9 @@
 #deleteAnnouncementModal .btn-custom,
 #addFaqsModal .btn-custom,
 #editFaqsModal .btn-custom,
-#deleteFaqsModal .btn-custom{
+#deleteFaqsModal .btn-custom,
+
+#status_appointment_modal .btn-custom{
     border: 2px solid #131313;
     font-weight: bold;
 }
