@@ -64,7 +64,10 @@
             </div>
             <div class="message-body mt-5 font-13 px-5 flex-1">
                 <pre class="fs-6">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate sunt, distinctio eius libero iste ad harum debitis soluta dolore? Fuga illo id neque placeat atque sed eaque fugit praesentium delectus.
+                    Hello! I hope you're doing well. I was wondering if you could provide me with some additional information regarding the fees that are required when booking through the form. I'm interested in understanding the fee structure and any other associated costs, such as taxes or processing fees.
+
+                    If possible, it would be helpful to know the breakdown of the fees and when they need to be paid. 
+                    I appreciate your time and assistance with this matter. Please let me know if you need any further information from me. Thank you!
                 </pre>
             </div>
         </div>

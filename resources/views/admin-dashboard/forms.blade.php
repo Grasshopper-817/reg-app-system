@@ -100,16 +100,16 @@
                                     </div>
                                 </div>
                                 <div class="body-buttons d-flex flex-row justify-content-end mt-2">
-                                    <button class="btn btn-custom d-flex flex-row align-items-center edit-form-btn" type="button" data-bs-toggle="modal" data-bs-target="#editFormModal">
+                                    <button class="btn btn-custom d-flex flex-row align-items-center open_edit_form_modal" type="button" data-form-edit-id="{{ $form->id }}">
                                         <img src="/images/edit.png" alt="">
                                         <small class="m-0 ms-2 p-0 font-nun">Edit</small>
                                     </button>
-                                    {{-- <a href="{{ route('forms.edit', $form->id) }}" class="btn btn-custom d-flex flex-row align-items-center edit-form-btn"> <img src="/images/edit.png" alt="">Edit</a> --}}
+                                    
+                                    <button class="btn btn-custom d-flex flex-row align-items-center open_delete_form_modal" type="button" data-form-delete-id="{{ $form->id }}" data-form-delete-name="{{ $form->name }}">
+                                        <img src="/images/delete.png" alt="">
+                                    <small class="m-0 ms-2 p-0 font-nun">Delete</small>
+                                </button>
 
-                                    <button class="btn btn-custom d-flex flex-row align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#deleteFormModal" data-formid="{{ $form->id }}">
-                                            <img src="/images/delete.png" alt="">
-                                        <small class="m-0 ms-2 p-0 font-nun">Delete</small>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -164,8 +164,6 @@
             </div>
         </section>
     </div> 
-
-
     <!-- TODO scripts -->
     <script>
         var links = document.querySelectorAll('.navigation a');

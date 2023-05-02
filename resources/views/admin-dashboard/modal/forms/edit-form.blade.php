@@ -6,6 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-5">
+                <input type="hidden" id="form-id">
                 <div class="mb-3">
                     <label for="editFormName" class="form-label">Form Name</label>
                     <input type="text" class="form-control" name="editFormName" id="editFormName" placeholder="">
@@ -37,132 +38,43 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Dissmis</button>
-                <button type="submit" class="btn btn-custom ms-3">Update</button>
+                <button type="submit" class="btn btn-custom ms-3" id="submit_form_update">Update</button>
             </div>
         </div>
     </div>
 </div>
 
-
-{{-- 
-<!-- edit-form.blade.php -->
-<div class="modal fade" id="editFormModal{{ $form->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editFormModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5 font-white font-nun" id="editFormModalLabel">Edit Form</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="editForm" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body px-5">
-                    <div class="modal-body">
-                        <form>
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" name="form_id" id="form_id" value="">
-                            <div class="mb-3">
-                                <label for="editFormName" class="form-label">Form Name</label>
-                                <input type="text" class="form-control" name="editFormName" id="editFormName" placeholder="" value="{{ old('editFormName') }}">
-                                @error('editFormName')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="editAvailability" class="form-label">Availability</label>
-                                <input type="text" class="form-control" name="editAvailability" id="editAvailability" placeholder="" value="{{ old('editAvailability') }}">
-                                @error('editAvailability')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="editAvailService" class="form-label">Who can avail this service?</label>
-                                <input type="text" class="form-control" name="editAvailService" id="editAvailService" placeholder="" value="{{ old('editAvailService') }}">
-                                @error('editAvailService')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="editReq" class="form-label">Requirements</label>
-                                <textarea class="form-control" name="editReq" id="editReq" rows="3">{{ old('editReq') }}</textarea>
-                                @error('editReq')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="editProcessingTime" class="form-label">Processing Time</label>
-                                <input type="text" class="form-control" name="editProcessingTime" id="editProcessingTime" placeholder="" value="{{ old('editProcessingTime') }}">
-                                @error('editProcessingTime')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="editDocFee" class="form-label">Document Fee</label>
-                                <input type="text" class="form-control" name="editDocFee" id="editDocFee" placeholder="" value="{{ old('editDocFee') }}">
-                                @error('editDocFee')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="editMaxTimeClaim" class="form-label">Max Time to Claim</label>
-                                <input type="text" class="form-control" name="editMaxTimeClaim" id="editMaxTimeClaim" placeholder="" value="{{ old('editMaxTimeClaim') }}">
-                                @error('editMaxTimeClaim')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </form>
-                    </div>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Dismiss</button>
-                    <button type="submit" class="btn btn-custom ms-3" id="updateFormBtn">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <script>
-    $('#editFormModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var form = button.data('form');
-        $('#form_id').val(form.id);
-        var form = button.data('form');
-        $('#form_id').val(form.id);
-        $('#editFormName').val(form.form_name);
-        $('#editAvailability').val(form.availability);
-        $('#editAvailService').val(form.who_can_avail);
-        $('#editReq').val(form.requirements);
-        $('#editProcessingTime').val(form.processing_time);
-        $('#editDocFee').val(form.document_fee);
-        $('#editMaxTimeClaim').val(form.max_time_claim);
-    });
-</script>
+    $('#submit_form_update').on('click', function(){
+        var formID = $('#form-id').val();
+        var editFormName = $('#editFormName').val();
+        var editAvailability = $('#editAvailability').val();
+        var editAvailService = $('#editAvailService').val();
+        var editReq = $('#editReq').val();
+        var editProcessingTime = $('#editProcessingTime').val();
+        var editDocFee = $('#editDocFee').val();
+        var editMaxTimeClaim = $('#editMaxTimeClaim').val();
 
-<script>
-    $('#updateFormBtn').click(function(e){
-        e.preventDefault();
-        var form_id = $('#form_id').val();
-        var form_data = {
-            form_name: $('#editFormName').val(),
-            availability: $('#editAvailability').val(),
-            who_can_avail: $('#editAvailService').val(),
-            requirements: $('#editReq').val(),
-            processing_time: $('#editProcessingTime').val(),
-            document_fee: $('#editDocFee').val(),
-            max_time_claim: $('#editMaxTimeClaim').val(),
-            _token: $('input[name=_token]').val()
-        };
         $.ajax({
-            url: '/forms/'+form_id,
-            method: 'PUT',
-            data: form_data,
-            success: function(result){
-                $('#editFormModal').modal('hide');
+            url: "{{ route('editform') }}",
+            method: "PUT",
+            data: {
+                formID: formID,
+                editFormName: editFormName,
+                editAvailability: editAvailability,
+                editAvailService: editAvailService,
+                editReq: editReq,
+                editProcessingTime: editProcessingTime,
+                editDocFee: editDocFee,
+                editMaxTimeClaim: editMaxTimeClaim
+            },
+            success: function(response) {
+                console.log(response);
                 location.reload();
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
             }
         });
     });
 </script>
- --}}

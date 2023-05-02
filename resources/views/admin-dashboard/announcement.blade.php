@@ -40,14 +40,16 @@
                                 <pre>{{ $announcement->announcement_text }}</pre>
                             </div>
                             <div class="body-buttons d-flex flex-row justify-content-end mt-2">
-                                <button class="btn btn-custom d-flex flex-row align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal" data-announcement-id="{{ $announcement->id }}">
-                                        <img src="/images/edit.png" alt="">
+                                <button class="btn btn-custom d-flex flex-row align-items-center open_edit_announcement_modal" type="button" data-announcement-edit-id="{{ $announcement->id }}">
+                                    <img src="/images/edit.png" alt="">
                                     <small class="m-0 ms-2 p-0 font-nun">Edit</small>
                                 </button>
-                                <button class="btn btn-custom d-flex flex-row align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#deleteAnnouncementModal" data-announcement-id="{{ $announcement->id }}">
-                                        <img src="/images/delete.png" alt="">
-                                    <small class="m-0 ms-2 p-0 font-nun">Delete</small>
-                                </button>
+
+                                <button class="btn btn-custom d-flex flex-row align-items-center open_delete_announcement_modal" type="button" data-announcement-delete-id="{{ $announcement->id }}" data-announcement-delete-name="{{ $announcement->announcement_title }}">
+                                    <img src="/images/delete.png" alt="">
+                                <small class="m-0 ms-2 p-0 font-nun">Delete</small>
+                            </button>
+
                             </div>
                         </div>
                     </div>
@@ -56,4 +58,28 @@
             </div>
         </div>
     </div>
+    <script>
+        var links = document.querySelectorAll('.navigation a');
+
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                var target = this.getAttribute('href');
+                var offset = document.querySelector(target).offsetTop - 100;
+
+                window.scrollTo({
+                top: offset,
+                behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+        <script>
+            $(document).ready(function() {
+                $('.delete-form-btn').click(function() {
+                    var form_id = $(this).data('formid');
+                    $('#form_id').val(form_id);
+                });
+            });
+        </script>
 @endsection

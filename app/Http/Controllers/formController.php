@@ -52,42 +52,43 @@ class formController extends Controller
       return view('admin-dashboard/forms', compact('forms'));
 }
 
-public function edit($id)
-{
-    $form = Form::findOrFail($id);
-    return view('admin-dashboard.modal.forms.edit-form', compact('form'));
-}
+public function viewOneForm($id){
+    $forms = Form::where('id', $id)->findOrFail($id);
 
-public function update(Request $request, Form $form)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|max:255',
-        'availability' => 'required',
-        'who_may_avail' => 'required',
-        'requirements' => 'required',
-        'processing_time' => 'required',
-        'document_fee' => 'required',
-        'max_time_claim' => 'required',
+    return response()->json([
+          'name' => $forms->name,
+          'form_requirements' => $forms->form_requirements,
+          'form_who_avail' => $forms->form_who_avail,
+          'form_process' => $forms->form_process,
+          'fee' => $forms->fee,
+          'form_avail' => $forms->form_avail,
+          'form_max_time' => $forms->form_max_time
     ]);
-
-    $form->name = $validatedData['name'];
-    $form->availability = $validatedData['availability'];
-    $form->who_may_avail = $validatedData['who_may_avail'];
-    $form->requirements = $validatedData['requirements'];
-    $form->processing_time = $validatedData['processing_time'];
-    $form->document_fee = $validatedData['document_fee'];
-    $form->max_time_claim = $validatedData['max_time_claim'];
-    $form->save();
-
-    return back()->with('success', 'Form updated successfully.');
 }
 
-public function destroy(Form $form)
-{
-    {
-        $form->delete();
-        return back()->with('success', 'Form deleted successfully');
-    }
+public function editForm(Request $request){
+    $forms = Form::find($request->formID);
+    $forms->name = $request->editFormName;
+    $forms->form_requirements = $request->editReq;
+    $forms->form_process = $request->editProcessingTime;
+    $forms->fee = $request->editDocFee;
+    $forms->form_avail = $request->editAvailability;
+    $forms->form_who_avail = $request->editAvailService;
+    $forms->form_max_time = $request->editMaxTimeClaim;
+    $forms->save();
+
+    return response()->json(['success' => true, 'message' => 'The Forms is chu2.']);
 }
+
+public function delete(Request $request, $id){
+      $forms = Form::find($id);
+      
+      if($forms){
+            $forms->delete();
+            return response()->json(['success' => true, 'message' => 'You have deleted successfully']);
+      }return response()->json(['success' => false, 'message' => 'Were dead.']);
+  }
+
+
 
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Online Appointment</title>
     
@@ -187,9 +188,10 @@
                                                 {{ $form->form_max_time }}
                                         </div>
                                         <div class="row w-100 d-flex flex-row justify-content-end">
-                                            <button type="button" class="btn btn-appoint open-modal" data-bs-toggle="modal" data-bs-target="#appointmentModal" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
-                                                Book Appointment
+                                            <button type="button" class="btn btn-appoint open-modal" data-form-max-time="{{ $form->form_max_time }}" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
+                                                Book Appoint
                                             </button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -482,8 +484,8 @@
                 @endif   -->
                      
                 <!-- fix -->
-<form action="{{ route('bookAppointment') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+{{-- <form action="{{ route('bookAppointment') }}" method="POST" enctype="multipart/form-data">
+    @csrf --}}
     <div class="modal fade" id="appointmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
           <div class="modal-content">
@@ -491,20 +493,60 @@
               <h1 class="modal-title fs-5" id="form_name"></h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body modal-doc">
+            <div class="modal-body modal-doc font-mont">
                     <input type="hidden" name="form_id" id="form_id">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="row mb-3">
-                                <label for="app_purpose">Purpose</label>
-                                <textarea class="form-control form-control" id="app_purpose" name="app_purpose" style="height: 150px;" type="text" placeholder="" aria-label="default input example"></textarea>
+                        <div class="col-md-5">
+                            <div class="mb-3">
+                                <!-- <label for="app_purpose">Purpose</label> -->
+                                <textarea placeholder="Purpose" class="form-control form-control" id="app_purpose" name="app_purpose" style="height: 150px;" type="text" placeholder="" aria-label="default input example"></textarea>
                             </div>
-                            <div class="row mb-3" id="app-acad-year">
+                            <div class="mb-3" id="app-acad-year">
                                 <label for="inputDocAcadYear">Academic Year</label>
                                 <input class="form-control form-control" type="text" name="acad_year" id="acad_year" placeholder="Academic Year" aria-label="default input example">
                             </div>
-                            <div><hr class="row mb-3"></div>
-                            <div class="row d-flex flex-row w-100 mb-3">
+                            <div class="form-group mt-3" id="college-form">
+                                <div class="d-flex flex-column justify-content-start custom-form-group">
+                                    <p class="font-small font-mont m-0 font-bold">Before MSU-MSAT, did you study in a different college?</p>
+                                    <div>
+                                        <label>
+                                            <input type="radio" name="isATransfer" value="Yes">
+                                            Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="isATransfer" value="No">
+                                            No
+                                        </label>
+                                    </div>
+                                    <div class="w-100" id="ATransferSchool">
+                                        <label for="inputATransferSchool">Please indicate school</label>
+                                        <input type="text" class="form-control" id="inputATransferSchool" placeholder="">
+                                    </div>
+                                </div>
+                        
+                                <div class="d-flex flex-column justify-content-start custom-form-group mt-2">
+                                    <p class="font-small font-mont m-0 font-bold">After MSU-MSAT, did you study in a different college?</p>
+                                    <div>
+                                        <label>
+                                            <input type="radio" name="isBTransfer" value="Yes">
+                                            Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="isBTransfer" value="No">
+                                            No
+                                        </label>
+                                    </div>
+                                    <div class="w-100" id="BTransferSchool">
+                                        <label for="inputAcadYear">Please indicate school</label>
+                                        <input type="text" class="form-control" id="inputBTransferSchool" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            
+                            <div><hr class="row my-3"></div>
+                            <div class="d-flex flex-column w-100 mb-3">
                                 <p class="fs-4 font-mont font-bold">Payment</p>
                                 <div>
                                     <input type="radio" id="walk-in" name="payment_method" value="Walk-in">
@@ -526,19 +568,40 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div id="calendar"></div>
+                        <div class="col-md-7">
+                            <div class="d-flex flex-row flex-wrap">
+                                <b>Selected Date:</b><p id="app_date" class="ms-2">Select a date first.</p>
+                            </div>
+                            <div class="d-flex flex-row notice-box p-3" id="exp_sect">
+                                <p class="m-0"><b>Reminder: </b>The <span id="form-name"></span>'s maximum time to claim is <span id="exp_date"></span></p>
+                            </div>
+                            <div class="d-flex flex-row flex-wrap justify-content-end mt-2">
+                                <div class="full-sect mx-2 d-flex flex-row align-items-center">
+                                    <div class="legend-box fc-event-full me-1"></div>
+                                    <div>Full</div>
+                                </div>
+                                <div class="avai-sect mx-2 d-flex flex-row align-items-center">
+                                    <div class="legend-box fc-event-available me-1"></div>
+                                    <div>Available</div>
+                                </div>
+                                <div class="avai-sect mx-2 d-flex flex-row align-items-center">
+                                    <div class="legend-box fc-disabled-01 me-1"></div>
+                                    <div>Disabled</div>
+                                </div>
+                            </div>
+                            <div id="calendar" class="mt-3"></div>
                         </div>
                     </div>
               
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-appoint" data-bs-dismiss="modal">Close</button>
-              <button type="button" id="proceedButton" class="btn btn-appoint" data-bs-toggle="modal" data-bs-target="#reviewModal">Proceed</button>
+              <button type="button" id="proceedButton" class="btn btn-appoint">Proceed</button>
             </div>
           </div>
         </div>
     </div>
+
 
     <!--  MODAAAAAAAAAAAAAALz -->
     <div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -622,42 +685,16 @@
                     </div>
                     <!-- review -->
                     <div class="form-group row mt-3" id="college-form">
-                        <div class="col-lg-6 d-flex flex-column justify-content-start custom-form-group">
-                            <p class="font-small font-mont m-0">Before MSU-MSAT, did you study in a different college?</p>
-                            <div>
-                                <label>
-                                    <input type="radio" name="isATransfer" value="yes">
-                                    Yes
-                                </label>
-                                <label>
-                                    <input type="radio" name="isATransfer" value="no">
-                                    No
-                                </label>
-                            </div>
-                            <div class="w-100" id="ATransferSchool">
-                                <label for="inputATransferSchool">Please indicate school</label>
-                                <input type="text" class="form-control" id="inputATransferSchool" placeholder="">
-                            </div>
+                        <div class="col-md-6 d-flex flex-column justify-content-start custom-form-group">
+                            <label for="inputATransferInfo">Before MSU-MSAT, did you study in a different college?</p>
+                            <input type="text" class="form-control" id="inputATransferInfo" value="" disabled>
                         </div>
-                
-                        <div class="col-lg-6 d-flex flex-column justify-content-start custom-form-group">
-                            <p class="font-small font-mont m-0">After MSU-MSAT, did you study in a different college?</p>
-                            <div>
-                                <label>
-                                    <input type="radio" name="isBTransfer" value="yes">
-                                    Yes
-                                </label>
-                                <label>
-                                    <input type="radio" name="isBTransfer" value="no">
-                                    No
-                                </label>
-                            </div>
-                            <div class="w-100" id="BTransferSchool">
-                                <label for="inputAcadYear">Please indicate school</label>
-                                <input type="text" class="form-control" id="inputBTransferSchool" placeholder="">
-                            </div>
+                        <div class="col-md-6 d-flex flex-column justify-content-start custom-form-group">
+                            <label for="inputBTransferInfo">After MSU-MSAT, did you study in a different college?</p>
+                            <input type="text" class="form-control" id="inputBTransferInfo" value="" disabled>
                         </div>
                     </div>
+
                     <div class="py-3"><hr></div>
                     <div class="form-group row">
                         <div class="col-md-4">
@@ -682,7 +719,7 @@
           </div>
         </div>
     </div>
-</form>
+{{-- </form> --}}
 
     <!-- confirmation modal -->
     <div class="modal fade" id="confirmedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -692,7 +729,7 @@
                 <!-- <i class="fa-regular fa-circle-check fa-2xl mb-5" style="color: #ffffff;"></i> -->
                 <p class="h5 font-bold-font-mont">Your appointment has been created.<br>Please proceed to the registrar's office on the scheduled day to claim or process your request, and remember to bring any necessary documents with you.</p>
                 <p class="mt-5 font-este">If you have any questions or concerns, please don't hesitate to contact us.</p>
-              <a type="button" class="btn btn-confirm mt-5" name="proceed-docPurpose" data-bs-dismiss="modal" id="confirm-btn">Confirm</a>
+              <a type="button" class="btn btn-confirm mt-5" name="proceed-docPurpose" data-bs-dismiss="modal" id="confirm-btn" onclick="javascript:window.location.reload()">Confirm</a>
             </div>
             </div>
           </div>
@@ -709,135 +746,182 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
 
+    <link rel="stylesheet" href="{{ asset('css/defaultcss/calendar.css') }}" />
+
     <!-- script for the calendar and such exclusively for appointment blade php -->
     <script>
         var appointment_date;
-        var appointment_booked = false;
-
         $(document).ready(function() { 
+            var cell;
             $('#calendar').fullCalendar({
-                header: {
-                    defaultView: 'month'
+                editable:true,
+                header:{
+                    left:'prev,next today',
+                    right:'title'
                 },
-                navLinks: false,
-                editable: true,
-                eventLimit: true,
-                events: [],
-                selectable: true,
+                editable: false,
+                businessHours: {
+                    dow: [1,2,3,4,5], // Monday - Friday only
+                    start: '08:00',
+                    end: '17:00',
+                },
+                selectConstraint: {
+                    dow: [1, 2, 3, 4, 5] // The days of the week when selections are allowed
+                },
+                events:'/appointment_slots',
+                selectable:true,
                 selectHelper: true,
-                businessHours: { //0 and 6 mao ang sat ug sun
-                    daysOfWeek: [ 1, 2, 3, 4, 5 ], // mon-fri
-                    startTime: '8:00', 
-                    endTime: '17:00', 
-                },
-                select: function(start) {
-                    var today = moment();
-                    if (start.isBefore(today, 'day')) {
-                        alert('You cannot book appointments for past dates.');
-                        return;
-                    }
-                    if (start.day() === 6 || start.day() === 0) {
-                        alert('You cannot book appointments on weekends.');
-                        return;
-                    }
-                    if (appointment_booked) {
-                        alert('You have already booked an appointment. Please cancel the existing appointment before booking a new one.');
-                        return;
-                    }
-                    appointment_date = moment(start).format('MMMM DD, YYYY');
-                    console.log('Selected date:', appointment_date);
-                    var confirmBooking = confirm('Do you want to book this date?');
-                    if (confirmBooking) {
-                        var eventData = {
-                            title: 'Booking',
-                            start: start,
-                            booked: true
-                        };
-                        appointment_booked = true;
-                        $('#calendar').fullCalendar('renderEvent', eventData, true);
+                select: function(date, jsEvent, view, event, element){
+                    var events = $('#calendar').fullCalendar('clientEvents');
+                    var event = events.find(e => moment(e.start).isSame(date, 'day'));
+                    var jsDate = date.toDate();
+                    var new_date;
+                    
+                    if (event && (event.isDisabled || event.status === "Full")) {
+                        alert("Full or disabled");
+                    } else if (!event){
+                        //kasni is gicheck nya if naa bay event aning mga adlawa,, like naa bay naset na appointment ang admin,, if wala then return false
+                        return false;
+                    } else {
+                        var new_cell;
+                        if(!appointment_date){
+                        //if wa pay sulod, magset syag appointment
+                            cell = $(`.fc-bg td[data-date="${date.format('YYYY-MM-DD')}"]`);
+                            appointment_date = moment(date).format('MMMM DD, YYYY');
+                            console.log('Appointment date:', appointment_date);
+                            alert(appointment_date + " is your appointment date");
+                            cell.addClass('fc-selected-date');
+                            $('#app_date').text(appointment_date);
+                            event.title = "Selected";
+                        }
+                        /*else, icompare nya ang new date nga iyng giclick sa current naset 
+                        na appointment date,, if same sya way laing himoon*/
+                        new_date = moment(event.start).format('MMMM DD, YYYY');
+                        new_cell = $(`.fc-bg td[data-date="${date.format('YYYY-MM-DD')}"]`);
+                        if(new_date === appointment_date){
+                            return false;
+                        }
+                        //else, ichange nya ang appointment date sa new date
+                        alert("Do you want to change your appointment date to " + new_date + " ?")
+                        
+                        cell.removeClass('fc-selected-date');
+                        appointment_date = new_date;
+                        cell = new_cell;
+                        cell.addClass('fc-selected-date');
+                        $('#app_date').text(appointment_date);
+                        console.log(appointment_date + " is now your new appointment date");
                     }
                 },
                 eventRender: function(event, element) {
-                    if (event.booked) {
-                        element.append("<div class='booked-text'>You booked!!!</div>");
-
-                        var today = moment();
-                        if (event.start.isBefore(today, 'day')) {
-                            element.draggable = false;
-                            element.resizable = false;
-                        }
+                    if (event.slots === 0 || event.isDisabled === true) { //if disabled,, appointment slots == 0 as default
+                        element.css('display', 'none');
+                        var cell = $(`.fc-bg td[data-date="${event.start.format('YYYY-MM-DD')}"]`);
+                        cell.addClass('fc-disabled-01');
+                    }if(event.status === "Available"){
+                        element.addClass('fc-event-available');
+                    }else{
+                        element.addClass('fc-event-full');
                     }
                 },
-                eventClick: function(event) {
-                    appointment_booked = false;
-                    $('#calendar').fullCalendar('removeEvents', event._id);
-                },
-                eventDrop: function(event) {
-                    var new_date = moment(event.start).format('MMMM DD, YYYY');
-                    var today = moment();
-                    if (new_date !== appointment_date) {
-                        if (event.start.isBefore(today, 'day')) {
-                            alert('You cannot move appointments to past dates.');
-                            $('#calendar').fullCalendar('rerenderEvents');
-                            return;
-                        }
-                        appointment_date = new_date;
-                        console.log('Selected date:', appointment_date);
-                        alert('Your appointment has been moved to ' + moment(event.start).format('MMMM DD, YYYY'));
+                dayRender: function(date, cell, event) {
+                    var currentDate = new Date();//css,, disabled ang mga cell
+                    if (date < currentDate) {
+                        $(cell).addClass('fc-disabled');
+                    }
+                    if ($(cell).hasClass('fc-disabled')) {
+                        return;
+                    }if (date === appointment_date) {
+                        $(cell).addClass('fc-selected-event');
                     }
                 }
-            });
+            })
         });
-
+        
+        var a_transfer;
+        var b_transfer;
+        var a_transfer_school;
+        var b_transfer_school;
         $('.open-modal').on('click', function() {
             var form_id = $(this).data('form-id');
             var form_name = $(this).data('form-name');
+            var form_max_time = $(this).data('form-max-time');
             var accordion_item = $(this).closest('.accordion-item');
             var accordion_id = accordion_item.find('.accordion-collapse').attr('id');
             var modal = $('#appointmentModal');
+
             if(form_name === 'Issuance of Transcript of Records'){
                 $('#app-acad-year').show();
             }else{
                 $('#app-acad-year').hide();
             }
+            
+            modal.find('#exp_date').text(form_max_time);
             modal.find('#form_name').text(form_name);
+            modal.find('#form-name').text(form_name);
             modal.find('#form_id').val(form_id);
             modal.find('#accordion_id').val(accordion_id);
             console.log(form_id);
             console.log(form_name);
             console.log(accordion_id);
+            $('#appointmentModal').modal('show');
         });
+
 // review
-        $('#proceedButton').on('click', function(event) {
+$('#proceedButton').on('click', function(event) {
+            // $('#appointmentModal').modal('hide');
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
             var acad_year = $('#acad_year').val();
             var payment_method = $('input[name=payment_method]:checked').val();
-            // fix not documented yet
             var proof_of_payment = $('#proof_of_payment')[0].files[0];
 
-            
-            $('#appointmentModal').modal('hide');
-            $('#form_id').val(form_id);
-            $('#acad_year').val(acad_year);
-            $('#app_purpose01').val(app_purpose);
-            $('#appointment_date').val(appointment_date);
-            $('#payment_method_01').text(payment_method);
+            a_transfer = $('input[name=isATransfer]:checked').val();
+            b_transfer = $('input[name=isBTransfer]:checked').val();
+            a_transfer_school = $('#inputATransferSchool').val();
+            b_transfer_school = $('#inputBTransferSchool').val();
 
-            if (typeof proof_of_payment !== 'undefined') {
-                $('#proof_of_payment_01').val(proof_of_payment);
+            if(app_purpose === "" || payment_method === undefined || payment_method === undefined || a_transfer === undefined || b_transfer === undefined){
+                alert('Please fill up the provided inputs.');
+                return false;
+            }if(payment_method === "GCash" && proof_of_payment === undefined){
+                alert('Please upload your proof of payment.')
+                return false;
+            }if(appointment_date === undefined){
+                alert('Please choose your appointment date.');
+                return false;
+            }else{
+                $('#appointmentModal').modal('hide');
+                $('#reviewModal').modal('show');
+                $('#form_id').val(form_id);
+                $('#acad_year').val(acad_year);
+                $('#app_purpose01').val(app_purpose);
+                $('#appointment_date').val(appointment_date);
+                $('#payment_method_01').text(payment_method);
+
+                //todo
+                if(a_transfer == "Yes"){
+                    $('#inputATransferInfo').val(a_transfer + ", " + a_transfer_school);
+                }else{
+                    $('#inputATransferInfo').val(a_transfer);
+                }if(b_transfer == "Yes"){
+                    $('#inputBTransferInfo').val(b_transfer + ", " + b_transfer_school);
+                }else{
+                    $('#inputBTransferInfo').val(b_transfer);
+                }
+
+                if (typeof proof_of_payment !== 'undefined') {
+                    $('#proof_of_payment_01').val(proof_of_payment);
+                }
+
+                console.log(form_id);
+                console.log(payment_method);
+                console.log(proof_of_payment);
+                console.log(app_purpose);
+                console.log(acad_year);
+                console.log(appointment_date);
             }
-
-            $('#reviewModal').modal('show');
-
-            console.log(form_id);
-            console.log(payment_method);
-            console.log(proof_of_payment);
-            console.log(app_purpose);
-            console.log(acad_year);
-            console.log(appointment_date);
         });
-        
+
         $('#submitButton').on('click', function(event) {
             var form_id = $('#form_id').val();
             var app_purpose = $('#app_purpose').val();
@@ -845,20 +929,18 @@
             var payment_method = $('#payment_method_01').text();
             var proof_of_payment = $('#proof_of_payment').prop('files')[0];
             var appointment_date = $('#appointment_date').val();
-            var a_transfer = $('input[name=isATransfer]:checked').val();
-            var b_transfer = $('input[name=isBTransfer]:checked').val();
             if(a_transfer === "yes"){
                 a_transfer = 1;
-                var a_transfer_school = $('#inputATransferSchool').val();
+                a_transfer_school = $('#inputATransferSchool').val();
             }else{
                 a_transfer = 0;
-                var a_transfer_school = null;
+                a_transfer_school = null;
             }if(b_transfer === "yes"){
                 b_transfer = 1;
-                var b_transfer_school = $('#inputBTransferSchool').val();
+                b_transfer_school = $('#inputBTransferSchool').val();
             }else{
                 b_transfer = 0;
-                var b_transfer_school = null;
+                b_transfer_school = null;
             }
 
             console.log(form_id);
@@ -898,6 +980,7 @@
                 }
             });
         });
+
     </script>
 </body>
 </html>

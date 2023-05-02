@@ -50,7 +50,7 @@
                     <div class="row notice">
                         <p class="title font-mont font-semibold" id="postTitle">{{ $announcement->announcement_title }} </p>
                         <p class="font-mont font-small date" id="datePosted">Posted: {{ $announcement->created_at->format('F d, Y') }} </p>
-                        <p class="font-small subtitle" id="postSubtitle">{{ $announcement->announcement_text }}</p>
+                        <p class="font-small subtitle" id="postSubtitle">{{ substr($announcement->announcement_text, 0, 250) . '...' }}</p>
                         <a id="btn-readMore" href="{{ route('announcement.dashboard') }}" class="ms-auto font-small font-black btn">Read More</a>
                     </div>
                     @endforeach
@@ -86,13 +86,13 @@
                     </div>
                     <div class="article-list d-flex flex-column mt-3">
                         <div class="article">
-                            <p>How to make an Appointment?</p><button class="btn"><a href="{{ route('announcement.dashboard') }}" class="nav-link">>></a></button>
+                            <p>How to make an Appointment?</p><button class="btn"><a href="{{ route('faqs') }}" class="nav-link">>></a></button>
                         </div>
                         <div class="article">
-                            <p>What are the requirements?</p><button class="btn"><a href="{{ route('announcement.dashboard') }}" class="nav-link">>></a></button>
+                            <p>What are the requirements?</p><button class="btn"><a href="{{ route('faqs') }}" class="nav-link">>></a></button>
                         </div>
                         <div class="article">
-                            <p>Document Fees.</p><button class="btn"><a href="{{ route('announcement.dashboard') }}" class="nav-link">>></a></button>
+                            <p>Document Fees.</p><button class="btn"><a href="{{ route('faqs') }}" class="nav-link">>></a></button>
                         </div>
                     </div>
                 </div>

@@ -46,9 +46,9 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admi
     Route::get('announcement',[announcementController::class,'viewAnnouncementAdmin']);
 
     //Admin Forms Function
-    Route::get('forms/{form}/edit', [FormController::class, 'edit'])->name('forms.edit');
-    Route::put('forms/{form}', [FormController::class, 'update'])->name('forms.update');
-    Route::delete('forms/{form}', [FormController::class,'destroy'])->name('forms.destroy');
+    // Route::get('forms/{form}/edit', [FormController::class, 'edit'])->name('forms.edit');
+    // Route::put('forms/{form}', [FormController::class, 'update'])->name('forms.update');
+    // Route::delete('forms/{form}', [FormController::class,'destroy'])->name('forms.destroy');
     
 });
 
@@ -69,8 +69,9 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admi
     Route::get('/faqs',[faqsController::class,'index'])->name('faqs');
 
     //Para ni sa Crud sa calendar -> wala pani sure,, test rani
-    Route::get('/appointment_slots', [AppointmentSlotController::class, 'index'])->name('appointment_slots.store');
-    Route::post('/appointment_slots', [AppointmentSlotController::class, 'store']);
+    Route::get('appointment_slots', [AppointmentSlotController::class, 'events'])->name('appointment_slots.events');
+    // Route::post('/appointment_slots', [AppointmentSlotController::class, 'store']);
+    Route::post('/appointment_slots', [AppointmentSlotController::class, 'store'])->name('appointment_slots.store');
     Route::put('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'update']);
     Route::delete('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'destroy']);
 
@@ -82,8 +83,17 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admi
     Route::put('claimedStatus', [adminController::class, 'updateStatusClaimed'])->name('claimedStatus');
 
 
-        
+    Route::get('form/{id}',[formController::class,'viewOneForm']);  
+    Route::put('edit-form',[formController::class,'editForm'])->name('editform');
+    Route::delete('form/delete/{id}',[formController::class,'delete'])->name('deleteform');  
 
-        
-        
+    Route::get('announcement/{id}',[announcementController::class,'viewOneAnnouncement']);  
+    Route::put('edit-announcement',[announcementController::class,'editAnnouncement'])->name('editannouncement');
+    Route::delete('announcement/delete/{id}',[announcementController::class,'delete'])->name('deleteannouncement');  
 
+    Route::delete('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'destroy'])->name('appointment_slots.destroy');
+    Route::put('appointment_slots/edit/{id}', [AppointmentSlotController::class, 'edit'])->name('slot.edit');
+
+    Route::get('dashboard-admin/request-all', [adminController::class,'viewAllRequest']);
+
+    

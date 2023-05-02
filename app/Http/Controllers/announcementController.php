@@ -48,5 +48,33 @@ class announcementController extends Controller
                     return back()-> with('fail','Something wrong');
             }
     }
+
+    public function viewOneAnnouncement($id){
+        $announcements = Announcement::where('id', $id)->findOrFail($id);
+    
+        return response()->json([
+              'announcement_title' => $announcements->announcement_title,
+              'announcement_text' => $announcements->announcement_text,
+        ]);
+    }
+    
+    public function editAnnouncement(Request $request){
+        $announcements = Announcement::find($request->announcementID);
+        $announcements->announcement_title= $request->editATitle;
+        $announcements->announcement_text = $request->editAPost;
+        $announcements->save();
+    
+        return response()->json(['success' => true, 'message' => 'The Announcement is chu2.']);
+    }
+    
+    public function delete(Request $request, $id){
+        $announcements = Announcement::find($id);
+        
+        if($announcements){
+            $announcements->delete();
+              return response()->json(['success' => true, 'message' => 'You have deleted successfully']);
+        }return response()->json(['success' => false, 'message' => 'Were dead.']);
+    }
+  
     
 }

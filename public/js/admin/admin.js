@@ -1,52 +1,39 @@
+//review ========================= set-slot.blade.php ================================
 $(document).ready(function () {
-    // your code here
-
-    $(window).on("load", function () {
-        $("#requests-content").load("/admin-request");
-    });
-    $(window).on("load", function () {
-        $("#announcement-content").load("/admin-announcement");
-    });
-    $(window).on("load", function () {
-        $("#message-content").load("/admin-message");
+    $("#disable_check").change(function () {
+        if (this.checked) {
+            console.log("Checkbox is checked");
+            $("#input_appSlot").hide();
+        } else {
+            console.log("Checkbox is unchecked");
+            $("#input_appSlot").show();
+        }
     });
 
-    $(window).on("load", function () {
-        $("#forms-content").load("/admin-forms");
+    $("#delete_check").change(function () {
+        if (this.checked) {
+            $("#delete_slot_div").show();
+            $("#set_slot_div").hide();
+            $("#delete_slot").show();
+            $("#edit_slot").hide();
+            $("#edit_check").prop("checked", false);
+        } else {
+            $("#delete_slot_div").hide();
+            $("#delete_slot").hide();
+        }
     });
-    // $(window).on("load", function () {
-    //     $.get("/admin-forms", function (data) {
-    //         var html = "";
-    //         data.forEach(function (form) {
-    //             html += '<div class="accordion">';
-    //             html += '<h2 class="accordion-header">';
-    //             html +=
-    //                 '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#' +
-    //                 form.id +
-    //                 '" aria-expanded="false" aria-controls="' +
-    //                 form.id +
-    //                 '">' +
-    //                 form.name +
-    //                 "</button>";
-    //             html += "</h2>";
-    //             html +=
-    //                 '<div class="accordion-collapse collapse" data-bs-parent="#forms-list" id="' +
-    //                 form.id +
-    //                 '">';
-    //             html += '<div class="accordion-body">';
-    //             html += "<p>" + form.content + "</p>"; // Replace with the actual data fields from your form
-    //             html += "</div>";
-    //             html += "</div>";
-    //             html += "</div>";
-    //         });
-    //         $("#forms-content").html(html);
-    //     });
-    // });
-
-    $(window).on("load", function () {
-        $("#faqs-content").load("/admin-faqs");
-    });
-    $(window).on("load", function () {
-        $("#settings-content").load("/admin-settings");
+    $("#edit_check").change(function () {
+        if (this.checked) {
+            $("#set_slot_div").show();
+            $("#delete_slot_div").hide();
+            $("#edit_slot").show();
+            $("#delete_slot").hide();
+            $("#hr_insert").show();
+            $("#delete_check").prop("checked", false);
+        } else {
+            $("#set_slot_div").hide();
+            $("#edit_slot").hide();
+            $("#hr_insert").hide();
+        }
     });
 });

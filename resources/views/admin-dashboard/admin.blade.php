@@ -23,6 +23,8 @@
         <link rel="stylesheet" href="{{ asset('css/admin/forms.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/admin/announcement.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/admin/modal.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/defaultcss/pagination.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/defaultcss/calendar.css') }}" />
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
             rel="stylesheet"
@@ -61,6 +63,12 @@
                         >Message<span class="badge badge-custom">4</span></a
                     >
                 </li>
+                <li class="nav-item w-100">
+                    <a href="/dashboard-admin/request-all" class="nav-link"
+                        >Appointment Requests</a
+                    >
+                </li>
+
                 <hr />
                 <li class="nav-item w-100">
                     <a href="/dashboard-admin/config" class="nav-link" onclick="viewForms()"
@@ -92,7 +100,6 @@
             </div>
         </div>
 
-        <button id="back-to-top-btn" class="btn btn-custom show" style="color: #131313;">Back to top</button>
 
         <!-- FIX footer -->
         <script
@@ -103,106 +110,198 @@
         <script src="{{ asset('js/admin/divheight.js') }}"></script>
         <script src="{{ asset('js/admin/appointment/status-button.js') }}"></script>
         <script src="{{ asset('js/admin/appointment/info-display.js') }}"></script>
+        <script src="{{ asset('js/admin/admin.js') }}"></script>
+
+        
+        <script src="{{ asset('js/admin/form-config.js') }}"></script>
+        <script src="{{ asset('js/admin/announcement-config.js') }}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#calendar").fullCalendar({
-                    header: {
-                        defaultView: "month",
-                    },
-                    viewRender: function (view, element) {
-                        var cal_box_height = $("#calendar").height();
-                        var track_box = $("#track-boxes");
-                        track_box.height(cal_box_height);
-                    },
-                    aspectRatio: 1.5,
-                    selectable: true,
-                    selectHelper: true,
-                    editable: true,
-                    eventLimit: true,
-                    businessHours: {
-                        //0 and 6 mao ang sat ug sun
-                        daysOfWeek: [1, 2, 3, 4, 5], // mon-fri
-                        startTime: "8:00",
-                        endTime: "17:00",
-                    },
-                    minDate: moment().add(1, "day"),
-                    dayClick: function (date, jsEvent, view) {
-                        var today = moment().format("YYYY-MM-DD");
-                        var clickedDate = moment(date).format("YYYY-MM-DD");
-                        var formattedDate =
-                            moment(date).format("MMMM, DD YYYY");
 
-                        if (
-                            clickedDate > today &&
-                            date.day() !== 0 &&
-                            date.day() !== 6
-                        ) {
-                            // Check if the date is already occupied by an event
-                            var isOccupied =
-                                $("#calendar").fullCalendar(
-                                    "clientEvents",
-                                    function (event) {
-                                        return (
-                                            moment(event.start).format(
-                                                "YYYY-MM-DD"
-                                            ) === clickedDate
-                                        );
-                                    }
-                                ).length > 0;
-                            // pass the formatted date value to the modal
-                            $("#appointment_slot_modal")
-                                .find("#slot_date")
-                                .text(formattedDate);
-                            $("#appointment_slot_modal").modal("show");
-
-                            // Add event listener to remove clicked class and message when modal is dismissed
-                            $("#appointment_slot_modal").on(
-                                "hidden.bs.modal",
-                                function () {
-                                    $(".fc-day.clicked")
-                                        .removeClass("clicked")
-                                        .find(".click-message")
-                                        .remove();
-                                }
-                            );
-                            if (!isOccupied) {
-                                $("#calendar").fullCalendar("renderEvent", {
-                                    title: "Clicked",
-                                    start: date,
-                                    allDay: true,
-                                });
-
-                                $(".fc-day.clicked")
-                                    .removeClass("clicked")
-                                    .find(".click-message")
-                                    .remove();
-
-                                $('.fc-day[data-date="' + clickedDate + '"]')
-                                    .addClass("clicked")
-                                    .find(".fc-day-number")
-                                    .append(
-                                        '<span class="click-message">Clicked</span>'
-                                    );
-                            } else {
-                                // The date is already occupied, show an error message or do nothing
-                                alert("This date is already occupied.");
-                            }
-                        }
-                    },
-                });
-
-                $("#submit_slot").on("click", function (event) {
-                    var slot_date = $("#slot_date").text();
-                    var input_slot = $("#input_slot").val();
-                    console.log(slot_date);
-                    console.log(input_slot);
-                    $("#appointment_slot_modal").modal("hide");
-                });
+        <script>  
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
         </script>
+        <script>        
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var calendar = $('#calendar').fullCalendar({
+                editable:true,
+                header:{
+                    left:'prev,next today',
+                    right:'title'
+                },
+                editable: false,
+                businessHours: {
+                    dow: [1,2,3,4,5], 
+                    start: '08:00',
+                    end: '17:00',
+                },
+                selectConstraint: {
+                    dow: [1, 2, 3, 4, 5] 
+                },
+                events:'/appointment_slots',
+                selectable:true,
+                selectHelper: true,
+                select: function(date, jsEvent, view, event){
+                    //review =============================Code for not disabled day=========================================
+                    var events = $('#calendar').fullCalendar('clientEvents');
+                    var event = events.find(e => moment(e.start).isSame(date, 'day'));
+                    var jsDate = date.toDate();
+                    var currentDate = new Date();
+
+                    if (jsDate.getDay() === 0 || jsDate.getDay() === 6) { //if weekends return falsee
+                        return false;
+                    }else if(date <= currentDate){ //if past day na igo ra sila mkaview daretso sa mga appointment atu nga adlawa,, and unclickable ang mga wlay event na date
+                        var date = moment(date).format("YYYY-MM-DD");
+                        if(event){
+                            var url = '/dashboard-admin/request/'+ date;
+                            console.log(url);
+                            window.location.href = url;
+                        } 
+                        return false;
+                    }else {//sa modal ni na part ning hide2,, sa set-slot.blade.php PS. gahasul2 lmng dri,, wa gyd nngitag laing pamaagi,, -_-
+                        $('#view_app_btn').hide();
+                        $('#submit_slot').hide();
+                        $('#delete_slot').hide();
+                        $('#edit_slot').hide();
+
+                        $('#set_slot_div').hide();
+                        $('#delete_slot_div').hide();
+
+                        $('#delete_div').hide();
+                        $('#edit_div').hide();
+                        $('#slot_info').hide();
+                        var date = moment(date).format("YYYY-MM-DD");
+                        var textDate = moment(date).format("MMMM DD, YYYY");
+                        if(event){
+                            $('#appointment_slot_modal').modal('show');
+                            $('#appointment_slot_modal #slot_date_text').text(textDate);
+
+                            if(event.isDisabled){
+                                $('#delete_div').show();
+                                $('#edit_div').show();
+                            }if(event.slots > 0){
+                                $('#view_app_btn').show();
+                                $('#delete_div').show();
+                                $('#edit_div').show();
+                                if(event.currentSlot > 0){
+                                    $('#slot_info').show();
+                                    $('#info-text').text("We have " + event.currentSlot + " user appointment(s) on this day.");
+                                    if(event.pending > 0){
+                                        $('#pending-text').text(event.pending + " : pending ");
+                                    }if(event.onProcess > 0){
+                                        $('#onProcess-text').text(event.onProcess + " : on processed ");
+                                    }if(event.readyToClaim > 0){
+                                        $('#readyToClaim-text').text(event.readyToClaim + " : ready to claim");
+                                    }if(event.claimed > 0){
+                                        $('#claimed-text').text(event.claimed + " : claimed");
+                                    }
+                                }
+                                
+                            }
+                        }else{
+                    console.log("asdfsdf");
+                            $('#appointment_slot_modal #slot_date_text').text(textDate);
+                            $('#appointment_slot_modal').modal('show');
+                            $('#set_slot_div').show();
+                            $('#submit_slot').show();
+                            $('#appointment_slot_modal #slot_date').val(date);
+                            $('#appointment_slot_modal #disabled_text').val(event.isDisabled);
+                        }
+                        
+
+                    //review ==============================URL to the App Requests passing the specifc date and edit, delete ajax,, also clearing inputs============================
+                        
+                        $('#view_app_btn').on('click', function(){
+                            var url = '/dashboard-admin/request/'+ date;
+                            console.log(url);
+                            window.location.href = url;
+                        });$('#appointment_slot_modal #delete_slot').click(function(e) {
+                            e.preventDefault();
+                            $.ajax({
+                                type: 'DELETE',
+                                url: "{{ route('appointment_slots.destroy', '') }}/" + event.id,
+                                success: function(response) {
+                                    window.location.reload();
+                                },
+                                error: function(xhr) {
+                                    // handle error response
+                                }
+                            });
+                        });$('#appointment_slot_modal #edit_slot').click(function(e) {
+                            e.preventDefault();
+                            var slot = $('#available_slots').val();
+                            var disable = $('#disable_check').val();
+                            if ($('#disable_check').is(":checked")){
+                                slot = 0;
+                                disable = 1;
+                                console.log(slot);
+                                console.log(disable);
+                            }else{
+                                disable = 0;
+                                console.log(slot);
+                                console.log(disable);
+                            }
+                            $.ajax({
+                                type: 'PUT',
+                                url: "{{ route('slot.edit', '') }}/" + event.id,
+                                data:{
+                                    id: event.id,
+                                    slot: slot,
+                                    disable: disable
+                                },
+                                success: function(response) {
+                                    window.location.reload();
+                                },
+                                error: function(xhr) {
+                                    // handle error response
+                                }
+                            });
+                        });$('#dismiss_cal').click(function(){
+                            $('#delete_check').prop('checked', false);
+                            $('#edit_check').prop('checked', false);
+                            $('#hr_insert').hide();
+                            $('#pending-text').text("");
+                            $('#onProcess-text').text("");
+                            $('#readyToClaim-text').text("");
+                            $('#claimed-text').text("");
+                        });
+                        
+                    }
+                },
+                eventRender: function(event, element) {
+                    if (event.slots === 0) { //if disabled,, appointment slots == 0 as default sa db
+                        console.log(event.slots);
+                        element.css('display', 'none');
+                        var cell = $(`.fc-bg td[data-date="${event.start.format('YYYY-MM-DD')}"]`);
+                        cell.addClass('fc-disabled-01');
+                    }if(event.currentSlot !== event.slots){
+                        element.addClass('fc-event-available');
+                    }else{
+                        element.addClass('fc-event-full');
+                    }
+                },
+                dayRender: function(date, cell, event) {
+                    var currentDate = new Date();
+                    if (date < currentDate) {
+                        $(cell).addClass('fc-disabled');
+                    }
+                    if ($(cell).hasClass('fc-disabled')) {
+                        return;
+                    }
+                }
+            });
+        </script>
+
 
         <script>
             var menu_btn = document.querySelector("#menu-btn");
@@ -234,6 +333,7 @@
             var url = "{{ url('') }}";
         </script>
         
+        
         <!-- todo modals -->
         @include('admin-dashboard.modal.info')
         @include('admin-dashboard.modal.set-slot')
@@ -243,6 +343,11 @@
         @include('admin-dashboard.modal.forms.edit-form')
         @include('admin-dashboard.modal.announcement.add-announcement')
         @include('admin-dashboard.modal.announcement.delete-announcement')
-        @include('admin-dashboard.modal.announcement.edit-announcement')
+        @include('admin-dashboard.modal.announcement.edit-announcement')  
+        @include('admin-dashboard.modal.faqs.add-faqs')
+        @include('admin-dashboard.modal.faqs.delete-faqs')
+        @include('admin-dashboard.modal.faqs.edit-faqs')
+        @include('admin-dashboard.modal.set-slot')
+
     </body>
 </html>
