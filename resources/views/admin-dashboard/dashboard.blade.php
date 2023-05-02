@@ -35,7 +35,7 @@
                             </p>
                             <span
                                 class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >2000</span
+                                >20</span
                             >
                         </li>
                         <li
@@ -137,13 +137,19 @@
         <div class="space my-4"></div>
         <div class="row d-flex flex-row m-2" id="appRec">
             <div class="appointment-records p-4">
+                <div class="d-flex flex-row">
                 <div class="w-100 fs-2 font-bold font-nun mb-2">
                     Appointment Records
                 </div>
+                <div class="d-flex-row">
+                    <button id="export-app-records">Export to EXCEL</button>
+                    {{-- <button id="print-button">Print</button> --}}
+                </div>
+            </div>
                 <div class="table-rounded">
                     <table
                         class="table table-bordered table-sm font-nun table-striped"
-                    >
+                     id="appointmentRecords">
                         <thead class="table-head text-center">
                             <tr>
                                 <th>Appointment Number</th>
@@ -182,7 +188,7 @@
                         @endif
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+                    {{-- <nav aria-label="Page navigation example" class="d-flex justify-content-end">
                         <ul class="pagination font-nun">
                             <li class="page-item{{ ($bookings->currentPage() == 1) ? ' disabled' : '' }}">
                             <a class="page-link" href="{{ $bookings->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($bookings->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
@@ -196,7 +202,7 @@
                             <a class="page-link" href="{{ $bookings->nextPageUrl() }}" aria-disabled="{{ ($bookings->currentPage() == $bookings->lastPage()) ? 'true' : 'false' }}">Next</a>
                             </li>
                         </ul>
-                    </nav>
+                    </nav> --}}
                 </div>
             </div>
         </div>

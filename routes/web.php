@@ -36,10 +36,11 @@ Route::middleware([AuthCheck::class,AlreadyLoggedIn::class])->group(function () 
 
 Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admin')->group(function () {
     Route::get('dashboard',[adminController::class,'viewAdminRecords'])->name('dashboard-admin');
+    // Route::get('dashboard/request/{id}', [adminController::class, viewAdminRequest])
     Route::post('announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
     
     //Admin Functions and content
-    Route::get('request',[adminController::class,'viewAdminRequest'])->name('request');
+    Route::get('request/{date}',[adminController::class,'viewAdminRequest'])->name('request');
     Route::post('create-form',[formController::class,'createForm'])->name('create-form'); 
     Route::any('config',[formController::class,'viewForm'])->name('config');
     Route::get('message',[MessageController::class,'viewMessage']);

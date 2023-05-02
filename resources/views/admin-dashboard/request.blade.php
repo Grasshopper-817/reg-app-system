@@ -17,6 +17,7 @@
         <li><a href="#claimed">Claimed</a></li>
     </ul>
 </nav>
+
 <!-- review ===================pending================================================== -->
 <div class="row d-flex flex-row m-2" id="pending">
     <div class="appointment-records p-4">
@@ -31,8 +32,9 @@
                 <option value="last_name">Last Name</option>
             </select>
         </div> -->
+        @if(count($pending)>0)
         <div class="table-rounded">
-            <table id="table" class="table table-bordered table-sm font-nun table-striped">
+            <table id="pendingRequests" class="table table-bordered table-sm font-nun table-striped">
                 <thead class="table-head text-center">
                     <tr>
                         <th>Appointment Number</th>
@@ -47,7 +49,6 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    @if(count($pending)>0)
                         @foreach ($pending as $booking)
                         <tr class="text-center">
                             <td>{{ $booking->appointment->booking_number }}</td>
@@ -75,39 +76,23 @@
                             </td>
                         </tr>
                         @endforeach
-                        @else
-                            <tr>
-                                <td colspan="9" class="text-center">We haven't received any appointment requests for this day yet.</td>
-                            </tr>
-                        @endif
+                        
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example" class="d-flex justify-content-end">
-                <ul class="pagination font-nun">
-                    <li class="page-item{{ ($pending->currentPage() == 1) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $pending->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($pending->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
-                    </li>
-                    @for ($i = 1; $i <= $pending->lastPage(); $i++)
-                    <li class="page-item{{ ($pending->currentPage() == $i) ? ' active' : '' }}">
-                        <a class="page-link" href="{{ $pending->url($i) }}">{{ $i }}</a>
-                    </li>
-                    @endfor
-                    <li class="page-item{{ ($pending->currentPage() == $pending->lastPage()) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $pending->nextPageUrl() }}" aria-disabled="{{ ($pending->currentPage() == $pending->lastPage()) ? 'true' : 'false' }}">Next</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
+        @else
+            <div class="text-center">We haven't received any appointment requests for this day yet.</div>
+        @endif
     </div>
 </div>
-
+<!-- review ===============
 <!-- review ======================================= on process=========================================== -->
 @if(count($onprocess)>0)
 <div class="row d-flex flex-row m-2 mt-5" id="onprocess">
     <div class="appointment-records p-4">
         <div class="w-100 fs-2 font-bold font-nun mb-2">On Process Documents</div>
         <div class="table-rounded">
-            <table id="table" class="table table-bordered table-sm font-nun table-striped">
+            <table id="onProcessDocuments" class="table table-bordered table-sm font-nun table-striped">
                 <thead class="table-head text-center">
                     <tr>
                         <th>Appointment Number</th>
@@ -151,32 +136,17 @@
                         @endforeach
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example" class="d-flex justify-content-end">
-                <ul class="pagination font-nun">
-                    <li class="page-item{{ ($onprocess->currentPage() == 1) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $onprocess->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($onprocess->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
-                    </li>
-                    @for ($i = 1; $i <= $onprocess->lastPage(); $i++)
-                    <li class="page-item{{ ($onprocess->currentPage() == $i) ? ' active' : '' }}">
-                        <a class="page-link" href="{{ $onprocess->url($i) }}">{{ $i }}</a>
-                    </li>
-                    @endfor
-                    <li class="page-item{{ ($onprocess->currentPage() == $onprocess->lastPage()) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $onprocess->nextPageUrl() }}" aria-disabled="{{ ($onprocess->currentPage() == $onprocess->lastPage()) ? 'true' : 'false' }}">Next</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
 @endif
-<!-- review ===================================ready to claim ============================================================= -->
+<!-- ====================ready to claim ============================================================= -->
 @if(count($ready)>0)
 <div class="row d-flex flex-row m-2 mt-5" id="readytoclaim">
     <div class="appointment-records p-4">
         <div class="w-100 fs-2 font-bold font-nun mb-2">Ready to Claim Documents</div>
         <div class="table-rounded">
-            <table id="table" class="table table-bordered table-sm font-nun table-striped">
+            <table id="readyToClaimDocuments" class="table table-bordered table-sm font-nun table-striped">
                 <thead class="table-head text-center">
                     <tr>
                         <th>Appointment Number</th>
@@ -220,21 +190,6 @@
                         @endforeach
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example" class="d-flex justify-content-end">
-                <ul class="pagination font-nun">
-                    <li class="page-item{{ ($ready->currentPage() == 1) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $ready->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($ready->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
-                    </li>
-                    @for ($i = 1; $i <= $ready->lastPage(); $i++)
-                    <li class="page-item{{ ($ready->currentPage() == $i) ? ' active' : '' }}">
-                        <a class="page-link" href="{{ $ready->url($i) }}">{{ $i }}</a>
-                    </li>
-                    @endfor
-                    <li class="page-item{{ ($ready->currentPage() == $ready->lastPage()) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $ready->nextPageUrl() }}" aria-disabled="{{ ($ready->currentPage() == $ready->lastPage()) ? 'true' : 'false' }}">Next</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -245,7 +200,7 @@
     <div class="appointment-records p-4">
         <div class="w-100 fs-2 font-bold font-nun mb-2">Claimed Documents</div>
         <div class="table-rounded">
-            <table id="table" class="table table-bordered table-sm font-nun table-striped">
+            <table id="claimedDocuments" class="table table-bordered table-sm font-nun table-striped">
                 <thead class="table-head text-center">
                     <tr>
                         <th>Appointment Number</th>
@@ -289,21 +244,6 @@
                         @endforeach
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example" class="d-flex justify-content-end">
-                <ul class="pagination font-nun">
-                    <li class="page-item{{ ($claimed->currentPage() == 1) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $claimed->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($claimed->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
-                    </li>
-                    @for ($i = 1; $i <= $claimed->lastPage(); $i++)
-                    <li class="page-item{{ ($claimed->currentPage() == $i) ? ' active' : '' }}">
-                        <a class="page-link" href="{{ $claimed->url($i) }}">{{ $i }}</a>
-                    </li>
-                    @endfor
-                    <li class="page-item{{ ($claimed->currentPage() == $claimed->lastPage()) ? ' disabled' : '' }}">
-                    <a class="page-link" href="{{ $claimed->nextPageUrl() }}" aria-disabled="{{ ($claimed->currentPage() == $claimed->lastPage()) ? 'true' : 'false' }}">Next</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>

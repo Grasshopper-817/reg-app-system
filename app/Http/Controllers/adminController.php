@@ -103,45 +103,40 @@ class adminController extends Controller
         return view('admin-dashboard.dashboard', compact('bookings'));
     }
 
-    
-//review ========================Returning Pending Request with Specific Date====================================
-public function viewAdminRequest(Request $request, $date){
-    $selectedDate = Carbon::parse($date)->format('F d, Y');
+        
+    //review ========================Returning Pending Request with Specific Date====================================
+    public function viewAdminRequest(Request $request, $date){
+        $selectedDate = Carbon::parse($date)->format('F d, Y');
 
-    $pendingPage = $request->query('pending_page', 1);
-    $pending = Booking::with('user', 'appointment')
-                    ->whereHas('appointment', function($query) use($selectedDate){
-                        $query->where('appointment_date', $selectedDate)->where('status', 'Pending');
-                    })->paginate(10, ['*'], 'pending_page', $pendingPage);
+        $pending = Booking::with('user', 'appointment')
+                        ->whereHas('appointment', function($query) use($selectedDate){
+                            $query->where('appointment_date', $selectedDate)->where('status', 'Pending');
+                        })->get();
 
-    $onprocessPage = $request->query('onprocess_page', 1);
-    $onprocess = Booking::with('user', 'appointment')
-                    ->whereHas('appointment', function($query) use($selectedDate){
-                        $query->where('appointment_date', $selectedDate)->where('status', 'On Process');
-                    })->paginate(10, ['*'], 'onprocess_page', $onprocessPage);
+        $onprocess = Booking::with('user', 'appointment')
+                        ->whereHas('appointment', function($query) use($selectedDate){
+                            $query->where('appointment_date', $selectedDate)->where('status', 'On Process');
+                        })->get();
 
-    $readyPage = $request->query('ready_page', 1);
-    $ready = Booking::with('user', 'appointment')
-                    ->whereHas('appointment', function($query) use($selectedDate){
-                        $query->where('appointment_date', $selectedDate)->where('status', 'Ready to Claim');
-                    })->paginate(10, ['*'], 'ready_page', $readyPage);
+        $ready = Booking::with('user', 'appointment')
+                        ->whereHas('appointment', function($query) use($selectedDate){
+                            $query->where('appointment_date', $selectedDate)->where('status', 'Ready to Claim');
+                        })->get();
 
-    $claimedPage = $request->query('claimed_page', 1);
-    $claimed = Booking::with('user', 'appointment')
-                    ->whereHas('appointment', function($query) use($selectedDate){
-                        $query->where('appointment_date', $selectedDate)->where('status', 'Claimed');
-                    })->paginate(10, ['*'], 'claimed_page', $claimedPage);
+        $claimed = Booking::with('user', 'appointment')
+                        ->whereHas('appointment', function($query) use($selectedDate){
+                            $query->where('appointment_date', $selectedDate)->where('status', 'Claimed');
+                        })->get();
 
-    return view('admin-dashboard.request', compact('pending', 'onprocess', 'ready', 'claimed'));
-}
+        return view('admin-dashboard.request', compact('pending', 'onprocess', 'ready', 'claimed'));
+    }
 
     //review ===========================Returning all request ===========================================================
     public function viewAllRequest(Request $request){
-        $page = $request->query('page', 1);
         $bookings = Booking::with('user', 'appointment')
                             ->whereDoesntHave('appointment', function ($query) {
                                 $query->where('status', 'claimed');
-                            })->paginate(10, ['*'], 'page', $page);
+                            })->get();
         return view('admin-dashboard.request-all', compact('bookings'));
     }
 

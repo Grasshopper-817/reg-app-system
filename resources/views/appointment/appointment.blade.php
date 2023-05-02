@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="css/dashboard/reciept.css">
 
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 
 </head>
 <body> 
@@ -392,7 +394,7 @@
                                                 <div class="purpose">
                                                     <p class="fs-6"><b>Status: </b>{{ $appointment->status }}</p>
                                                 </div>
-                                                <div class="receipt-box p-3">
+                                                <div class="receipt-box p-3" id="my-div">
                                                     <div class="receipt-content fs-6 d-flex flex-column font-mont">
                                                         <div class="content-head d-flex flex-column">
                                                             <small class="font-bold">Mindanao State University - Maigo School of Arts and Trades</small>
@@ -437,6 +439,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="d-flex-row">
+                                                        <button id="download-button">Download PDF</button>
+                                                        <button id="print-button">Print</button>
+                                                    </div>
                                                 <div class="more-info d-flex flex-row row font-mont p-3">
                                                     <div class="col-md-6">
                                                         <small class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</small>
@@ -753,6 +759,41 @@
         var appointment_date;
         $(document).ready(function() { 
             var cell;
+
+            $('#download-button').on('click', function() {
+                window.jsPDF = window.jspdf.jsPDF;
+
+                html2canvas(document.querySelector('#my-div')).then(function(canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    var pdf = new jsPDF();
+                    var imgWidth = 190;
+                    var imgHeight = 100;
+                    var marginLeft = 10; // adjust as necessary
+                    var marginTop = 10; // adjust as necessary
+                    var marginRight = 10; // adjust as necessary
+                    var marginBottom = 10; // adjust as necessary
+                    pdf.addImage(imgData, 'PNG', marginLeft, marginTop, imgWidth, imgHeight);
+                    pdf.save('my-div.pdf');
+                    console.log("is clicked");
+                });
+            });
+
+            $('#print-button').on('click', function() {
+                html2canvas(document.querySelector('#my-div')).then(function(canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    var pdf = new jsPDF();
+                    var imgWidth = 190;
+                    var imgHeight = 100;
+                    var marginLeft = 10; // adjust as necessary
+                    var marginTop = 10; // adjust as necessary
+                    var marginRight = 10; // adjust as necessary
+                    var marginBottom = 10; // adjust as necessary
+                    pdf.addImage(imgData, 'PNG', marginLeft, marginTop, imgWidth, imgHeight);
+                    pdf.autoPrint(); // automatically open the print dialog box
+                    window.open(pdf.output('bloburl'), '_blank');
+                    console.log("clicked");
+                });
+            });
             $('#calendar').fullCalendar({
                 editable:true,
                 header:{
@@ -974,13 +1015,15 @@ $('#proceedButton').on('click', function(event) {
                 data: formData,
                 success: function(response) {
                     console.log(response);
+                    location.reload();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
                 }
             });
+            
         });
-
+        
     </script>
 </body>
 </html>

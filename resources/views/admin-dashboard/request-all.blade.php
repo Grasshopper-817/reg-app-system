@@ -12,19 +12,8 @@
     <div class="row d-flex flex-row m-2">
         <div class="appointment-records p-4">
             <div class="w-100 fs-2 font-bold font-nun mb-2">Appointment Requests</div>
-            <div class="d-flex flex-row justify-content-end mb-2">
-                <select name="sort" id="colors" class="btn text-start">
-                    <!-- FIX  -->
-                    <option value="">Sort by:</option>
-                    <option value="booking_id">Appointment ID</option>
-                    <option value="created_at">Date Filled</option>
-                    <option value="documents">Documents</option>
-                    <option value="first_name">First Name</option>
-                    <option value="last_name">Last Name</option>
-                </select>
-            </div>
             <div class="table-rounded">
-                <table id="table" class="table table-bordered table-sm font-nun table-striped">
+                <table id="appointmentRecords" class="table table-bordered table-sm font-nun table-striped">
                     <thead class="table-head text-center">
                         <tr>
                             <th>Appointment Number</th>
@@ -74,7 +63,7 @@
                                         data-claimed-id="{{ $booking->appointment->id }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#status_appointment_modal">
-                                        Claimed
+                                        Is already claimed?
                                     </a>
                                 </td>
                                 <td class="td-view">
@@ -87,14 +76,11 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="9" class="text-center">No Appointments for this day</td>
-                                </tr>
+                            
                             @endif
                     </tbody>
                 </table>
-                <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+                {{-- <nav aria-label="Page navigation example" class="d-flex justify-content-end">
                     <ul class="pagination font-nun">
                         <li class="page-item{{ ($bookings->currentPage() == 1) ? ' disabled' : '' }}">
                         <a class="page-link" href="{{ $bookings->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($bookings->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
@@ -108,7 +94,7 @@
                         <a class="page-link" href="{{ $bookings->nextPageUrl() }}" aria-disabled="{{ ($bookings->currentPage() == $bookings->lastPage()) ? 'true' : 'false' }}">Next</a>
                         </li>
                     </ul>
-                </nav>
+                </nav> --}}
             </div>
         </div>
     </div>
