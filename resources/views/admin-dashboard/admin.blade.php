@@ -29,7 +29,9 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
             rel="stylesheet"
         />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     </head>
     <body>
 
@@ -118,6 +120,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
         <script>  
             $.ajaxSetup({
@@ -209,7 +212,6 @@
                                 
                             }
                         }else{
-                    console.log("asdfsdf");
                             $('#appointment_slot_modal #slot_date_text').text(textDate);
                             $('#appointment_slot_modal').modal('show');
                             $('#set_slot_div').show();
@@ -222,7 +224,7 @@
                     //review ==============================URL to the App Requests passing the specifc date and edit, delete ajax,, also clearing inputs============================
                         
                         $('#view_app_btn').on('click', function(){
-                            var url = '/dashboard-admin/request/'+ date;
+                            var url = 'request/'+ date;
                             console.log(url);
                             window.location.href = url;
                         });$('#appointment_slot_modal #delete_slot').click(function(e) {
@@ -304,6 +306,28 @@
 
 
         <script>
+            //sorting datable
+            $('#appointmentRecords').DataTable();
+            $('#appointmentRequests').DataTable();
+            $('#claimedDocuments').DataTable();
+            $('#readyToClaimDocuments').DataTable();
+            $('#onProcessDocuments').DataTable();
+            $('#pendingRequests').DataTable();
+
+            //export appointment records to excel
+            $('#export-app-records').on('click', function() {
+                // Get HTML table data
+                var table = document.getElementById("appointmentRecords");
+                // Remove the last column from the table
+                var rows = table.rows;
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(-1);
+                }
+                // Convert table data to workbook
+                var wb = XLSX.utils.table_to_book(table);
+                // Save data to Excel file
+                XLSX.writeFile(wb, "appointment-records.xlsx");
+            });
             var menu_btn = document.querySelector("#menu-btn");
             var sidebar = document.querySelector("#sidebar");
             var container = document.querySelector(".content-container");
