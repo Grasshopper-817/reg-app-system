@@ -50,3 +50,7 @@
     height: 20px;
     width: 20px;
 }
+.fc-disable-user {
+    background-color: white !important;
+    opacity: 0.5;
+}

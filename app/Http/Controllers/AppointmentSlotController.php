@@ -102,9 +102,17 @@ class AppointmentSlotController extends Controller
     }
     //review ============================ edit slot ==================================
     public function edit(Request $request, $id){
-        $appointmentSlot = AppointmentSlot::find($id);
-        $appointmentSlot->available_slots = $request->slot;
-        $appointmentSlot->is_disabled = $request->disable;
-        $appointmentSlot->save();
+        // $appointmentSlot = AppointmentSlot::find($id);
+        // $slot = $request->slot;
+        // $disable = $request->disable;
+        // // dd($disable);
+        // if($slot === 0 || $disable === 0){
+        //     $appointmentSlot->available_slots = 0;
+        //     $appointmentSlot->is_disabled = 1;
+        // }else{
+        //     $appointmentSlot->available_slots = $slot;
+        //     $appointmentSlot->is_disabled = $disable;
+        // }
+        // $appointmentSlot->save();
     }
 }

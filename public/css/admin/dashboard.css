@@ -33,8 +33,6 @@ body {
 /* rowed traces boxes in first column in md-4 */
 .track-boxes {
     overflow-y: auto;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     border-radius: 10px !important;
 }
 .cal-box {
@@ -103,7 +101,7 @@ body {
 }
 
 /* table-custom--------------------------------------- */
-.table {
+/* .table {
     border: 2px solid #1e1e1e;
     width: 100%;
 }
@@ -117,19 +115,20 @@ body {
     justify-content: center;
     align-items: center;
     border: 0;
-}
+} */
 .btn-request-records {
-    background-color: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    color: #1e1e1e;
+    background-color: #131313;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    color: #f3f3f3;
 }
 .btn-request-records:hover {
-    background-color: rgb(219, 219, 219);
+    background-color: rgb(37, 37, 37);
+    color: #f3f3f3;
 }
 .btn-request-records:active {
-    background-color: #1e1e1e;
+    background-color: #131313;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    color: white;
+    color: #f3f3f3;
 }
 .view-request {
     width: 100%;
@@ -167,11 +166,12 @@ body {
     }
 }
 
-.btn-reverse{
+.btn-reverse {
     border: 2px solid white;
     color: white;
     font-weight: bold;
-}.btn-reverse:hover{
+}
+.btn-reverse:hover {
     color: #131313;
     background-color: white;
 }
@@ -179,4 +179,11 @@ body {
 ul.small-nav li:not(:last-child) a:after {
     content: " | ";
     margin-left: 20px;
+}
+
+.p-shad-w {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }

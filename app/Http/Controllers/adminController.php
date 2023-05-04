@@ -94,14 +94,51 @@ class adminController extends Controller
 
 //review =================================== Revised =================================================================
     public function viewAdminRecords(Request $request){
-        $page = $request->query('page', 1);
         $bookings = Booking::with('user', 'appointment')
                 ->whereHas('appointment', function ($query) {
                     $query->where('status', 'claimed');
-                })->paginate(10, ['*'], 'page', $page);
+                })->get();
 
-        return view('admin-dashboard.dashboard', compact('bookings'));
+
+        $current_day = Carbon::today()->format('F d, Y');
+        $todayDocs = Appointment::with('form')->where('appointment_date', '=', $current_day)->get();
+        
+        $futureDocs = Appointment::with('form')
+                ->where('appointment_date', '>',  $current_day)
+                ->where('status', 'Pending')
+                ->orderBy('appointment_date', 'asc')
+                ->get()
+                ->groupBy('appointment_date');
+
+
+        $formFutureCounts = collect([]);
+
+
+        foreach ($futureDocs as $date => $appointments) {
+            $counts = $appointments->groupBy('form.name')->map(function ($appointments) {
+                return $appointments->count();
+            });
+
+
+            $formFutureCounts = $formFutureCounts->merge($counts->map(function ($count, $formName) use ($date) {
+                return [ 
+                    'form_name' => $formName,
+                    'date' => $date,
+                    'count' => $count
+                ];
+            }));
+        }
+
+
+        $formFutureCounts = $formFutureCounts->groupBy('form_name');
+        
+        $formCounts = $todayDocs->groupBy('form.name')->map(function ($appointments) {
+            return $appointments->count();
+        });
+        
+        return view('admin-dashboard.dashboard', compact('bookings', 'todayDocs', 'futureDocs', 'current_day', 'formCounts'));
     }
+
 
         
     //review ========================Returning Pending Request with Specific Date====================================

@@ -73,20 +73,20 @@
 
                 <hr />
                 <li class="nav-item w-100">
-                    <a href="/dashboard-admin/config" class="nav-link" onclick="viewForms()"
+                    <a href="/dashboard-admin/config" class="nav-link"
                         >Forms Configuration</a
                     >
                 </li>
                 <li class="nav-item w-100">
-                    <a href="/dashboard-admin/announcement" class="nav-link" onclick="viewAnnouncement()"
+                    <a href="/dashboard-admin/announcement" class="nav-link"
                         >Announcement</a
                     >
                 </li>
                 <li class="nav-item w-100">
-                    <a href="/dashboard-admin/faqs" class="nav-link" onclick="viewFaqs()">FAQs</a>
+                    <a href="/dashboard-admin/faqs" class="nav-link">FAQs</a>
                 </li>
                 <li class="nav-item w-100">
-                    <a href="/dashboard-admin/settings" class="nav-link" onclick="viewSettings()"
+                    <a href="/dashboard-admin/settings" class="nav-link"
                         >Settings</a
                     >
                 </li>
@@ -217,7 +217,8 @@
                             $('#set_slot_div').show();
                             $('#submit_slot').show();
                             $('#appointment_slot_modal #slot_date').val(date);
-                            $('#appointment_slot_modal #disabled_text').val(event.isDisabled);
+                            // console.log(event.isDisabled);
+                            // $('#appointment_slot_modal #disabled_text').val(event.isDisabled);
                         }
                         
 
@@ -243,16 +244,23 @@
                             e.preventDefault();
                             var slot = $('#available_slots').val();
                             var disable = $('#disable_check').val();
+                            console.log(slot);
+                            console.log(disable);
                             if ($('#disable_check').is(":checked")){
                                 slot = 0;
                                 disable = 1;
-                                console.log(slot);
-                                console.log(disable);
                             }else{
                                 disable = 0;
                                 console.log(slot);
                                 console.log(disable);
+
+                                
+                                // console.log(slot);
+                                // console.log(disable);
                             }
+                            
+                            console.log(slot);
+                                console.log(disable);
                             $.ajax({
                                 type: 'PUT',
                                 url: "{{ route('slot.edit', '') }}/" + event.id,

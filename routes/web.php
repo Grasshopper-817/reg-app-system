@@ -45,6 +45,7 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admi
     Route::any('config',[formController::class,'viewForm'])->name('config');
     Route::get('message',[MessageController::class,'viewMessage']);
     Route::get('announcement',[announcementController::class,'viewAnnouncementAdmin']);
+    Route::get('faqs',[faqsController::class,'viewFaqAdmin']);
 
     //Admin Forms Function
     // Route::get('forms/{form}/edit', [FormController::class, 'edit'])->name('forms.edit');

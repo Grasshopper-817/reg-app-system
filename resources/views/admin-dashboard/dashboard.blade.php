@@ -22,90 +22,44 @@
     <div id="dashboard-content">
         <div class="row d-flex flex-row">
             <div class="col-md-4">
-                <div id="track-boxes" class="track-boxes p-4 mb-3">
-                    <h4 class="font-nun">  List of pending as of today </h4>
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
-                        >
-                            <p
-                                class="p-0 m-0 doc-title flex-1 col-9"
-                            >
-                                Transcript of Records (TOR)
-                            </p>
-                            <span
-                                class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >20</span
-                            >
-                        </li>
-                        <li
-                            class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
-                        >
-                            <p
-                                class="p-0 m-0 doc-title flex-1 col-9"
-                            >
-                                Certification Authentication
-                                Verification (CAV)
-                            </p>
-                            <span
-                                class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >1</span
-                            >
-                        </li>
-                        <li
-                            class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
-                        >
-                            <p
-                                class="p-0 m-0 doc-title flex-1 col-9"
-                            >
-                                School ID
-                            </p>
-                            <span
-                                class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >47</span
-                            >
-                        </li>
-                        <li
-                            class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
-                        >
-                            <p
-                                class="p-0 m-0 doc-title flex-1 col-9"
-                            >
-                                Diploma
-                            </p>
-                            <span
-                                class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >3</span
-                            >
-                        </li>
-                        <li
-                            class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
-                        >
-                            <p
-                                class="p-0 m-0 doc-title flex-1 col-9"
-                            >
-                                Issuance of Honorable Dismissal or
-                                Transfer Credentials
-                            </p>
-                            <span
-                                class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >6</span
-                            >
-                        </li>
-                        <li
-                            class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between"
-                        >
-                            <p
-                                class="p-0 m-0 doc-title flex-1 col-9"
-                            >
-                                Issuance of Certification
-                            </p>
-                            <span
-                                class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center"
-                                >0</span
-                            >
-                        </li>
-                    </ul>
+                <div id="track-boxes" class="track-boxes mb-3" style="padding: 0 10px 0 0;">
+                    <div class="p-shad-w">
+                        <h5 class="font-nun font-bold">Today: {{ ($current_day) }} </h5>
+                        <ul class="list-group list-group-flush">
+                            @if(count($formCounts) > 0)
+                            @foreach($formCounts as $formName => $count)
+                            <li class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between">
+                                <p class="p-0 m-0 doc-title flex-1 col-9">
+                                    {{ ($formName ) }}
+                                </p>
+                                <span class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center">{{ ($count ) }}</span>
+                            </li>
+                            @endforeach
+                            @else
+                            <li class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between">
+                                No appointments for this day. 
+                            </li>
+                            @endif
+                        </ul>
+                    </div>
+                    
+                    @foreach($futureDocs as $futureDate => $appointments)
+                        <div class="p-shad-w mt-3">
+                            <h5 class="font-nun font-bold">On: {{ \Carbon\Carbon::parse($futureDate)->format('M d, Y') }}</h5>
+                            <ul class="list-group list-group-flush">
+                                @foreach($appointments->groupBy('form.name') as $formName => $groupedAppointments)
+                                    <li class="list-group-item py-3 px-4 font-nun row d-flex flex-row align-items-center justify-content-between">
+                                        <p class="p-0 m-0 doc-title flex-1 col-9">
+                                            {{ $formName }}
+                                        </p>
+                                        <span class="col-3 badge badge-dash-custom d-flex flex-row justify-content-center">
+                                            {{ $groupedAppointments->count() }}
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-md-8">
@@ -137,73 +91,55 @@
         <div class="space my-4"></div>
         <div class="row d-flex flex-row m-2" id="appRec">
             <div class="appointment-records p-4">
-                <div class="d-flex flex-row">
-                <div class="w-100 fs-2 font-bold font-nun mb-2">
+                <div class="d-flex flex-row align-items-center">
+                <div class="fs-2 font-bold font-nun mb-2" style="flex:1;">
                     Appointment Records
                 </div>
-                <div class="d-flex-row">
-                    <button id="export-app-records">Export to EXCEL</button>
-                    {{-- <button id="print-button">Print</button> --}}
+                <div class="d-flex-row ">
+                    <button class="btn btn-request-records" id="export-app-records">Export</button>
                 </div>
             </div>
-                <div class="table-rounded">
-                    <table
-                        class="table table-bordered table-sm font-nun table-striped"
-                     id="appointmentRecords">
-                        <thead class="table-head text-center">
-                            <tr>
-                                <th>Appointment Number</th>
-                                <th>School ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Document Requested</th>
-                                <th>Date Requested</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                        @if(count($bookings)>0)
-                        @foreach ($bookings as $booking)
-                            <tr class="text-center">
-                                <td>{{ $booking->appointment->booking_number }}</td>
-                                <td>{{ $booking->user->school_id }}</td>
-                                <td>{{ $booking->user->firstName }}</td>
-                                <td>{{ $booking->user->lastName }}</td>
-                                <td>{{ $booking->appointment->form->name}}</td>
-                                <td>{{ $booking->created_at->format('M d, Y h:i A') }}</td>
-                                <td class="td-view">
-                                    <a
-                                        type="button"
-                                        class="btn view-request p-0 view-btn"
-                                        id="{{ $booking->id }}"
-                                        >View</a
-                                    >
-                                </td>
-                            </tr>
-                        @endforeach
-                        @else
-                            <tr>
-                                <td colspan="9" class="text-center">There's no claimed documents on our records yet.</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                    </table>
-                    {{-- <nav aria-label="Page navigation example" class="d-flex justify-content-end">
-                        <ul class="pagination font-nun">
-                            <li class="page-item{{ ($bookings->currentPage() == 1) ? ' disabled' : '' }}">
-                            <a class="page-link" href="{{ $bookings->previousPageUrl() }}" tabindex="-1" aria-disabled="{{ ($bookings->currentPage() == 1) ? 'true' : 'false' }}">Previous</a>
-                            </li>
-                            @for ($i = 1; $i <= $bookings->lastPage(); $i++)
-                            <li class="page-item{{ ($bookings->currentPage() == $i) ? ' active' : '' }}">
-                                <a class="page-link" href="{{ $bookings->url($i) }}">{{ $i }}</a>
-                            </li>
-                            @endfor
-                            <li class="page-item{{ ($bookings->currentPage() == $bookings->lastPage()) ? ' disabled' : '' }}">
-                            <a class="page-link" href="{{ $bookings->nextPageUrl() }}" aria-disabled="{{ ($bookings->currentPage() == $bookings->lastPage()) ? 'true' : 'false' }}">Next</a>
-                            </li>
-                        </ul>
-                    </nav> --}}
-                </div>
+                <table
+                    class="table font-nun"
+                    id="appointmentRecords">
+                    <thead class="table-head text-center">
+                        <tr>
+                            <th>Appointment Number</th>
+                            <th>School ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Document Requested</th>
+                            <th>Date Requested</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    @if(count($bookings)>0)
+                    @foreach ($bookings as $booking)
+                        <tr class="text-center">
+                            <td>{{ $booking->appointment->booking_number }}</td>
+                            <td>{{ $booking->user->school_id }}</td>
+                            <td>{{ $booking->user->firstName }}</td>
+                            <td>{{ $booking->user->lastName }}</td>
+                            <td>{{ $booking->appointment->form->name}}</td>
+                            <td>{{ $booking->created_at->format('M d, Y h:i A') }}</td>
+                            <td class="td-view">
+                                <a
+                                    type="button"
+                                    class="btn view-request p-0 view-btn"
+                                    id="{{ $booking->id }}"
+                                    >View</a
+                                >
+                            </td>
+                        </tr>
+                    @endforeach
+                    @else
+                        <tr>
+                            <td colspan="9" class="text-center">There's no claimed documents on our records yet.</td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
