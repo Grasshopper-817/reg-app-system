@@ -122,7 +122,7 @@
                                 <ul class="list-group list-group-flush">
                                 @if(count($pending) > 0)
                                     @foreach($pending as $pendapp)
-                                    <li class="list-group-item"> <b>{{ $pendapp->form->name }}</b>  on <b>{{ $pendapp->appointment_date }}</b> (<i>{{ $pendapp->status }}</i>)</li>
+                                    <li class="list-group-item"> <b>{{ $pendapp->form->name }}</b>  on <b>{{ $pendapp->appointment_date }}</b> (<i><b>{{ $pendapp->status }}</b></i>)</li>
                                     @endforeach
                                 @else
                                     <li class="list-group-item">You have no pending appointments at the moment.</li>
@@ -369,7 +369,6 @@
                                         <h2 class="accordion-header">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->id }}" aria-expanded="false" aria-controls="{{ $appointment->id }}">
                                                 {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }}
-            
                                         </h2>
                                         <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample" >
                                             <div class="accordion-body">
@@ -452,7 +451,7 @@
                                                         View Proof of Payment
                                                         </a>
                                                         <div class="collapse mt-2" id="proof">
-                                                            <img src="/images/g-cash-temp.png" alt="">
+                                                            <img src="" alt="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -548,9 +547,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            
                             <div><hr class="row my-3"></div>
                             <div class="d-flex flex-column w-100 mb-3">
                                 <p class="fs-4 font-mont font-bold">Payment</p>
@@ -589,10 +585,6 @@
                                 <div class="avai-sect mx-2 d-flex flex-row align-items-center">
                                     <div class="legend-box fc-event-available me-1"></div>
                                     <div>Available</div>
-                                </div>
-                                <div class="avai-sect mx-2 d-flex flex-row align-items-center">
-                                    <div class="legend-box fc-disabled-01 me-1"></div>
-                                    <div>Disabled</div>
                                 </div>
                             </div>
                             <div id="calendar" class="mt-3"></div>
@@ -819,7 +811,7 @@
                     var new_date;
                     
                     if (event && (event.isDisabled || event.status === "Full")) {
-                        alert("Full or disabled");
+                        // alert("Full or disabled");
                     } else if (!event){
                         //kasni is gicheck nya if naa bay event aning mga adlawa,, like naa bay naset na appointment ang admin,, if wala then return false
                         return false;
@@ -857,7 +849,7 @@
                     if (event.slots === 0 || event.isDisabled === true) { //if disabled,, appointment slots == 0 as default
                         element.css('display', 'none');
                         var cell = $(`.fc-bg td[data-date="${event.start.format('YYYY-MM-DD')}"]`);
-                        cell.addClass('fc-disabled-01');
+                        // cell.addClass('fc-disabled-01');
                     }if(event.status === "Available"){
                         element.addClass('fc-event-available');
                     }else{
