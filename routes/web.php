@@ -38,6 +38,7 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admi
     Route::get('dashboard',[adminController::class,'viewAdminRecords'])->name('dashboard-admin');
     // Route::get('dashboard/request/{id}', [adminController::class, viewAdminRequest])
     Route::post('announcement-store',[announcementController::class,'storeAnnouncement'])->name('announcement-store');
+    Route::post('faq-store',[faqsController::class,'storeFaq'])->name('faq-store');
     
     //Admin Functions and content
     Route::get('request/{date}',[adminController::class,'viewAdminRequest'])->name('request');
@@ -93,9 +94,15 @@ Route::middleware([AuthCheck::class, AdminCheck::class])->prefix('dashboard-admi
     Route::put('edit-announcement',[announcementController::class,'editAnnouncement'])->name('editannouncement');
     Route::delete('announcement/delete/{id}',[announcementController::class,'delete'])->name('deleteannouncement');  
 
+    //testing -> faqs
+    Route::get('faq/{id}',[faqsController::class,'viewOneFaq']);  
+    Route::put('edit-faq',[faqsController::class,'editFaq'])->name('editfaq');
+    Route::delete('faq/delete/{id}',[faqsController::class,'delete'])->name('deletefaq');  
+
+
     Route::delete('/appointment_slots/{appointmentSlot}', [AppointmentSlotController::class, 'destroy'])->name('appointment_slots.destroy');
     Route::put('appointment_slots/edit/{id}', [AppointmentSlotController::class, 'edit'])->name('slot.edit');
-
     Route::get('dashboard-admin/request-all', [adminController::class,'viewAllRequest']);
 
+    Route::delete('appointment/delete/{id}',[CustomAuthController::class,'cancel_appointment'])->name('cancelappointment');  
     

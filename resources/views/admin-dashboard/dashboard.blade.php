@@ -99,6 +99,7 @@
                     <button class="btn btn-request-records" id="export-app-records">Export</button>
                 </div>
             </div>
+                @if(count($bookings)>0)
                 <table
                     class="table font-nun"
                     id="appointmentRecords">
@@ -114,7 +115,6 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                    @if(count($bookings)>0)
                     @foreach ($bookings as $booking)
                         <tr class="text-center">
                             <td>{{ $booking->appointment->booking_number }}</td>
@@ -133,13 +133,13 @@
                             </td>
                         </tr>
                     @endforeach
-                    @else
-                        <tr>
-                            <td colspan="9" class="text-center">There's no claimed documents on our records yet.</td>
-                        </tr>
-                    @endif
                     </tbody>
                 </table>
+                @else
+                    <tr>
+                        <td colspan="9" class="text-center">There's no claimed documents on our records yet.</td>
+                    </tr>
+                @endif
             </div>
         </div>
     </div>

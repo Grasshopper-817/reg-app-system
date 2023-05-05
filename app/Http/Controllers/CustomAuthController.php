@@ -260,5 +260,28 @@ public function updateProfile(Request $request){
       return redirect('/dashboard')->with('success', 'User information updated successfully.');
 }
 
+public function cancel_appointment(Request $request, $id)
+      {
+            $booking = Booking::where('appointment_id', $id)->first();
+            $appointment = Appointment::find($id);
+            if($appointment && $appointment->status === "Pending"){
+                  if(!$booking){
+                        $appointment->delete();
+                  }else{
+                        $booking->delete();
+                        $appointment->delete();
+                  }
+                  return response()->json([
+                        'success' => true,
+                        'message' => 'Appointment has been cancelled successfully.',
+                  ]);
+            }
+           
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to cancel appointment.',
+            ]);
+      }
+
 
 }

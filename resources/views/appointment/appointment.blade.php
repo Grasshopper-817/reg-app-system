@@ -190,11 +190,11 @@
                                                 {{ $form->form_max_time }}
                                         </div>
                                         <div class="row w-100 d-flex flex-row justify-content-end">
-                                            <button type="button" class="btn btn-appoint open-modal" data-form-max-time="{{ $form->form_max_time }}" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}">
+                                            <button type="button" class="btn btn-appoint open-modal" data-form-max-time="{{ $form->form_max_time }}" data-form-id="{{ $form->id }}" data-form-name="{{ $form->name }}" data-form-fee="{{ $form->fee }}">
                                                 Book Appoint
                                             </button>
-
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -360,40 +360,30 @@
                         <div class="appointment-records-head">
                             <p class="display-6 font-mont font-bold">Appointment Records</p>
                         </div>
-                    
-                        @if(count($appointments) > 0)
-                            @foreach($appointments as $appointment)
                             <div class="appointment-records-lists mb-1">
-                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                @if(count($appointments) > 0)
+                                <div class="accordion accordion-flush" id="appointment_record_list">
+                                    @foreach($appointments as $appointment)
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $appointment->id }}" aria-expanded="false" aria-controls="{{ $appointment->id }}">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#app-rec-{{ $appointment->id }}" aria-expanded="false" aria-controls="{{ $appointment->id }}">
                                                 {{ $appointment->form->name }}: {{ $appointment->created_at->format('M d, Y h:i A') }}
                                         </h2>
-                                        <div id="{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample" >
+                                        <div id="app-rec-{{ $appointment->id }}"  class="accordion-collapse collapse" data-bs-parent="#appointment_record_list" >
                                             <div class="accordion-body">
-                                                {{-- <div class="requestID">
-                                                    <p class="fs-6">
-                                                        <b>Tracking ID: </b>
-                                                        {{ $appointment->booking_number }}
-                                                    </p>
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <div class="purpose" style="flex: 1;">
+                                                        <p class="fs-6 m-0"><b>Status: </b>{{ $appointment->status }}</p>
+                                                    </div>
+                                                    @if ($appointment->status === 'Pending')
+                                                    <button id="cancel_app" class="btn cancel_app d-flex flex-row align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#cancelAppointmentModal" data-app-id="{{ $appointment->id }}">
+                                                        <img src="images/cancel.png" alt="cancel appointment">
+                                                        <p class="p-0 m-0">Cancel Appointment</p>
+                                                    </button>
+                                                    @endif
                                                 </div>
-                                                <div class="date-filled">
-                                                    <p class="fs-6"><b>Date Filled: </b>{{ $appointment->created_at->format('M d, Y h:i A') }}</p>
-                                                </div>
-                                                <div class="purpose">
-                                                    <p class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</p>
-                                                </div>
-                                                <div class="payment">
-                                                    <p class="fs-6"><b>Payment: </b>Gcash</p>
-                                                </div> --}}
-                                                {{-- <div class="proof-of-payment">
-                                                  <p class="fs-6"><img src="" alt=""><img class="w-100" src="images/g-cash-temp.png" alt=""></p>  
-                                                </div> --}}
-                                                <div class="purpose">
-                                                    <p class="fs-6"><b>Status: </b>{{ $appointment->status }}</p>
-                                                </div>
-                                                <div class="receipt-box p-3" id="my-div">
+                                                
+                                                <div class="receipt-box p-3 my-3" id="my-div">
                                                     <div class="receipt-content fs-6 d-flex flex-column font-mont">
                                                         <div class="content-head d-flex flex-column">
                                                             <small class="font-bold">Mindanao State University - Maigo School of Arts and Trades</small>
@@ -438,35 +428,34 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex-row">
-                                                        <button id="download-button">Download PDF</button>
-                                                        <button id="print-button">Print</button>
-                                                    </div>
-                                                <div class="more-info d-flex flex-row row font-mont p-3">
+                                                <div class="d-flex flex-row justify-content-end">
+                                                    <button id="download-button" class="btn user-button">Download PDF</button>
+                                                    <button id="print-button" class="btn user-button ms-3">Print</button>
+                                                </div>
+                                                <!-- <div class="more-info d-flex flex-row row font-mont p-3">
                                                     <div class="col-md-6">
                                                         <small class="fs-6"><b>Purpose: </b>{{ $appointment->app_purpose }}</small>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <a class="btn btn-proof" data-bs-toggle="collapse" href="#proof" role="button" aria-expanded="false" aria-controls="proof">
+                                                        <a class="btn btn-proof" data-bs-toggle="collapse" href="#proof-{{ $appointment->id }}" role="button" aria-expanded="false" aria-controls="proof">
                                                         View Proof of Payment
                                                         </a>
-                                                        <div class="collapse mt-2" id="proof">
-                                                            <img src="" alt="">
+                                                        <div class="collapse mt-2" id="proof-{{ $appointment->id }}">
+                                                            <img src="{{ asset($appointment->proof_of_payment) }}" alt="">
                                                         </div>
                                                     </div>
-                                                </div>
-        
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
-                            </div>
-                            @endforeach
-                        @else
-                            <div class="appointment-records-lists">
-                                <p>You have no bookings at the moment.</p>
-                            </div>
-                        @endif
+                            @else
+                                <div class="appointment-records-lists">
+                                    <p>You have no bookings at the moment.</p>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                     <!--close  sa open div sa appointment--->
                 </div>
@@ -559,16 +548,18 @@
                                     <label for="gcash">G-Cash</label>
                                 </div>
                             </div>
-                            <div class="row mb-3" id="walk-in-sect">
-                                <!-- doesn't do anything or bcn sunod if naa -->
-                            </div>
+                         
                             <div class="row mb-3" id="gcash-sect">
+                                <div class="notice-box p-1 mb-2">
+                                    <p class="m-0"><b>Document Fee: </b><span id="doc_fee"></span></p>
+                                </div>
                                 <img src="/images/g-cash-temp.png" alt="">
                                 <div class="mt-3">
                                     <label for="proof_of_payment" class="form-label">Upload the picture or screenshot of the proof of payment.</label>
                                     <input class="form-control" type="file" id="proof_of_payment" name="proof_of_payment" accept=".jpg,.png,.jpeg,.svg">
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-md-7">
                             <div class="d-flex flex-row flex-wrap">
@@ -748,6 +739,12 @@
 
     <!-- script for the calendar and such exclusively for appointment blade php -->
     <script>
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
         var appointment_date;
         $(document).ready(function() { 
             var cell;
@@ -877,6 +874,7 @@
         $('.open-modal').on('click', function() {
             var form_id = $(this).data('form-id');
             var form_name = $(this).data('form-name');
+            var form_fee = $(this).data('form-fee');
             var form_max_time = $(this).data('form-max-time');
             var accordion_item = $(this).closest('.accordion-item');
             var accordion_id = accordion_item.find('.accordion-collapse').attr('id');
@@ -890,7 +888,7 @@
             
             modal.find('#exp_date').text(form_max_time);
             modal.find('#form_name').text(form_name);
-            modal.find('#form-name').text(form_name);
+            modal.find('#doc_fee').text(form_fee);
             modal.find('#form_id').val(form_id);
             modal.find('#accordion_id').val(accordion_id);
             console.log(form_id);
@@ -898,6 +896,7 @@
             console.log(accordion_id);
             $('#appointmentModal').modal('show');
         });
+
 
 // review
 $('#proceedButton').on('click', function(event) {
@@ -1017,5 +1016,6 @@ $('#proceedButton').on('click', function(event) {
         });
         
     </script>
+    @include('appointment.modal.cancel-app')
 </body>
 </html>

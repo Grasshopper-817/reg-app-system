@@ -1,46 +1,58 @@
 /* NAVBAR */
-.navbar-cover{
-    background-image: url('/images/registrar01.jpg');
+.navbar-cover {
+    background-image: url("/images/registrar01.jpg");
     background-position: center;
     background-size: cover;
     position: relative;
     height: auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-}.navbar-cover::before{
+}
+.navbar-cover::before {
     content: "";
     background-color: rgba(39, 0, 0, 0.5);
     position: absolute;
     height: 100%;
-    width:  100%;
+    width: 100%;
     z-index: 1;
-}.navbar-brand img{
+}
+.navbar-brand img {
     height: 70px;
-}.navbar{
+}
+.navbar {
     z-index: 1;
-}.navbar-brand{
+}
+.navbar-brand {
     white-space: normal !important;
-}.navbar-nav li a:hover{
+}
+.navbar-nav li a:hover {
     text-decoration: underline;
     text-underline-offset: 5px;
     text-decoration-thickness: 3px;
-}.nav-link.active{
+}
+.nav-link.active {
     text-decoration: underline !important;
     text-underline-offset: 5px !important;
     text-decoration-thickness: 3px !important;
-}.nav-link{
+}
+.nav-link {
     color: white;
-}.navbar-nav{
+}
+.navbar-nav {
     font-size: 15px;
-}.offcanvas{
+}
+.offcanvas {
     max-width: 70%;
     background-color: #181818d5 !important;
-}.logo{
+}
+.logo {
     display: flex;
     flex-direction: column;
     line-height: 20px;
-}.menu{
+}
+.menu {
     background-color: rgba(0, 0, 0, 0.7) !important;
-}.btn-appoint{
+}
+.btn-appoint {
     background-color: maroon !important;
     color: white !important;
     border-radius: 0 !important;
@@ -48,63 +60,105 @@
 }
 
 /* SITECONTent */
-.dashboard{
+.dashboard {
     display: block;
 }
 
 /* DASHBOARD */
 /* dashboard announcements and appointments */
-.accordion-button{
+.accordion-button {
     background-color: maroon !important;
     color: white !important;
     font-weight: bold;
-}.accordion-collapse{
+}
+.accordion-collapse {
     border: 2px solid maroon !important;
-}.accordion-button::after {
+}
+.accordion-button::after {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
-}.list-group{
+}
+.list-group {
     color: white;
 }
 
-
 /* dashboard document lists for appointment */
-.dashboard-content{
+.dashboard-content {
     border: 3px solid maroon;
     padding: 5%;
 }
 
 /* dashboard right side section  */
 
-.dashboard-doc-app{
+.dashboard-doc-app {
     display: block;
-}.edit-profile{
+}
+.edit-profile {
     display: none;
-}.account-settings{
+}
+.account-settings {
     display: none;
-}.appointment-records{
+}
+.appointment-records {
     display: none;
 }
 
-.notice-box{
+.notice-box {
     border: 1px solid maroon;
     color: maroon;
     background-color: rgb(255, 192, 192);
     padding: 5px;
 }
 
-#gcash-sect{
+#gcash-sect {
     display: none;
-}.bg{
+}
+.bg {
     background-color: maroon;
 }
 
 /* forms css here */
-#ATransferSchool{
+#ATransferSchool {
     display: none;
-}#BTransferSchool{
+}
+#BTransferSchool {
     display: none;
-}#input-acadYear{
+}
+#input-acadYear {
     display: block;
-}#input-gradYear{
+}
+#input-gradYear {
     display: none;
+}
+
+.cancel_app,
+.user-button {
+    /* padding: 5px 10px; */
+    background-color: rgb(255, 207, 207);
+    margin: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.cancel_app img {
+    height: 15px;
+    width: 15px;
+    padding: 0;
+    margin: 0;
+}
+.cancel_app button {
+    /* height: 100%;
+    width: 100%; */
+    padding: 2px;
+    margin: 0;
+    display: flex;
+}
+.cancel_app:hover,
+.user-button:hover {
+    background-color: rgb(224, 224, 224);
+    border-radius: 5px;
+}
+.cancel_app:active,
+.user-button:active {
+    border: none;
+}
+.btn {
+    --bs-btn-border-width: none;
 }

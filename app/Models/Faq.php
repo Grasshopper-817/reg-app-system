@@ -9,7 +9,6 @@ class Faq extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'faqs_question',
         'faqs_title',
         'faqs_subtext',
     ];

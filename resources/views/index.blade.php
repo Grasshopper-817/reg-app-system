@@ -59,12 +59,6 @@
                             display: none;
                         }
                     </style>
-                    {{-- <div class="row notice">
-                        <p class="title font-mont font-semibold" id="postTitle">Closed Transactions on February 15, 2023</p>
-                        <p class="font-mont font-small date" id="datePosted">February 10, 2023</p>
-                        <p class="font-small subtitle" id="postSubtitle">Please be informed that the Office of the Registrar will be closed for transactions on Friday, February 15, 2023. This is due to the scheduled upgrade of our information.</p>
-                        <button class="btn ms-auto font-small" id="btn-readMore">Read More</button>
-                    </div> --}}
                 </div>
             </div>
             

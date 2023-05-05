@@ -117,6 +117,7 @@
         
         <script src="{{ asset('js/admin/form-config.js') }}"></script>
         <script src="{{ asset('js/admin/announcement-config.js') }}"></script>
+        <script src="{{ asset('js/admin/faq-config.js') }}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
@@ -379,7 +380,6 @@
         @include('admin-dashboard.modal.faqs.add-faqs')
         @include('admin-dashboard.modal.faqs.delete-faqs')
         @include('admin-dashboard.modal.faqs.edit-faqs')
-        @include('admin-dashboard.modal.set-slot')
 
     </body>
 </html>
